@@ -36,9 +36,6 @@ function HomePage() {
               <li><Link to="/tech">Tech</Link></li>
               <li><Link to="/translate">Translate</Link></li>
               <li><Link to="/plants">Plants & Export</Link></li>
-              <li><Link to="/signup">Sign Up</Link></li>
-              <li><Link to="/login">Login</Link></li>
-              <li><Link to="/dashboard">Dashboard</Link></li>
             </ul>
           </nav>
         </div>
