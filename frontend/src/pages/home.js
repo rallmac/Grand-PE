@@ -1,14 +1,78 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../css/style.css";
 
 function HomePage() {
-  React.useEffect(() => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+
+  const slides = [
+    {
+      image: "/assets/images/carousel-1.jpg",
+      title: "Grand-PE Solar",
+      description: "From Homes to Industries, We Light the Way — Seamless Solar Solutions for All.",
+      link: "/solar",
+      buttonText: "Explore Solar"
+    },
+    {
+      image: "/assets/images/GRAND_PE_TECH.png",
+      title: "Grand-PE Tech",
+      description: "Empowering Innovation — Smart Tech, Smarter Future.",
+      link: "/tech",
+      buttonText: "Discover Tech"
+    },
+    {
+      image: "/assets/images/GRAND_PE_TRANSLATE.jpg",
+      title: "Grand-PE Translate",
+      description: "Bridging Voices — Empowering Communication Through Sign and Speech.",
+      link: "/translate",
+      buttonText: "Our Services"
+    },
+    {
+      image: "/assets/images/aloe-vera-plant-sample.jpg",
+      title: "Grand-PE Plants & Export",
+      description: "From Native Soil to Global Shelves.",
+      link: "/plants",
+      buttonText: "View Products"
+    }
+  ];
+
+  useEffect(() => {
     // Set current year in footer
     const yearSpan = document.getElementById("currentYear");
     if (yearSpan) yearSpan.textContent = new Date().getFullYear();
-    // Optionally, import and run carousel JS here if needed
   }, []);
+
+  // Auto-advance carousel
+  useEffect(() => {
+    if (!isPaused) {
+      const interval = setInterval(() => {
+        setCurrentSlide((prev) => (prev + 1) % slides.length);
+      }, 5000); // 5 seconds
+
+      return () => clearInterval(interval);
+    }
+  }, [currentSlide, isPaused, slides.length]);
+
+  const goToSlide = (index) => {
+    setCurrentSlide(index);
+  };
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % slides.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+  };
+
+  const handleMouseEnter = () => {
+    setIsPaused(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsPaused(false);
+  };
 
   return (
     <>
@@ -45,72 +109,56 @@ function HomePage() {
         {/* Hero Section */}
         <section className="hero">
           <div className="hero-carousel" id="homepage-hero-carousel">
-            <div className="hero-slides-wrapper">
-              {/* Slide 1: Grand-PE Solar */}
-              <div
-                className="hero-slide"
-                style={{
-                  backgroundImage: "url('/assets/images/carousel-1.jpg')",
-                }}
-              >
-                <div className="hero-content reveal-on-scroll">
-                  <h1>Grand-PE Solar</h1>
-                  <p>
-                    From Homes to Industries, We Light the Way — Seamless Solar Solutions for All.
-                  </p>
-                  <Link to="/solar" className="btn btn-accent">Explore Solar</Link>
+            <div 
+              className="hero-slides-wrapper"
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            >
+              {slides.map((slide, index) => (
+                <div
+                  key={index}
+                  className={`hero-slide ${index === currentSlide ? 'active' : ''}`}
+                  style={{
+                    backgroundImage: `url('${slide.image}')`,
+                  }}
+                >
+                  <div className="hero-content reveal-on-scroll">
+                    <h1>{slide.title}</h1>
+                    <p>{slide.description}</p>
+                    <Link to={slide.link} className="btn btn-accent">
+                      {slide.buttonText}
+                    </Link>
+                  </div>
                 </div>
-              </div>
-              {/* Slide 2: Grand-PE Tech */}
-              <div
-                className="hero-slide"
-                style={{
-                  backgroundImage: "url('/assets/images/GRAND_PE_TECH.png')",
-                }}
-              >
-                <div className="hero-content">
-                  <h1>Grand-PE Tech</h1>
-                  <p>Empowering Innovation — Smart Tech, Smarter Future.</p>
-                  <Link to="/tech" className="btn btn-accent">Discover Tech</Link>
-                </div>
-              </div>
-              {/* Slide 3: Grand-PE Translate */}
-              <div
-                className="hero-slide"
-                style={{
-                  backgroundImage: "url('/assets/images/GRAND_PE_TRANSLATE.jpg')",
-                }}
-              >
-                <div className="hero-content">
-                  <h1>Grand-PE Translate</h1>
-                  <p>Bridging Voices — Empowering Communication Through Sign and Speech.</p>
-                  <Link to="/translate" className="btn btn-accent">Our Services</Link>
-                </div>
-              </div>
-              {/* Slide 4: Grand-PE Plants & Export */}
-              <div
-                className="hero-slide"
-                style={{
-                  backgroundImage: "url('/assets/images/aloe-vera-plant-sample.jpg')",
-                }}
-              >
-                <div className="hero-content">
-                  <h1>Grand-PE Plants & Export</h1>
-                  <p>From Native Soil to Global Shelves.</p>
-                  <Link to="/plants" className="btn btn-accent">View Products</Link>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
           <div className="carousel-nav">
-            <button className="prev-btn" aria-label="Previous Slide">
+            <button 
+              className="prev-btn" 
+              aria-label="Previous Slide"
+              onClick={prevSlide}
+            >
               <i className="fas fa-chevron-left"></i>
             </button>
-            <button className="next-btn" aria-label="Next Slide">
+            <button 
+              className="next-btn" 
+              aria-label="Next Slide"
+              onClick={nextSlide}
+            >
               <i className="fas fa-chevron-right"></i>
             </button>
           </div>
-          <div className="carousel-indicators"></div>
+          <div className="carousel-indicators">
+            {slides.map((_, index) => (
+              <button
+                key={index}
+                className={`indicator-dot ${index === currentSlide ? 'active' : ''}`}
+                aria-label={`Go to slide ${index + 1}`}
+                onClick={() => goToSlide(index)}
+              />
+            ))}
+          </div>
         </section>
 
         {/* Brief Intro Section */}
