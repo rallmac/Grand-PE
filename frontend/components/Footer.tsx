@@ -74,7 +74,7 @@ export default function Footer() {
 
       <div className="border-t border-neutral-200">
         <div className="mx-auto max-w-[1440px] px-4 sm:px-6 py-4 flex flex-col gap-3 text-xs text-neutral-600 md:flex-row md:items-center md:justify-between">
-          <div>© {year} grandpe. All rights reserved</div>
+          <div>© {year} grand-pe. All rights reserved</div>
           <div className="flex items-center gap-6">
             <a href="/privacy" className="hover:text-neutral-950 inline-block transition-transform duration-200 hover:scale-[1.03]">Privacy Policy</a>
             <a href="/terms" className="hover:text-neutral-950 inline-block transition-transform duration-200 hover:scale-[1.03]">Terms & Conditions</a>
