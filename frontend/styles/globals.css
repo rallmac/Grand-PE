@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Tuned to a deeper brand blue and warmer neutrals */
+  --brand: 217 92% 44%;
+  --brand-foreground: 0 0% 100%;
+  --surface: 0 0% 100%;
+  --muted: 210 16% 97%;
+  --border: 214 15% 90%;
+}
+
+@layer base {
+  html { font-family: var(--font-sans); scroll-behavior: smooth; }
+  body { @apply bg-muted text-neutral-900 antialiased; }
+  * { box-sizing: border-box; }
+  html, body { max-width: 100%; overflow-x: hidden; }
+}
+
+@layer components {
+  .container-px { @apply px-4 sm:px-6 lg:px-8; }
+  .hover-raise { @apply transition-transform duration-200 ease-out hover:-translate-y-0.5; }
+  .hover-fade { @apply transition-opacity duration-200 ease-out hover:opacity-90; }
+  .card { @apply bg-surface rounded-lg shadow-soft; }
+  .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+}
+
+/* Hero breakpoint control: 769px and below uses mobile, 770px and above uses desktop */
+.hero-mobile { display: block; }
+.hero-desktop { display: none; }
+@media (min-width: 770px) {
+  .hero-mobile { display: none; }
+  .hero-desktop { display: block; }
+}
