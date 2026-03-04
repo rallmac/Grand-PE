@@ -826,6 +826,9 @@ video {
 .h-full {
   height: 100%;
 }
+.h-16 {
+  height: 4rem;
+}
 .min-h-\[43px\] {
   min-height: 43px;
 }

@@ -24,7 +24,7 @@ export default function Footer() {
       <div className="mx-auto max-w-[1440px] px-4 sm:px-6 py-10 grid grid-cols-1 gap-10 md:grid-cols-4">
         <div className="space-y-4">
           <div className="h-24 w-auto">
-            <Image src="/images/grand_pe_logo.png" alt="Grand-PE Solar" width={625} height={652} className="h-24 w-auto" />
+            <Image src="/images/GRAND_PE_GLOBAL_LIMITED.png" alt="Grand-PE Solar" width={625} height={652} className="h-16 w-auto" />
           </div>
           <p className="text-sm leading-6 text-neutral-700">
             Now you can Buy Premium Home Appliances with Warranty, we deliver quality, durability, and trusted performance, Free Shipping Available.

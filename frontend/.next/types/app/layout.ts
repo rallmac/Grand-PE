@@ -1,4 +1,4 @@
-// File: /home/tobijah/Documents/portfolio/Grand-PE/frontend/app/layout.tsx
+// File: /home/tobijah/Documents/Grand-PE/frontend/app/layout.tsx
 import * as entry from '../../../app/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

@@ -25,8 +25,13 @@ const poppinsDisplay = localFont({
 })
 
 export const metadata: Metadata = {
-  title: 'Grand-PE',
+  title: 'grand-pe.com',
   description: 'Pixel-close ecommerce demo with Next.js 14',
+  icons: {
+    icon: '/images/GRAND_PE_SOLAR_LOGO.png',
+    shortcut: '/images/GRAND_PE_SOLAR_LOGO.png',
+    apple: '/images/GRAND_PE_SOLAR_LOGO.png',
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
