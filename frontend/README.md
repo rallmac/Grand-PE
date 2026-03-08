@@ -1,83 +1,70 @@
-# Grand-PE Frontend
+# Getting Started with Create React App
 
-A modern ecommerce frontend built with Next.js 14, TypeScript, and Tailwind CSS.
-
-This project showcases a polished shopping experience with category filtering, product detail pages, and a localStorage-backed cart flow.
-
-## Highlights
-
-- App Router architecture with reusable UI sections for a scalable storefront
-- Product catalog experience: home promos, category filtering, and product detail pages
-- Cart experience with quantity updates, subtotal calculation, and persistent state
-- Local font integration (Poppins family) for consistent brand presentation
-- Tailwind-powered styling with responsive layouts across pages
-
-## Tech Stack
-
-- Next.js 14
-- React 18
-- TypeScript
-- Tailwind CSS
-- `embla-carousel-react` for carousel interactions
-- `lucide-react` for iconography
-
-## Project Routes
-
-- `/` — Home page with hero, promos, featured products, and brand sections
-- `/categories` — Product listing with sidebar-based category filters
-- `/product/[slug]` — Dynamic product details
-- `/cart` — Shopping cart and order summary
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js 18+ (recommended)
-- npm 9+ (or compatible)
-
-### Installation
-
-```bash
-npm install
-```
-
-### Run in Development
-
-```bash
-npm run dev
-```
-
-Then open `http://localhost:3000`.
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 
-- `npm run dev` — Start development server
-- `npm run build` — Create production build
-- `npm run start` — Start production server
-- `npm run lint` — Run lint checks
+In the project directory, you can run:
 
-## Folder Overview
+### `npm start`
 
-```text
-app/            # App Router pages and layout
-components/     # Reusable UI components
-data/           # Mock catalog data (products, categories, brands)
-lib/            # Shared app logic (cart provider/state, utilities)
-public/         # Static assets (images, fonts)
-styles/         # Global style extensions
-```
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-## Cart Behavior
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
 
-- Cart state is managed via `CartProvider` in `lib/cart.tsx`
-- Items are persisted in `localStorage` under the `cart` key
-- Quantity changes and totals are computed client-side
+### `npm test`
 
-## Configuration Notes
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-- Next.js image domain allowlist includes `placehold.co` in `next.config.js`
-- Local Poppins font files are loaded via `next/font/local` in `app/layout.tsx`
+### `npm run build`
 
-## Status
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-This frontend currently uses local/mock data sources and is ready for integration with a backend API when needed.
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
+
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+### `npm run eject`
+
+**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+
+If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+
+You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+
+## Learn More
+
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+To learn React, check out the [React documentation](https://reactjs.org/).
+
+### Code Splitting
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+
+### Analyzing the Bundle Size
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+
+### Making a Progressive Web App
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+
+### Advanced Configuration
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+
+### Deployment
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+
+### `npm run build` fails to minify
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
