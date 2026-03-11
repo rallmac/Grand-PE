@@ -127,33 +127,26 @@ export default function KitchenSmallAppliances() {
           <div className="flex h-full items-start">
             {kitchenItems.map((item) => (
               <div key={item.id} className="h-full w-[161.73px] shrink-0 pr-[10px]">
-                <div className="relative h-full w-[151.73px]">
-                  <a href={item.href} className="absolute left-0 top-0 block h-[151.73px] w-[151.73px] overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-md">
+                <div className="flex h-full w-[151.73px] flex-col">
+                  <a href={item.href} className="relative block h-[151.74px] w-[151.73px] overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-md">
                     <Image src={item.image} alt={`${item.nameLine1} ${item.nameLine2}`} fill className="object-cover" sizes="152px" />
-                    {item.outOfStock ? (
-                      <Image
-                        src="/images/out_of_stock_label.png"
-                        alt="Out of stock"
-                        width={70}
-                        height={70}
-                        className="absolute left-0 top-0"
-                      />
-                    ) : null}
                   </a>
 
-                  <div className="absolute left-0 right-0 top-[151.73px] min-h-[46px] overflow-hidden pt-[7px]">
+                  <div className="min-h-[46px] overflow-hidden pt-[7px]">
                     <div className="text-[14px] leading-[20px] tracking-[0.102px] text-[#1b1b1b]">
                       <p className="mb-0 whitespace-nowrap">{item.nameLine1}</p>
                       <p className="whitespace-nowrap">{item.nameLine2}</p>
                     </div>
                   </div>
 
-                  <div className="absolute left-0 right-0 top-[198.73px] flex min-h-[43px] items-end pt-[16px]">
+                  <div className="flex min-h-[43px] items-end pt-[16px]">
                     <p className="pb-[7px] text-[14px] leading-[20px] tracking-[0.102px] text-[#1b1b1b]">{formatNGN(item.price)}</p>
                   </div>
 
                   {item.outOfStock ? (
-                    <div className="absolute left-0 right-0 top-[248.73px] h-[39.5px] rounded-full border border-[#1b1b1b] opacity-50" />
+                    <div className="mt-auto flex h-[39.5px] items-center justify-center rounded-full border border-[#1b1b1b] opacity-50">
+                      <span className="text-[14px] leading-[20px] tracking-[0.102px] text-[#1b1b1b]">Sold Out</span>
+                    </div>
                   ) : (
                     <button
                       type="button"
@@ -166,7 +159,7 @@ export default function KitchenSmallAppliances() {
                           qty: 1,
                         })
                       }
-                      className="absolute left-0 right-0 top-[248.73px] flex items-center justify-center rounded-full border border-[#1b1b1b] py-[9.75px] text-center text-[14px] leading-[20px] tracking-[0.102px] text-[#1b1b1b]"
+                      className="mt-auto flex items-center justify-center rounded-full border border-[#1b1b1b] py-[9.75px] text-center text-[14px] leading-[20px] tracking-[0.102px] text-[#1b1b1b]"
                     >
                       Add To Cart
                     </button>

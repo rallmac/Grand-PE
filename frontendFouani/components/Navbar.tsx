@@ -45,7 +45,7 @@ export default function Navbar() {
         </button>
 
         <Link href="/" className="flex items-center gap-2 flex-shrink-0">
-          <Image src="/images/GRAND_PE_GLOBAL_LIMITED.png" alt="Grand-PE Solar" width={625} height={652} priority className="h-12 w-auto" />
+          <Image src="/images/grand_pe_solar.png" alt="Grand-PE Solar" width={625} height={652} priority className="h-16 w-auto" />
         </Link>
 
         <div className="hidden md:flex items-center flex-1">

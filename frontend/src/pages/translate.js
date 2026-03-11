@@ -10,9 +10,6 @@ function TranslatePage() {
   // Mobile navigation state
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
-  // Service filtering state
-  const [activeService, setActiveService] = useState('all');
-  
   // Form state
   const [bookingFormData, setBookingFormData] = useState({
     name: '',
@@ -29,8 +26,6 @@ function TranslatePage() {
     participants: ''
   });
   const [formStatus, setFormStatus] = useState('');
-  const [newsletterEmail, setNewsletterEmail] = useState('');
-  const [newsletterStatus, setNewsletterStatus] = useState('');
 
   // Carousel slides data
   const heroSlides = [
@@ -125,11 +120,6 @@ function TranslatePage() {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  // Service filtering
-  const handleServiceChange = (service) => {
-    setActiveService(service);
-  };
-
   // Form handling
   const handleBookingInputChange = (e) => {
     const { name, value } = e.target;
@@ -162,21 +152,6 @@ function TranslatePage() {
     });
     
     setTimeout(() => setFormStatus(''), 5000);
-  };
-
-  const handleNewsletterSubmit = (e) => {
-    e.preventDefault();
-    
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!newsletterEmail || !emailRegex.test(newsletterEmail)) {
-      setNewsletterStatus('Please enter a valid email address.');
-      return;
-    }
-
-    setNewsletterStatus('Thank you for subscribing!');
-    setNewsletterEmail('');
-    
-    setTimeout(() => setNewsletterStatus(''), 3000);
   };
 
   return (

@@ -1946,4 +1946,12 @@ img {
   .contact-form {
     padding: 25px 20px;
   }
+
+  .solar-actions {
+    display: flex;
+    gap: 20px;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+  }
 }

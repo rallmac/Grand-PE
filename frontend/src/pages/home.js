@@ -186,7 +186,15 @@ function HomePage() {
             <h2 className="text-center reveal-on-scroll">Our Core Businesses</h2>
             <div className="business-links">
               <div className="business-link-card reveal-on-scroll">
-                <i className="fas fa-solar-panel"></i>
+                <img
+                    src={
+                      "/assets/images/GRAND_PE_SOLAR_LOGO.png"
+                    }
+                    alt="Grand-PE-Solar-Logo"
+                    width="120"
+                    height="120"
+                    style={{ display: "block", margin: "0 auto" }}
+                />
                 <h3>Grand-PE Solar</h3>
                 <p>
                   Sustainable energy solutions for residential, commercial, and industrial
@@ -198,7 +206,15 @@ function HomePage() {
                 className="business-link-card reveal-on-scroll"
                 style={{ transitionDelay: "0.1s" }}
               >
-                <i className="fas fa-laptop-code"></i>
+                <img
+                    src={
+                      "/assets/images/GRAND_PE_TECH.png"
+                    }
+                    alt="Gand-PE-Tech_Logo"
+                    width="120"
+                    height="120"
+                    style={{ display: "block", margin: "0 auto" }}
+                />
                 <h3>Grand-PE Tech</h3>
                 <p>
                   Cutting-edge web/app development, software solutions, and IT consultancy.
@@ -209,7 +225,15 @@ function HomePage() {
                 className="business-link-card reveal-on-scroll"
                 style={{ transitionDelay: "0.2s" }}
               >
-                <i className="fas fa-american-sign-language-interpreting"></i>
+                <img
+                    src={
+                      "/assets/images/GRAND_PE_TRANSLATE.png"
+                    }
+                    alt="Grand-PE-Translate-Logo"
+                    width="120"
+                    height="120"
+                    style={{ display: "block", margin: "0 auto" }}
+                />
                 <h3>Grand-PE Translate</h3>
                 <p>
                   Professional ASL, spoken language interpretation, and translation
@@ -221,7 +245,15 @@ function HomePage() {
                 className="business-link-card reveal-on-scroll"
                 style={{ transitionDelay: "0.3s" }}
               >
-                <i className="fas fa-leaf"></i>
+                <img
+                    src={
+                      "/assets/images/GRAND_PE_GLOBAL.png"
+                    }
+                    alt="Grand-PE-Plants-Logo"
+                    width="120"
+                    height="120"
+                    style={{ display: "block", margin: "0 auto" }}
+                />
                 <h3>Grand-PE Plants & Export</h3>
                 <p>
                   Quality herbal, pharmaceutical, and agricultural product sourcing and
