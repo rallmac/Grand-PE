@@ -1,4 +1,4 @@
-// File: /home/tobijah/Desktop/Grand-PE/Grand-PE/frontendFouani/app/layout.tsx
+// File: /home/tobijah/Documents/Grand-PE/frontendFouani/app/layout.tsx
 import * as entry from '../../../app/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
