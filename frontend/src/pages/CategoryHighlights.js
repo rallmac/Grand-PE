@@ -1,3 +1,5 @@
+import "./solar-page.css";
+
 const categories = [
   ["Power Solution", "power-solutions.png"],
   ["Audio", "audio.png"],

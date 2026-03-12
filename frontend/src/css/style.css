@@ -211,7 +211,7 @@ img {
 .main-header {
   background-color: #fff;
   padding: var(--header-padding);
-  position: sticky;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -1945,13 +1945,5 @@ img {
   
   .contact-form {
     padding: 25px 20px;
-  }
-
-  .solar-actions {
-    display: flex;
-    gap: 20px;
-    padding: 10px;
-    justify-content: center;
-    align-items: center;
   }
 }

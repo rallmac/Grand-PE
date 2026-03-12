@@ -1,4 +1,6 @@
 import { useMemo, useState } from "react";
+import "./solar-page.css";
+
 
 export default function Hero() {
   const slides = useMemo(

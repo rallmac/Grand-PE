@@ -48,6 +48,8 @@ export function HeaderGrandpe(){
           </nav>
         </div>
       </header>
+      {/* Spacer to prevent content from hiding under the fixed header */}
+      <div style={{ height: '90px' }} aria-hidden="true" />
       </>
       )
 }

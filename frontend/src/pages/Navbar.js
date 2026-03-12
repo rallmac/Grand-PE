@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import { ChevronLeft, ChevronRight, MapPin, Menu, Search, ShoppingCart, Store } from "lucide-react";
+import "./solar-page.css";
 
 export default function Navbar() {
   const categories = [
@@ -27,7 +28,7 @@ export default function Navbar() {
     <header className="solar-header">
       <div className="solar-container solar-topbar">
         <a href="/" className="solar-brand" aria-label="Colors by Fouani home">
-          <img className="solar-logo" src="/assets/images/colors-logo.png" alt="Colors by Fouani" />
+          <img className="solar-logo" src="/assets/images/GRAND_PE_GLOBAL_LIMITED.png" alt="Colors by Fouani" />
         </a>
 
         <div className="solar-search-wrap">
