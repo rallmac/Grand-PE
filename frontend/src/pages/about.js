@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../css/style.css";
-import Hero from "../components/HeroFouani";
 
 function AboutPage() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -142,9 +141,6 @@ function AboutPage() {
             </p>
           </div>
         </section>
-
-        {/*Hero section*/}
-        <Hero />
 
         {/* Mission & Vision Section */}
         <section className="mission-vision section-padding bg-light">

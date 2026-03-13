@@ -28,10 +28,10 @@ export default function Footer() {
           <p><a href="/categories?brand=Pylontech">Pylontech</a></p>
         </div>
         <div>
-          <h4>Contact Us</h4>
+          {/*<h4>Contact Us</h4>
           <p><a href="mailto:online@grandpe.com">online@grandpe.com</a></p>
           <p><a href="tel:+2342018884444">+234 201 888 4444</a></p>
-        </div>
+        </div>*/}
       </div>
       <div className="solar-container" style={{ marginTop: 18, fontSize: 12 }}>
         © 2026 grand-pe. All rights reserved
