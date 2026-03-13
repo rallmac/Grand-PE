@@ -469,7 +469,7 @@ function LandingPage() {
                 </div>
               </div>
               <div className="project-highlight reveal-on-scroll" style={{ transitionDelay: '0.2s' }}>
-                <img src="/assets/images/aloe-vera-plant-sample.jpg" alt="Agricultural Export Project" />
+                <img src="/assets/images/plants2.png" alt="Agricultural Export Project" />
                 <div className="project-info">
                   <h4>International Aloe Vera Export</h4>
                   <p>Established export partnerships for premium aloe vera products, reaching markets in 8 countries with certified organic products.</p>
