@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../css/style.css";
+import { FooterGrandpe } from "../components/FooterGrandpe";
 
 function LandingPage() {
   // Carousel state
@@ -21,8 +22,10 @@ function LandingPage() {
   });
 
   // Newsletter state
+  // eslint-disable-next-line
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [formStatus, setFormStatus] = useState('');
+  // eslint-disable-next-line
   const [newsletterStatus, setNewsletterStatus] = useState('');
 
   // Statistics animation state
@@ -52,7 +55,7 @@ function LandingPage() {
       buttonText: 'Our Services'
     },
     {
-      image: '/assets/images/aloe-vera-plant-sample.jpg',
+      image: '/assets/images/plants1.png',
       title: 'Grand-PE Plants & Export',
       description: 'From Native Soil to Global Shelves — Premium Agricultural Exports.',
       link: '/plants',
@@ -111,7 +114,8 @@ function LandingPage() {
     });
   };
 
-  const handleNewsletterSubmit = (e) => {
+    // eslint-disable-next-line
+    const handleNewsletterSubmit = (e) => {
     e.preventDefault();
     setNewsletterStatus('Thank you for subscribing to our newsletter!');
     setTimeout(() => setNewsletterStatus(''), 4000);
@@ -598,102 +602,7 @@ function LandingPage() {
       </main>
 
       {/* Footer Section */}
-      <footer className="main-footer">
-        <div className="container">
-          <div className="footer-content">
-            <div className="footer-section about">
-              <h4>Grand-PE Global Limited</h4>
-              <p>
-                Empowering progress through diverse expertise and sustainable solutions for
-                a brighter future.
-              </p>
-              <div className="contact-info">
-                <p>
-                  <i className="fas fa-map-marker-alt"></i> Suit A14, 36 Old Aba Road, Port
-                  Harcourt, Nigeria.
-                </p>
-                <p>
-                  <i className="fas fa-phone"></i>
-                  <a href="tel:+2348064013822">+2348064013822</a>
-                </p>
-                <p>
-                  <i className="fas fa-envelope"></i>
-                  <a href="mailto:mailtograndpe@gmail.com">mailtograndpe@gmail.com</a>
-                </p>
-              </div>
-            </div>
-            <div className="footer-section quick-links">
-              <h4>Explore</h4>
-              <ul>
-                <li><Link to="/">Home</Link></li>
-                <li><Link to="/about">About Us</Link></li>
-                <li><Link to="/solar">Grand-PE Solar</Link></li>
-                <li><Link to="/tech">Grand-PE Tech</Link></li>
-                <li><Link to="/translate">Grand-PE Translate</Link></li>
-                <li><Link to="/plants">Grand-PE Plants & Export</Link></li>
-                <li><a href="#!">Blog</a></li>
-                <li><a href="#!">Privacy Policy</a></li>
-                <li><a href="#!">Terms of Service</a></li>
-              </ul>
-            </div>
-            <div className="footer-section newsletter">
-              <h4>Stay Updated</h4>
-              <p>Subscribe to our newsletter for the latest news and offers.</p>
-              <form onSubmit={handleNewsletterSubmit} className="newsletter-form">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  value={newsletterEmail}
-                  onChange={(e) => setNewsletterEmail(e.target.value)}
-                  required
-                />
-                <button type="submit" className="btn btn-secondary">Subscribe</button>
-              </form>
-              {newsletterStatus && (
-                <div className={`newsletter-status ${newsletterStatus.includes('Thank you') ? 'success' : 'error'}`}>
-                  {newsletterStatus}
-                </div>
-              )}
-            </div>
-            <div className="footer-section social-media">
-              <h4>Connect With Us</h4>
-              <div className="social-media-icons">
-                <a
-                  href="https://facebook.com/share/1Yr3kRXZ97/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Facebook"
-                ><i className="fab fa-facebook-f"></i></a>
-                <a
-                  href="https://instagram.com/grandpe_solar?utm_source=qr&igsh=ZDJ4eGh4cDU5ZWhr"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Instagram"
-                ><i className="fab fa-instagram"></i></a>
-                <a
-                  href="https://linkedin.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="LinkedIn"
-                ><i className="fab fa-linkedin-in"></i></a>
-                <a
-                  href="https://wa.me/+2348064013822"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="WhatsApp"
-                ><i className="fab fa-whatsapp"></i></a>
-              </div>
-              <p style={{ marginTop: 15 }}>Company Reg: RC.8316278</p>
-            </div>
-          </div>
-          <div className="footer-bottom">
-            <p>
-              © <span id="currentYear"></span> Grand-PE Global Limited. All Rights Reserved.
-              Website by Grand-PE Tech.
-            </p>
-          </div>
-        </div>
-      </footer>
+      < FooterGrandpe />
 
       <a
         href="https://wa.me/+2348064013822"

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../css/style.css";
+import { FooterGrandpe } from "../components/FooterGrandpe";
 
 function PlantsPage() {
   // Carousel state
@@ -26,9 +27,12 @@ function PlantsPage() {
   });
 
   // Newsletter state
-  const [newsletterEmail, setNewsletterEmail] = useState('');
+  // eslint-disable-next-line
+  const [setNewsletterEmail] = useState('');
+  // eslint-disable-next-line
   const [formStatus, setFormStatus] = useState('');
-  const [newsletterStatus, setNewsletterStatus] = useState('');
+  // eslint-disable-next-line
+  const [setNewsletterStatus] = useState('');
 
   // Product filter state
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -36,7 +40,7 @@ function PlantsPage() {
   // Hero slides for plants/export
   const heroSlides = [
     {
-      image: '/assets/images/aloe-vera-plant-sample.jpg',
+      image: '/assets/images/plants2.png',
       title: 'Premium Plant Exports',
       description: 'Quality medicinal and agricultural plants sourced and exported worldwide with sustainable practices.'
     },
@@ -113,12 +117,12 @@ function PlantsPage() {
     });
   };
 
-  const handleNewsletterSubmit = (e) => {
+  /*const handleNewsletterSubmit = (e) => {
     e.preventDefault();
     setNewsletterStatus('Thank you for subscribing to our agricultural newsletter!');
     setTimeout(() => setNewsletterStatus(''), 4000);
     setNewsletterEmail('');
-  };
+  };*/
 
   useEffect(() => {
     const yearSpan = document.getElementById("currentYear");
@@ -354,7 +358,7 @@ function PlantsPage() {
             
             <div className="product-gallery">
               {[
-                { category: 'medicinal', image: '/assets/images/aloe-vera-plant-sample.jpg', name: 'Aloe Vera', description: 'Premium organic aloe vera plants and extracts for pharmaceutical and cosmetic industries.' },
+                { category: 'medicinal', image: '/assets/images/plants2.png', name: 'Aloe Vera', description: 'Premium organic aloe vera plants and extracts for pharmaceutical and cosmetic industries.' },
                 { category: 'medicinal', image: '/assets/images/product-3.jpg', name: 'Moringa', description: 'Nutrient-rich moringa leaves, seeds, and powder certified for international health markets.' },
                 { category: 'agricultural', image: '/assets/images/gallery-1.jpg', name: 'Yams & Cassava', description: 'High-quality root vegetables and tubers processed for global food distribution.' },
                 { category: 'agricultural', image: '/assets/images/gallery.jpg', name: 'Palm Products', description: 'Sustainable palm oil, kernel oil, and palm wine products meeting international standards.' },
@@ -617,66 +621,8 @@ function PlantsPage() {
         </section>
       </main>
 
-      {/* Footer - copy from about.js for consistency */}
-      <footer className="main-footer">
-        <div className="container">
-          <div className="footer-content">
-            <div className="footer-section about">
-              <h4>Grand-PE Global Limited</h4>
-              <p>Empowering progress through diverse expertise...</p>
-              <div className="contact-info">
-                <p><i className="fas fa-map-marker-alt"></i> Suit A14, 36 Old Aba Road, Port Harcourt, Nigeria.</p>
-                <p><i className="fas fa-phone"></i> <a href="tel:+2348064013822">+2348064013822</a></p>
-                <p><i className="fas fa-envelope"></i> <a href="mailto:mailtograndpe@gmail.com">mailtograndpe@gmail.com</a></p>
-              </div>
-            </div>
-            <div className="footer-section quick-links">
-              <h4>Explore</h4>
-              <ul>
-                <li><Link to="/">Home</Link></li>
-                <li><Link to="/about">About Us</Link></li>
-                <li><Link to="/solar">Solar</Link></li>
-                <li><Link to="/tech">Tech</Link></li>
-                <li><Link to="/translate">Translate</Link></li>
-                <li><Link to="/plants">Plants</Link></li>
-                <li><a href="https://www.linkedin.org">Blog</a></li>
-              </ul>
-            </div>
-            <div className="footer-section newsletter">
-              <h4>Stay Updated</h4>
-              <p>Get agricultural export news and opportunities.</p>
-              <form onSubmit={handleNewsletterSubmit} className="newsletter-form">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  value={newsletterEmail}
-                  onChange={(e) => setNewsletterEmail(e.target.value)}
-                  required
-                />
-                <button type="submit">Subscribe</button>
-              </form>
-              {newsletterStatus && (
-                <div className={`newsletter-status ${newsletterStatus.includes('Thank you') ? 'success' : 'error'}`}>
-                  {newsletterStatus}
-                </div>
-              )}
-            </div>
-            <div className="footer-section social-media">
-              <h4>Connect</h4>
-              <div className="social-media-icons">
-                <a href="https://facebook.com/share/1Yr3kRXZ97/" aria-label="Facebook"><i className="fab fa-facebook-f"></i></a>
-                <a href="https://instagram.com/grandpe_solar?utm_source=qr&igsh=ZDJ4eGh4cDU5ZWhr" aria-label="Instagram"><i className="fab fa-instagram"></i></a>
-                <a href="https://www.linkedin.org" aria-label="LinkedIn"><i className="fab fa-linkedin-in"></i></a>
-                <a href="https://wa.me/+2348064013822" aria-label="WhatsApp"><i className="fab fa-whatsapp"></i></a>
-              </div>
-              <p>Company Reg: RC.8316278</p>
-            </div>
-          </div>
-          <div className="footer-bottom">
-            <p>© <span id="currentYear"></span> Grand-PE Global. All Rights Reserved.</p>
-          </div>
-        </div>
-      </footer>
+      {/* Footer */}
+      < FooterGrandpe />
       <a href="https://wa.me/+2348064013822" className="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">
         <i className="fab fa-whatsapp"></i>
       </a>

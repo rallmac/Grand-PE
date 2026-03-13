@@ -9,7 +9,7 @@ import LGACPromo from '../components/LGACPromo'
 import PromoSection from '../components/PromoSection'
 import PromotionalCards from '../components/PromotionalCards'
 import BrandsSection from '../components/Brands'
-import KitchenSmallAppliances from '../components/KitchenSmallAppliances'
+import SolarSmallAppliances from '../components/SolarSmallAppliances'
 import ExploreSolarPowerSolutions from '../components/ExploreSolarPowerSolutions'
 import { HeaderGrandpe } from '../components/HeaderGrandpe';
 
@@ -72,7 +72,7 @@ export default function SolarPage() {
 							/>
 						</div>
 					</section>
-					<KitchenSmallAppliances />
+					<SolarSmallAppliances />
 					<PromoSection />
 				</div>
 			</main>

@@ -9,7 +9,7 @@ export default function PromoSection() {
     <section className="w-full bg-white border-t">
       <div className="mx-auto max-w-[1440px]">
         <a
-          href="https://wa.me/2342018884444"
+          href="https://wa.me/2348064013822"
           target="_blank"
           rel="noopener noreferrer"
           className="block hover:opacity-90 transition-opacity transition-transform duration-200 hover:scale-[1.03]"

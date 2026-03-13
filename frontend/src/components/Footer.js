@@ -27,7 +27,7 @@ export default function Footer() {
             <img src="/assets/images/grand_pe_solar.png" alt="Grand-PE Solar" className="h-full w-full object-contain object-center" />
           </div>
           <p className="text-sm leading-6 text-black">
-            Now you can Buy Premium Home Appliances with Warranty, we deliver quality, durability, and trusted performance, Free Shipping Available.
+            Switch to clean, reliable solar energy today. We supply high-quality solar systems, professional installation, and dependable performance you can trust.
           </p>
         </div>
 
