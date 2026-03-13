@@ -27,9 +27,12 @@ function PlantsPage() {
   });
 
   // Newsletter state
-  const [newsletterEmail, setNewsletterEmail] = useState('');
+  // eslint-disable-next-line
+  const [setNewsletterEmail] = useState('');
+  // eslint-disable-next-line
   const [formStatus, setFormStatus] = useState('');
-  const [newsletterStatus, setNewsletterStatus] = useState('');
+  // eslint-disable-next-line
+  const [setNewsletterStatus] = useState('');
 
   // Product filter state
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -37,7 +40,7 @@ function PlantsPage() {
   // Hero slides for plants/export
   const heroSlides = [
     {
-      image: '/assets/images/aloe-vera-plant-sample.jpg',
+      image: '/assets/images/plants2.png',
       title: 'Premium Plant Exports',
       description: 'Quality medicinal and agricultural plants sourced and exported worldwide with sustainable practices.'
     },
@@ -114,12 +117,12 @@ function PlantsPage() {
     });
   };
 
-  const handleNewsletterSubmit = (e) => {
+  /*const handleNewsletterSubmit = (e) => {
     e.preventDefault();
     setNewsletterStatus('Thank you for subscribing to our agricultural newsletter!');
     setTimeout(() => setNewsletterStatus(''), 4000);
     setNewsletterEmail('');
-  };
+  };*/
 
   useEffect(() => {
     const yearSpan = document.getElementById("currentYear");
@@ -355,7 +358,7 @@ function PlantsPage() {
             
             <div className="product-gallery">
               {[
-                { category: 'medicinal', image: '/assets/images/aloe-vera-plant-sample.jpg', name: 'Aloe Vera', description: 'Premium organic aloe vera plants and extracts for pharmaceutical and cosmetic industries.' },
+                { category: 'medicinal', image: '/assets/images/plants2.png', name: 'Aloe Vera', description: 'Premium organic aloe vera plants and extracts for pharmaceutical and cosmetic industries.' },
                 { category: 'medicinal', image: '/assets/images/product-3.jpg', name: 'Moringa', description: 'Nutrient-rich moringa leaves, seeds, and powder certified for international health markets.' },
                 { category: 'agricultural', image: '/assets/images/gallery-1.jpg', name: 'Yams & Cassava', description: 'High-quality root vegetables and tubers processed for global food distribution.' },
                 { category: 'agricultural', image: '/assets/images/gallery.jpg', name: 'Palm Products', description: 'Sustainable palm oil, kernel oil, and palm wine products meeting international standards.' },

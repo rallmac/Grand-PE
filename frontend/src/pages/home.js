@@ -30,7 +30,7 @@ function HomePage() {
       buttonText: "Our Services"
     },
     {
-      image: "/assets/images/aloe-vera-plant-sample.jpg",
+      image: "/assets/images/plants1.png",
       title: "Grand-PE Plants & Export",
       description: "From Native Soil to Global Shelves.",
       link: "/plants",

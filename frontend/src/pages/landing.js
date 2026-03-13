@@ -22,8 +22,10 @@ function LandingPage() {
   });
 
   // Newsletter state
+  // eslint-disable-next-line
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [formStatus, setFormStatus] = useState('');
+  // eslint-disable-next-line
   const [newsletterStatus, setNewsletterStatus] = useState('');
 
   // Statistics animation state
@@ -53,7 +55,7 @@ function LandingPage() {
       buttonText: 'Our Services'
     },
     {
-      image: '/assets/images/aloe-vera-plant-sample.jpg',
+      image: '/assets/images/plants1.png',
       title: 'Grand-PE Plants & Export',
       description: 'From Native Soil to Global Shelves — Premium Agricultural Exports.',
       link: '/plants',
@@ -112,7 +114,8 @@ function LandingPage() {
     });
   };
 
-  const handleNewsletterSubmit = (e) => {
+    // eslint-disable-next-line
+    const handleNewsletterSubmit = (e) => {
     e.preventDefault();
     setNewsletterStatus('Thank you for subscribing to our newsletter!');
     setTimeout(() => setNewsletterStatus(''), 4000);
