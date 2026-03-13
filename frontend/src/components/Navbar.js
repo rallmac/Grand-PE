@@ -58,13 +58,13 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center gap-2 sm:gap-3">
-          <button className="hidden md:flex items-center gap-2 px-3 py-2 rounded-md hover:bg-neutral-50 text-sm transition-transform duration-200 hover:scale-[1.03]">
-            <MapPin className="w-5 h-5" />
-            <span>Showrooms</span>
+          <button className="items-center gap-2 px-3 py-2 rounded-md hover:bg-neutral-50 text-sm transition-transform duration-200 hover:scale-[1.03]">
+            <MapPin className="hidden md:flex w-5 h-5" />
+            <span className="flex">Showrooms</span>
           </button>
-          <button className="hidden md:flex items-center gap-2 px-3 py-2 rounded-md hover:bg-neutral-50 text-sm transition-transform duration-200 hover:scale-[1.03]">
-            <MapPin className="w-5 h-5" />
-            <span>Nigeria</span>
+          <button className="items-center gap-2 px-3 py-2 rounded-md hover:bg-neutral-50 text-sm transition-transform duration-200 hover:scale-[1.03]">
+            <MapPin className="flex w-5 h-5" />
+            <span className="hidden md:flex">Nigeria</span>
           </button>
           <a href="/cart" className="relative flex items-center gap-2 px-3 py-2 rounded-md hover:bg-neutral-50 text-sm transition-transform duration-200 hover:scale-[1.03]">
             <ShoppingCart className="w-5 h-5 text-black" />
@@ -75,9 +75,9 @@ export default function Navbar() {
               </span>
             )}
           </a>
-          <button className="hidden md:flex items-center gap-2 px-3 py-2 rounded-md hover:bg-neutral-50 text-sm transition-transform duration-200 hover:scale-[1.03]">
-            <User className="w-5 h-5" />
-            <span>Login / Register</span>
+          <button className="items-center gap-2 px-3 py-2 rounded-md hover:bg-neutral-50 text-sm transition-transform duration-200 hover:scale-[1.03]">
+            <User className="flex w-5 h-5" />
+            <span className="hidden md:flex">Login / Register</span>
           </button>
         </div>
       </div>
@@ -193,6 +193,39 @@ export default function Navbar() {
               </button>
             </div>
             <nav className="flex flex-col gap-1">
+              {/* Quick Links I future, I will link them to their correct pages*/}
+              <div className="border-b border-neutral-200 pb-4 mb-4 flex flex-col gap-2">
+
+                <a
+                  href="/showrooms"
+                  className="flex items-center gap-3 py-3 px-4 rounded-md hover:bg-neutral-50"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <MapPin className="w-5 h-5" />
+                  <span>Showrooms</span>
+                </a>
+
+                <a
+                  href=" "
+                  className="flex items-center gap-3 py-3 px-4 rounded-md hover:bg-neutral-50"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <MapPin className="w-5 h-5" />
+                  <span>Nigeria</span>
+                </a>
+
+                <a
+                  href="/login"
+                  className="flex items-center gap-3 py-3 px-4 rounded-md hover:bg-neutral-50"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <User className="w-5 h-5" />
+                  <span>Login / Register</span>
+                </a>
+
+              </div>
+
+              {/* Categories */}
               {navItems.map((item) => (
                 <a
                   key={item.label}
