@@ -176,10 +176,10 @@ export default function Navbar() {
 
       {/* Mobile menu overlay */}
       {isMenuOpen && (
-        <div className="md:hidden fixed inset-0 z-50" onClick={() => setIsMenuOpen(false)}>
+        <div className="md:hidden fixed left-0 right-0 bottom-0 top-[90px] z-50" onClick={() => setIsMenuOpen(false)}>
           <div className="absolute inset-0 bg-black/50" />
-          <div 
-            className="absolute top-0 left-0 h-full w-64 bg-surface shadow-lg flex flex-col p-6"
+          <div
+            className="absolute top-0 left-0 h-full w-64 bg-surface shadow-lg flex flex-col p-6 overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between mb-4">
@@ -194,10 +194,10 @@ export default function Navbar() {
             </div>
             <nav className="flex flex-col gap-1">
               {navItems.map((item) => (
-                <a 
+                <a
                   key={item.label}
                   href={item.href}
-                  className="text-black hover:bg-neutral-50 py-3 px-4 rounded-md transition-transform duration-200 hover:scale-[1.03]" 
+                  className="text-black hover:bg-neutral-50 py-3 px-4 rounded-md transition-transform duration-200 hover:scale-[1.03]"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {item.label}
@@ -207,6 +207,7 @@ export default function Navbar() {
           </div>
         </div>
       )}
+
     </header>
   )
 }

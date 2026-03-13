@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import useEmblaCarousel from "embla-carousel-react"
-import { ArrowLeft, ArrowRight } from "lucide-react"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 import { cn } from "../lib/utils"
 
 const CarouselContext = React.createContext(null)
@@ -189,7 +189,7 @@ export function CarouselPrevious({ className, ...props }: React.ComponentProps<"
       aria-label="Previous slide"
       {...props}
     >
-      <ArrowLeft className="size-4" />
+      <ChevronLeft className="size-5" />
       <span className="sr-only">Previous slide</span>
     </button>
   )
@@ -213,7 +213,7 @@ export function CarouselNext({ className, ...props }: React.ComponentProps<"butt
       aria-label="Next slide"
       {...props}
     >
-      <ArrowRight className="size-4" />
+      <ChevronRight className="size-5" />
       <span className="sr-only">Next slide</span>
     </button>
   )
