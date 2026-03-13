@@ -7,10 +7,10 @@ const products = [
   ["Maxi Electric Kettle", "maxi6.png", "NGN 26,900", "https://grandpestore.com/product/260"],
 ];
 
-export default function KitchenSmallAppliances() {
+export default function SolarSmallAppliances() {
   return (
     <section className="solar-section solar-container">
-      <h2>Kitchen Small Appliances</h2>
+      <h2>Solar Small Appliances</h2>
       <div className="solar-slider">
         {products.map(([name, image, price, link]) => (
           <div className="solar-product-card" key={name}>

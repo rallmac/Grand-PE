@@ -86,7 +86,7 @@ function formatNGN(price) {
   return `NGN ${price.toLocaleString('en-NG')}`
 }
 
-export default function KitchenSmallAppliances() {
+export default function SolarSmallAppliances() {
   const { addItem } = useCart()
   const [emblaRef, emblaApi] = useEmblaCarousel({ align: 'start', loop: false, containScroll: 'trimSnaps' })
   const [canPrev, setCanPrev] = useState(false)
@@ -111,7 +111,7 @@ export default function KitchenSmallAppliances() {
 
   return (
     <section className="mx-auto max-w-[1440px] px-4 sm:px-6 py-8">
-      <h2 className="font-display text-xl text-[#1b1b1b]">Kitchen Small Appliances</h2>
+      <h2 className="font-display text-xl text-[#1b1b1b]">Solar Small Appliances</h2>
       <div className="relative mt-4 h-[295.23px] w-full overflow-clip">
         <div className="h-full overflow-hidden" ref={emblaRef}>
           <div className="flex h-full items-start">
