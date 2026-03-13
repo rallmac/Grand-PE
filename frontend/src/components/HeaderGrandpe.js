@@ -1,55 +1,94 @@
 import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { NavLink, Link, useLocation } from "react-router-dom";
 import "../css/style.css";
 
-
-export function HeaderGrandpe(){
+export function HeaderGrandpe() {
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-	// Toggle mobile menu
+  // Toggle mobile menu
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
+  // Close mobile menu when link is clicked
+  const closeMenu = () => {
+    setIsMobileMenuOpen(false);
+  };
 
-	return (
-		<>
-		{/* Header */}
-		<header className="main-header">
-		<div className="container">
-		<Link to="/" className="logo">
-  		<img
-         src={
-            location.pathname === "/solar"
-            ? "/assets/images/GRAND_PE_SOLAR_LOGO.png"
-            : "/assets/images/GRAND_PE_LOGO.png"
-         }
-         alt="Grand-PE Logo"
-      />
-      </Link>
+  return (
+    <>
+      {/* Header */}
+      <header className="main-header">
+        <div className="container">
+
+          {/* Logo */}
+          <Link to="/" className="logo">
+            <img
+              src={
+                location.pathname === "/solar"
+                  ? "/assets/images/GRAND_PE_SOLAR_LOGO.png"
+                  : "/assets/images/GRAND_PE_LOGO.png"
+              }
+              alt="Grand-PE Logo"
+            />
+          </Link>
+
+          {/* Mobile menu button */}
           <button
             className="mobile-nav-toggle"
             aria-label="Toggle navigation"
             aria-expanded={isMobileMenuOpen}
             onClick={toggleMobileMenu}
-            >
-            {isMobileMenuOpen ? '✕' : '☰'}
+          >
+            {isMobileMenuOpen ? "✕" : "☰"}
           </button>
-          <nav className={`main-nav ${isMobileMenuOpen ? 'active' : ''}`}>
+
+          {/* Navigation */}
+          <nav className={`main-nav ${isMobileMenuOpen ? "active" : ""}`}>
             <ul>
-              <li><Link to="/" className="active" onClick={() => setIsMobileMenuOpen(false)}>Home</Link></li>
-              <li><Link to="/about" onClick={() => setIsMobileMenuOpen(false)}>About Us</Link></li>
-              <li><Link to="/solar" onClick={() => setIsMobileMenuOpen(false)}>Solar</Link></li>
-              <li><Link to="/tech" onClick={() => setIsMobileMenuOpen(false)}>Tech</Link></li>
-              <li><Link to="/translate" onClick={() => setIsMobileMenuOpen(false)}>Translate</Link></li>
-              <li><Link to="/plants" onClick={() => setIsMobileMenuOpen(false)}>Plants & Export</Link></li>
+              <li>
+                <NavLink to="/" end onClick={closeMenu}>
+                  Home
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink to="/about" onClick={closeMenu}>
+                  About Us
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink to="/solar" onClick={closeMenu}>
+                  Solar
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink to="/tech" onClick={closeMenu}>
+                  Tech
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink to="/translate" onClick={closeMenu}>
+                  Translate
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink to="/plants" onClick={closeMenu}>
+                  Plants & Export
+                </NavLink>
+              </li>
             </ul>
           </nav>
         </div>
       </header>
-      {/* Spacer to prevent content from hiding under the fixed header */}
-      <div style={{ height: '90px' }} aria-hidden="true" />
-      </>
-      )
+
+      {/* Spacer to prevent content hiding under fixed header */}
+      <div style={{ height: "90px" }} aria-hidden="true" />
+    </>
+  );
 }
