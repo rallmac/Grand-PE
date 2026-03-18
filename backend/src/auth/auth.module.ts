@@ -5,10 +5,15 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt.strategy';
+import { User, UserSchema } from '../user/schema/user.schema';
+import { MongooseModule } from '@nestjs/mongoose';
 
 
 @Module({
   imports: [
+    MongooseModule.forFeature([
+      {name: User.name, schema: UserSchema},
+    ]),
     ConfigModule,
 
     PassportModule,
