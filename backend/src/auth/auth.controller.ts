@@ -12,4 +12,9 @@ export class AuthController {
 			);
 		return this.authService.login(user);
 	}
+
+	@Post('register')
+	async register(@Body('email') email: string) {
+		return this.authService.register(email);
+	}
 }
