@@ -6,6 +6,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { AuthModule } from './auth/auth.module';
 import { EmailService } from './email/email.service';
+import { ScheduleModule } from '@nestjs/schedule';
+import { CleanupService } from './cleanup/cleanup.service';
 
 @Module({
   imports: [
@@ -18,10 +20,11 @@ import { EmailService } from './email/email.service';
         uri: configService.getOrThrow<string>('MONGODB_URI'),
       }),
     }),
+    ScheduleModule.forRoot(),
     UserModule,
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService, EmailService],
+  providers: [AppService, EmailService, CleanupService],
 })
 export class AppModule {}
