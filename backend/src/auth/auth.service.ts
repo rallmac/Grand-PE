@@ -4,12 +4,14 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { randomBytes } from 'crypto';
 import * as bcrypt from 'bcrypt';
+import { EmailService } from '../email/email.service';
 
 @Injectable()
 export class AuthService {
 	constructor(
 		private jwtService: JwtService,
 		@InjectModel('User') private userModel: Model<any>,
+		private emailService: EmailService,
 		) {}
 
 	async register(email: string){
@@ -27,6 +29,8 @@ export class AuthService {
 			VerificationToken: token,
 			VerificationTokenExpires: new Date(Date.now() + 1000 * 60 * 60),
 		});
+
+		await this.emailService.sendVerificationEmail(email, token);
 
 		const link = `https://localhost:3000/auth/verify?token=${'token'}`;
 
