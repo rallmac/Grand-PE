@@ -5,7 +5,7 @@ export class User {
 	@Prop()
 	name: string;
 	email: string;
-	password?: string;
+	password: { type: String, select: false };
 	isVerified: boolean;
 	verificationToken?: string;
 	verificationTokenExpires?: Date;

@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { randomBytes } from 'crypto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -35,13 +36,17 @@ export class AuthService {
 	}
 
 	async validateUser(email: string, password: string) {
-		const user = await this.userModel.findOne({ email });
+		const user = await this.userModel
+		.findOne({ email })
+		.select('+password');
 
 		if (!user) {
 			throw new UnauthorizedException('Invalid credentials');
 		}
 
-		if (user.password !== password) {
+		const isMatch = await bcrypt.compare(password, user.password);
+
+		if (!isMatch) {
 			throw new UnauthorizedException('Invalid credentials');
 		}
 
@@ -76,7 +81,10 @@ export class AuthService {
 			throw new Error('Invalid Token')
 		};
 
-		user.password = password; // I must Hash this later
+		const saltRounds = 10;
+		const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+		user.password = hashedPassword; // I must Hash this later: Now hashed
 		user.verificationToken = undefined;
 
 		await user.save();
