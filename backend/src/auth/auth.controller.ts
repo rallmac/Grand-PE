@@ -27,4 +27,9 @@ export class AuthController {
 	async setPassword(@Body() body: any) {
 		return this.authService.setPassword(body.token, body.password)
 	}
+
+	@Post('resend-verification')
+	async resendVerification(@Body('email') email: string) {
+		return this.authService.resendVerification(email);
+	}
 }

@@ -9,6 +9,7 @@ export class User {
 	isVerified: boolean;
 	verificationToken?: string;
 	verificationTokenExpires?: Date;
+	lastVerificationEmailSent?: Date;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

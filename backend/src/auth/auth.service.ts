@@ -5,6 +5,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { randomBytes } from 'crypto';
 import * as bcrypt from 'bcrypt';
 import { EmailService } from '../email/email.service';
+import { BadRequestException } from '@nestjs/common';
 
 @Injectable()
 export class AuthService {
@@ -109,6 +110,51 @@ export class AuthService {
 
 		return { access_token: this.jwtService.sign(payload),
 		};
+	}
+
+	async resendVerification(email: string) {
+		const user = this.userModel.findOne({ email });
+
+		if (!user) {
+			throw new BadRequestException('User not found');
+		}
+
+		if (user.isVerified) {
+			throw new BadRequestException('User already verified');
+		}
+
+		if (!user.isVerified) {
+			throw new UnauthorizedException('Please verify you email first');
+		}
+
+		// Instead of using the former token, generate a new one
+		const token = randomBytes(32).toString('hex');
+
+		user.verificationToken = token;
+		user.verificationTokenExpires = new Date(Date.now() + 1000 * 60 * 60);
+
+		await user.save();
+
+		await this.emailService.sendVerificationEmail(email, token);
+
+		return {
+			message: 'Verification email resent',
+		};
+
+		const now = new Date();
+
+		if (
+			user.lastVerificationEmailSent &&
+			now.getTime() - user.lastVerificationEmailSent.getTime() < 60000
+		) {
+			throw new BadRequestException('Please wait before requesting again');
+		}
+
+		user.lastVerificaitonEmailSent = now;
+
+		if (existingUser && !existingUser.isVerified) {
+			return this.resendVerification(email);
+		}
 	}
 
 }

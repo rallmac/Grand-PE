@@ -9,7 +9,7 @@ export class CleanupService {
 		@InjectModel('User') private userModel: Model<any>,
 	) {}
 
-	@Cron(CronExpression.EVERY_MINUTE)
+	@Cron(CronExpression.EVERY_HOUR)
 	async cleanExpiredTokens() {
 		const now = new Date();
 		const result = await this.userModel.updateMany(
