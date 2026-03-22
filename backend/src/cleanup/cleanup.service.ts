@@ -15,11 +15,14 @@ export class CleanupService {
 		const result = await this.userModel.updateMany(
 		{
 			verificationTokenExpires: { $lt: now },
+			resetPasswordExpires: { $lt: new Date() },
 		},
 		{
 			$unset: {
 				verificationToken: '',
 				verificationTokenExpires: '',
+				resetPasswordToken: '',
+				resetPasswordExpires: '',
 			},
 		},
 		);
