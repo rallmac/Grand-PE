@@ -12,6 +12,7 @@ export class User {
 	lastVerificationEmailSent?: Date;
 	resetPasswordToken?: string;
 	resetPasswordExpires?: Date;
+	lastResetEmailSent?: Date;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

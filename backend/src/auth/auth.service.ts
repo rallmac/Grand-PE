@@ -158,7 +158,9 @@ export class AuthService {
 	}
 
 	async forgotPassword(email: string) {
-		const user = await this.userModel.findOne({ email });
+		return this.resendResetPassword(email);
+		/**
+		 * const user = await this.userModel.findOne({ email });
 
 		if (!user) {
 			return { message: 'If this email exists, a reset link has been sent' }; 
@@ -174,6 +176,7 @@ export class AuthService {
 		await this.emailService.sendResetPasswordEmail(email, token);
 
 		return { message: 'If this email exists, a reset link has been sent' };
+		**/
 	}
 
 	async resetPassword(token: string, password: string) {
@@ -198,5 +201,38 @@ export class AuthService {
 		await user.save();
 
 		return {message: 'Password reset successful'};
+	}
+
+	async resendResetPassword(email: string) {
+		const user = await this.userModel.findOne({ email });
+
+		if (!user) {
+			return { message: 'If this email exists, a reset link has been sent' };
+		}
+
+		if (!user.resetPasswordToken) {
+			return { message: 'If this email exists, a reset link has been sent' };
+		}
+
+		const now = new Date();
+
+		if (
+			user.lastResetEmailSent &&
+			now.getTime() - user.lastResetEmail.getTime() < 60000
+		) {
+			throw new BadRequestException('Please wait before requesting again');
+		}
+
+		const token = randomBytes(32).toString('hex');
+
+		user.resetPasswordToken = token;
+		user.resetPasswordExpires = new Date(Date.now() + 1000 * 60 * 60);
+		user.lastResetEmailSent = now;
+
+		await user.save();
+
+		await this.emailService.sendResetPasswordEmail(email, token);
+
+		return { message: 'If this email exists, a reset link has been sent' };
 	}
 }
