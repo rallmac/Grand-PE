@@ -13,6 +13,8 @@ export class User {
 	resetPasswordToken?: string;
 	resetPasswordExpires?: Date;
 	lastResetEmailSent?: Date;
+	refreshToken?: string;
+	refreshTokens?: string[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

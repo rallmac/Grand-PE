@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Query } from '@nestjs/common';
+import { Controller, Post, Body, Get, Query, Req } from '@nestjs/common';
 import { AuthService } from './auth.service';
 
 @Controller('auth')
@@ -46,5 +46,22 @@ export class AuthController {
 	@Post('resend-reset-password')
 	async resendResetPassword(@Body('email') email: string) {
 		return this.authService.resendResetPassword(email);
+	}
+
+	@Post('refresh')
+	async refresh(@Body() body: any) {
+		await this.authService.refresh(body.refresh_token);
+	}
+
+	@Post('logout')
+	async logout(@Req() req) {
+		const userId = req.user.sub;
+
+		await this.userModel.updateOne(
+			{ _id: userId },
+			{ $unset: { refreshToken: '' } },
+		);
+
+		return { message: 'Logged out successfully' };
 	}
 }

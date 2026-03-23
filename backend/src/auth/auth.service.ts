@@ -108,8 +108,16 @@ export class AuthService {
 	async login(user: any) {
 		const payload = { sub: user._id, email: user.email };
 
-		return { access_token: this.jwtService.sign(payload),
-		};
+		const access_token = this.jwtService.sign(payload, {
+			secret: process.env.JWT_SECRET,
+		});
+
+		const refresh_token = this.jwtService.sign(payload, {
+			secret: process.env.JWT_REFRESH_SECRET,
+			expiresIn: '7d',
+		});
+
+		return { access_token, refresh_token, };
 	}
 
 	async resendVerification(email: string) {
@@ -234,5 +242,48 @@ export class AuthService {
 		await this.emailService.sendResetPasswordEmail(email, token);
 
 		return { message: 'If this email exists, a reset link has been sent' };
+	}
+
+	async refresh(refreshTokens: string[]) {
+		try {
+			const newRefreshToken = this.jwtService.sign(payload, {
+				secret: process.env.JWT_REFRESH_SECRET,
+				expiresIn: '7d',
+			});
+
+			user.refreshToken = await bcrypt.hash(newRefreshToken, 10);
+			await user.save();
+
+			const user = await this.userModel.findById(payload.sub);
+
+			if (!user || !user.refreshToken) {
+				throw new UnauthorizedException();
+			}
+
+			const isMatch = await bcrypt.compare(
+				refreshToken,
+				user.refreshToken,
+			);
+
+			if (!isMatch) {
+				throw new UnauthorizedException();
+			}
+
+			// I rather issue new access token
+			const newAccesToken = this.jwtService.sign(
+				{ sub: user._id, email: user.email },
+				{
+					secret: process.env.JWT_SECRET,
+					expiresIn: '15',
+				},
+			);
+
+			return {
+				access_token: newAccesToken,
+				refresh_token: newRefreshToken,
+			};
+		} 	catch (err) {
+			throw new UnauthorizedException('Invalid refresh token');
+		}
 	}
 }
