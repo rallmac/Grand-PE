@@ -42,6 +42,7 @@ export function FooterGrandpe(){
   }, []);
 
   // Mobile menu toggle
+  // eslint-disable-next-line
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
@@ -73,7 +74,7 @@ export function FooterGrandpe(){
     // Clear status message after 3 seconds
     setTimeout(() => {
       setFormStatus("");
-    }, 3000);
+    }, 3002);
   };
 
 

@@ -28,7 +28,7 @@ export function HeaderGrandpe() {
               src={
                 location.pathname === "/solar"
                   ? "/assets/images/GRAND_PE_SOLAR_LOGO.png"
-                  : "/assets/images/GRAND_PE_LOGO.png"
+                  : "/assets/images/GRAND_PE_GLOBAL_LIMITED.png"
               }
               alt="Grand-PE Logo"
             />
@@ -48,7 +48,7 @@ export function HeaderGrandpe() {
           <nav className={`main-nav ${isMobileMenuOpen ? "active" : ""}`}>
             <ul>
               <li>
-                <NavLink to="/" end onClick={closeMenu}>
+                <NavLink to="/home" end onClick={closeMenu}>
                   Home
                 </NavLink>
               </li>
@@ -80,6 +80,11 @@ export function HeaderGrandpe() {
               <li>
                 <NavLink to="/plants" onClick={closeMenu}>
                   Plants & Export
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/signin" onClick={closeMenu}>
+                  SignIn
                 </NavLink>
               </li>
             </ul>

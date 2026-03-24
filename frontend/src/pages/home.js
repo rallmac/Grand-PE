@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../css/style.css";
 import { FooterGrandpe } from "../components/FooterGrandpe";
+import { HeaderGrandpe } from "../components/HeaderGrandpe";
 
 function HomePage() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -78,34 +79,9 @@ function HomePage() {
   return (
     <>
       {/* Header Section */}
-      <header className="main-header">
-        <div className="container">
-          <Link to="/" className="logo">
-            <img
-              src="/assets/images/GRAND_PE_GLOBAL_LIMITED.jpg"
-              alt="Grand-PE Global Limited Logo"
-            />
-          </Link>
-          <button
-            className="mobile-nav-toggle"
-            aria-label="Toggle navigation"
-            aria-expanded="false"
-          >
-            ☰
-          </button>
-          <nav className="main-nav">
-            <ul>
-              <li><Link to="/home">Home</Link></li>
-              <li><Link to="/about">About Us</Link></li>
-              <li><Link to="/solar">Solar</Link></li>
-              <li><Link to="/tech">Tech</Link></li>
-              <li><Link to="/translate">Translate</Link></li>
-              <li><Link to="/plants">Plants & Export</Link></li>
-            </ul>
-          </nav>
-        </div>
-      </header>
+      <HeaderGrandpe />
 
+      {/* Body of page */}
       <main>
         {/* Hero Section */}
         <section className="hero">

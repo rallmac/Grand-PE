@@ -209,7 +209,7 @@ function LandingPage() {
           </button>
           <nav className={`main-nav ${isMobileMenuOpen ? 'active' : ''}`}>
             <ul>
-              <li><Link to="/" className="active" onClick={() => setIsMobileMenuOpen(false)}>Home</Link></li>
+              <li><Link to="/home" className="active" onClick={() => setIsMobileMenuOpen(false)}>Home</Link></li>
               <li><Link to="/about" onClick={() => setIsMobileMenuOpen(false)}>About Us</Link></li>
               <li><Link to="/solar" onClick={() => setIsMobileMenuOpen(false)}>Solar</Link></li>
               <li><Link to="/tech" onClick={() => setIsMobileMenuOpen(false)}>Tech</Link></li>

@@ -1,13 +1,13 @@
 import { HeaderGrandpe } from '../components/HeaderGrandpe';
 import { FooterGrandpe } from '../components/FooterGrandpe';
-import RegistrationForm from '../components/RegistrationForm';
+import SignInForm from '../components/SignInForm';
 
 
-export default function Register() {
+export default function SignIn() {
 	return (
 		<>
 		<HeaderGrandpe />
-		<RegistrationForm />
+		<SignInForm />
 		<FooterGrandpe />
 		</>
 	)

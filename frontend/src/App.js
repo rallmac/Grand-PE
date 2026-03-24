@@ -8,6 +8,7 @@ import SolarPage from "./pages/solar";
 import TechPage from "./pages/tech";
 import TranslatePage from "./pages/translate";
 import Register from "./pages/Register";
+import SignIn from "./pages/SignIn";
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route path="/tech" element={<TechPage />} />
         <Route path="/translate" element={<TranslatePage />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/signin" element={<SignIn />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
