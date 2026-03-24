@@ -1,289 +1,239 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  UnauthorizedException,
+  BadRequestException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { randomBytes } from 'crypto';
 import * as bcrypt from 'bcrypt';
 import { EmailService } from '../email/email.service';
-import { BadRequestException } from '@nestjs/common';
 
 @Injectable()
 export class AuthService {
-	constructor(
-		private jwtService: JwtService,
-		@InjectModel('User') private userModel: Model<any>,
-		private emailService: EmailService,
-		) {}
+  constructor(
+    private jwtService: JwtService,
+    @InjectModel('User') private userModel: Model<any>,
+    private emailService: EmailService,
+  ) {}
 
-	async register(email: string){
-		const existingUser = await this.userModel.findOne({ email });
+  // ================= REGISTER =================
+  async register(email: string) {
+    const existingUser = await this.userModel.findOne({ email });
 
-		if (existingUser) {
-			throw new Error('User already exists');
-		}
+    if (existingUser && existingUser.isVerified) {
+      throw new BadRequestException('User already exists');
+    }
 
-		const token = randomBytes(32).toString('hex');
+    if (existingUser && !existingUser.isVerified) {
+      return this.resendVerification(email);
+    }
 
-		const user = this.userModel.create({
-			email,
-			isVerified: false,
-			VerificationToken: token,
-			VerificationTokenExpires: new Date(Date.now() + 1000 * 60 * 60),
-		});
+    const token = randomBytes(32).toString('hex');
 
-		await this.emailService.sendVerificationEmail(email, token);
+    await this.userModel.create({
+      email,
+      isVerified: false,
+      verificationToken: token,
+      verificationTokenExpires: new Date(Date.now() + 3600000),
+    });
 
-		const link = `https://localhost:3000/auth/verify?token=${'token'}`;
+    await this.emailService.sendVerificationEmail(email, token);
 
-		// console.log('Verificaion link:', link); 'This is only allowed during development'
+    return { message: 'Verification email sent' };
+  }
 
-		return { message: 'Verification email sent' };
-	}
+  // ================= VALIDATE =================
+  async validateUser(email: string, password: string) {
+    const user = await this.userModel
+      .findOne({ email })
+      .select('+password');
 
-	async validateUser(email: string, password: string) {
-		const user = await this.userModel
-		.findOne({ email })
-		.select('+password');
+    if (!user) throw new UnauthorizedException('Invalid credentials');
 
-		if (!user) {
-			throw new UnauthorizedException('Invalid credentials');
-		}
+    const isMatch = await bcrypt.compare(password, user.password);
 
-		const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) throw new UnauthorizedException('Invalid credentials');
 
-		if (!isMatch) {
-			throw new UnauthorizedException('Invalid credentials');
-		}
+    if (!user.isVerified) {
+      throw new UnauthorizedException('Please verify your email first');
+    }
 
-		return user;
-	}
+    return user;
+  }
 
-	async verifyEmail(token: string){
-		const user = await this.userModel.findOne({
-			verificationToken: token,
-			verificationTokenExpires: { $gt: new Date() },
-		});
+  // ================= VERIFY EMAIL =================
+  async verifyEmail(token: string) {
+    const user = await this.userModel.findOne({
+      verificationToken: token,
+      verificationTokenExpires: { $gt: new Date() },
+    });
 
-		if (!user) {
-			throw new Error('Invalid or Expired token')
-		}
+    if (!user) throw new BadRequestException('Invalid or expired token');
 
-		user.isVerified = true;
-		user.verificationToken = undefined;
-		user.verificationTokenExpires = undefined;
+    user.isVerified = true;
 
-		await user.save();
+    await user.save();
 
-		return {
-			message: 'Email verified. You can now set your password.',
-		};
-	}
+    return { message: 'Email verified. Set your password.' };
+  }
 
-	async setPassword(token: string, password: string) {
-		const user = await this.userModel.findOne({verificationToken: token});
+  // ================= SET PASSWORD =================
+  async setPassword(token: string, password: string) {
+    const user = await this.userModel.findOne({ verificationToken: token });
 
-		if (!user) {
-			throw new Error('Invalid Token')
-		};
+    if (!user) throw new BadRequestException('Invalid token');
 
-		const saltRounds = 10;
-		const hashedPassword = await bcrypt.hash(password, saltRounds);
+    user.password = await bcrypt.hash(password, 10);
+    user.verificationToken = undefined;
 
-		user.password = hashedPassword; // I must Hash this later: Now hashed
-		user.verificationToken = undefined;
+    await user.save();
 
-		await user.save();
+    return { message: 'Password set successfully' };
+  }
 
-		return {
-			message: 'Password Set Successfully',
-		};
+  // ================= LOGIN =================
+  async login(user: any) {
+    const payload = { sub: user._id, email: user.email };
 
-		const payload = { sub: user._id, email: user.email };
+    const access_token = this.jwtService.sign(payload, {
+      secret: process.env.JWT_SECRET,
+      expiresIn: '15m',
+    });
 
-		return {
-			access_token: this.jwtService.sign(payload),
-		};
-	}
+    const refresh_token = this.jwtService.sign(payload, {
+      secret: process.env.JWT_REFRESH_SECRET,
+      expiresIn: '7d',
+    });
 
-	async login(user: any) {
-		const payload = { sub: user._id, email: user.email };
+    user.refreshToken = await bcrypt.hash(refresh_token, 10);
+    await user.save();
 
-		const access_token = this.jwtService.sign(payload, {
-			secret: process.env.JWT_SECRET,
-		});
+    return { access_token, refresh_token };
+  }
 
-		const refresh_token = this.jwtService.sign(payload, {
-			secret: process.env.JWT_REFRESH_SECRET,
-			expiresIn: '7d',
-		});
+  // ================= RESEND VERIFICATION =================
+  async resendVerification(email: string) {
+    const user = await this.userModel.findOne({ email });
 
-		return { access_token, refresh_token, };
-	}
+    if (!user) throw new BadRequestException('User not found');
 
-	async resendVerification(email: string) {
-		const user = this.userModel.findOne({ email });
+    if (user.isVerified) {
+      throw new BadRequestException('User already verified');
+    }
 
-		if (!user) {
-			throw new BadRequestException('User not found');
-		}
+    const token = randomBytes(32).toString('hex');
 
-		if (user.isVerified) {
-			throw new BadRequestException('User already verified');
-		}
+    user.verificationToken = token;
+    user.verificationTokenExpires = new Date(Date.now() + 3600000);
 
-		if (!user.isVerified) {
-			throw new UnauthorizedException('Please verify you email first');
-		}
+    await user.save();
 
-		// Instead of using the former token, generate a new one
-		const token = randomBytes(32).toString('hex');
+    await this.emailService.sendVerificationEmail(email, token);
 
-		user.verificationToken = token;
-		user.verificationTokenExpires = new Date(Date.now() + 1000 * 60 * 60);
+    return { message: 'Verification email resent' };
+  }
 
-		await user.save();
+  // ================= FORGOT PASSWORD =================
+  async forgotPassword(email: string) {
+    return this.resendResetPassword(email);
+  }
 
-		await this.emailService.sendVerificationEmail(email, token);
+  // ================= RESET PASSWORD =================
+  async resetPassword(token: string, password: string) {
+    const user = await this.userModel.findOne({
+      resetPasswordToken: token,
+      resetPasswordExpires: { $gt: new Date() },
+    });
 
-		return {
-			message: 'Verification email resent',
-		};
+    if (!user) {
+      throw new BadRequestException('Invalid or expired token');
+    }
 
-		const now = new Date();
+    user.password = await bcrypt.hash(password, 10);
 
-		if (
-			user.lastVerificationEmailSent &&
-			now.getTime() - user.lastVerificationEmailSent.getTime() < 60000
-		) {
-			throw new BadRequestException('Please wait before requesting again');
-		}
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
 
-		user.lastVerificaitonEmailSent = now;
+    await user.save();
 
-		if (existingUser && !existingUser.isVerified) {
-			return this.resendVerification(email);
-		}
-	}
+    return { message: 'Password reset successful' };
+  }
 
-	async forgotPassword(email: string) {
-		return this.resendResetPassword(email);
-		/**
-		 * const user = await this.userModel.findOne({ email });
+  // ================= RESEND RESET =================
+  async resendResetPassword(email: string) {
+    const user = await this.userModel.findOne({ email });
 
-		if (!user) {
-			return { message: 'If this email exists, a reset link has been sent' }; 
-		}
+    if (!user) {
+      return { message: 'If this email exists, a reset link has been sent' };
+    }
 
-		const token = randomBytes(32).toString('hex');
+    const now = new Date();
 
-		user.resetPasswordToken = token;
-		user.resetPasswordExpires = new Date(Date.now() + 1000 * 60 * 60);
+    if (
+      user.lastResetEmailSent &&
+      now.getTime() - user.lastResetEmailSent.getTime() < 60000
+    ) {
+      throw new BadRequestException('Please wait before requesting again');
+    }
 
-		await user.save();
+    const token = randomBytes(32).toString('hex');
 
-		await this.emailService.sendResetPasswordEmail(email, token);
+    user.resetPasswordToken = token;
+    user.resetPasswordExpires = new Date(Date.now() + 3600000);
+    user.lastResetEmailSent = now;
 
-		return { message: 'If this email exists, a reset link has been sent' };
-		**/
-	}
+    await user.save();
 
-	async resetPassword(token: string, password: string) {
-		const user = await this.userModel.findOne({
-			resetPasswordToken: token,
-			resetPasswordExpires: { $gt: new Date() },
-		});
+    await this.emailService.sendResetPasswordEmail(email, token);
 
-		const hashedToken = await bcrypt.hash(token, 10);
-		user.resetPasswordToken = hashedToken;
-		bcrypt.compare(token, user.resetPasswordToken);
+    return { message: 'If this email exists, a reset link has been sent' };
+  }
 
-		if (!user) {
-			throw new BadRequestException('Invalid or expired token');
-		}
+  // ================= REFRESH =================
+  async refresh(refreshToken: string) {
+    try {
+      const payload = this.jwtService.verify(refreshToken, {
+        secret: process.env.JWT_REFRESH_SECRET,
+      });
 
-		user.password = await bcrypt.hash(password, 10);
+      const user = await this.userModel.findById(payload.sub);
 
-		user.resetPasswordToken = undefined;
-		user.resetPasswordExpires = undefined;
+      if (!user || !user.refreshToken) {
+        throw new UnauthorizedException();
+      }
 
-		await user.save();
+      const isMatch = await bcrypt.compare(
+        refreshToken,
+        user.refreshToken,
+      );
 
-		return {message: 'Password reset successful'};
-	}
+      if (!isMatch) {
+        throw new UnauthorizedException();
+      }
 
-	async resendResetPassword(email: string) {
-		const user = await this.userModel.findOne({ email });
+      const newAccessToken = this.jwtService.sign(
+        { sub: user._id, email: user.email },
+        {
+          secret: process.env.JWT_SECRET,
+          expiresIn: '15m',
+        },
+      );
 
-		if (!user) {
-			return { message: 'If this email exists, a reset link has been sent' };
-		}
+      return { access_token: newAccessToken };
+    } catch {
+      throw new UnauthorizedException('Invalid refresh token');
+    }
+  }
 
-		if (!user.resetPasswordToken) {
-			return { message: 'If this email exists, a reset link has been sent' };
-		}
+  // ================= LOGOUT =================
+  async logout(userId: string) {
+    await this.userModel.updateOne(
+      { _id: userId },
+      { $unset: { refreshToken: '' } },
+    );
 
-		const now = new Date();
-
-		if (
-			user.lastResetEmailSent &&
-			now.getTime() - user.lastResetEmail.getTime() < 60000
-		) {
-			throw new BadRequestException('Please wait before requesting again');
-		}
-
-		const token = randomBytes(32).toString('hex');
-
-		user.resetPasswordToken = token;
-		user.resetPasswordExpires = new Date(Date.now() + 1000 * 60 * 60);
-		user.lastResetEmailSent = now;
-
-		await user.save();
-
-		await this.emailService.sendResetPasswordEmail(email, token);
-
-		return { message: 'If this email exists, a reset link has been sent' };
-	}
-
-	async refresh(refreshTokens: string[]) {
-		try {
-			const newRefreshToken = this.jwtService.sign(payload, {
-				secret: process.env.JWT_REFRESH_SECRET,
-				expiresIn: '7d',
-			});
-
-			user.refreshToken = await bcrypt.hash(newRefreshToken, 10);
-			await user.save();
-
-			const user = await this.userModel.findById(payload.sub);
-
-			if (!user || !user.refreshToken) {
-				throw new UnauthorizedException();
-			}
-
-			const isMatch = await bcrypt.compare(
-				refreshToken,
-				user.refreshToken,
-			);
-
-			if (!isMatch) {
-				throw new UnauthorizedException();
-			}
-
-			// I rather issue new access token
-			const newAccesToken = this.jwtService.sign(
-				{ sub: user._id, email: user.email },
-				{
-					secret: process.env.JWT_SECRET,
-					expiresIn: '15',
-				},
-			);
-
-			return {
-				access_token: newAccesToken,
-				refresh_token: newRefreshToken,
-			};
-		} 	catch (err) {
-			throw new UnauthorizedException('Invalid refresh token');
-		}
-	}
+    return { message: 'Logged out successfully' };
+  }
 }

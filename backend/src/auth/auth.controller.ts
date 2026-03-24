@@ -1,5 +1,6 @@
-import { Controller, Post, Body, Get, Query, Req } from '@nestjs/common';
+import { UseGuards, Controller, Post, Body, Get, Query, Req } from '@nestjs/common';
 import { AuthService } from './auth.service';
+import { JwtAuthGuard } from './jwt-auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -53,15 +54,12 @@ export class AuthController {
 		await this.authService.refresh(body.refresh_token);
 	}
 
+	
+	@UseGuards(JwtAuthGuard)
 	@Post('logout')
 	async logout(@Req() req) {
 		const userId = req.user.sub;
 
-		await this.userModel.updateOne(
-			{ _id: userId },
-			{ $unset: { refreshToken: '' } },
-		);
-
-		return { message: 'Logged out successfully' };
+		return this.authService.logout(userId);
 	}
 }
