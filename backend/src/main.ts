@@ -5,6 +5,21 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  const allowedOrigins = [
+    'http://localhost:3002',
+  ];
+
+  app.enableCors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed'));
+      }
+    },
+    credentials: true,
+  });
+
   const config = new DocumentBuilder()
      .setTitle('Grand-PE Server')
      .setDescription('The API of Grand-PE Global')
