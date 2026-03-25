@@ -22,7 +22,7 @@ import { EmailService } from '../email/email.service';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         secret: configService.getOrThrow<string>('JWT_SECRET'),
-        signOptions: { expiresIn: 1h }
+        signOptions: { expiresIn: '1h' as stringValue }
       }),
     }),
   ],
