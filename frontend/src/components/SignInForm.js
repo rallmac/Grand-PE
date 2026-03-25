@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 export default function SignInForm (){
 
   return(
@@ -8,7 +10,7 @@ export default function SignInForm (){
   </div>
 
   <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-    <form action="#" method="POST" className="space-y-6">
+    <form action="" method="POST" className="space-y-6">
   <div>
         <label for="email" className="block text-sm/6 font-medium text-gray-100">Email address</label>
         <div class="mt-2">
@@ -20,8 +22,7 @@ export default function SignInForm (){
         <div className="flex items-center justify-between">
           <label for="password" className="block text-sm/6 font-medium text-gray-100">Password</label>
           <div class="text-sm">
-            // eslint-disable-next-line
-            <a href="#" class="font-semibold text-indigo-400 hover:text-indigo-300">Forgot password?</a>
+            <Link to="/home" class="font-semibold text-indigo-400 hover:text-indigo-300">Forgot password?</Link>
           </div>
         </div>
         <div className="mt-2">
@@ -36,7 +37,7 @@ export default function SignInForm (){
 
     <p class="mt-10 text-center text-sm/6 text-gray-400">
       No account yet?
-      <a href="/register" className="font-semibold text-indigo-400 hover:text-indigo-300">Create an account</a>
+      <Link to="/register" className="font-semibold text-indigo-400 hover:text-indigo-300">Create an account</Link>
     </p>
   </div>
 </div>
