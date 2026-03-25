@@ -7,6 +7,7 @@ async function bootstrap() {
 
   const allowedOrigins = [
     'http://localhost:3002',
+    'https://grand-pe.onrender.com',
   ];
 
   app.enableCors({
