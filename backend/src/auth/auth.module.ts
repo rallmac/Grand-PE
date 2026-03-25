@@ -8,6 +8,7 @@ import { JwtStrategy } from './jwt.strategy';
 import { User, UserSchema } from '../user/schema/user.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 import { EmailService } from '../email/email.service';
+import { StringValue } from 'ms';
 
 @Module({
   imports: [
@@ -22,7 +23,7 @@ import { EmailService } from '../email/email.service';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         secret: configService.getOrThrow<string>('JWT_SECRET'),
-        signOptions: { expiresIn: '1h' as stringValue }
+        signOptions: { expiresIn: '1h' as StringValue }
       }),
     }),
   ],
