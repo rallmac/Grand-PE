@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 export default function RegistrationForm() {
 	return (
 		<div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 bg-gray-900">
@@ -7,7 +9,7 @@ export default function RegistrationForm() {
   			</div>
 
   			<div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-    			<form action="#" method="POST" className="space-y-6">
+    			<form action="" method="POST" className="space-y-6">
   					<div>
         				<label for="email" className="block text-sm/6 font-medium text-gray-100">Email address</label>
         					<div class="mt-2">
@@ -22,8 +24,7 @@ export default function RegistrationForm() {
 
     			<p class="mt-10 text-center text-sm/6 text-gray-400">
       				By Registration, you agree to terms and conditions
-      				// eslint-disable-next-line
-      				<a href="#" className="font-semibold text-indigo-400 hover:text-indigo-300">View terms and conditions</a>
+      				<Link to="/signin" className="font-semibold text-indigo-400 hover:text-indigo-300">View terms and conditions</Link>
     			</p>
   			</div>
 		</div>
