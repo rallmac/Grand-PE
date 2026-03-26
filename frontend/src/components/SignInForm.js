@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useState } from 'react';
 
-export default function LoginForm() {
+export default function SignInForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -20,21 +20,26 @@ export default function LoginForm() {
 
       console.log('Login success:', res.data);
 
-      // 🔐 Example: store token (if your backend returns one)
+      // Save token if returned
       if (res.data.access_token) {
         localStorage.setItem('token', res.data.access_token);
       }
 
-    } catch (error: any) {
-      console.error('Login error:', error.response?.data || error.message);
+    } catch (error) {
+      console.error(
+        'Login error:',
+        error.response?.data || error.message
+      );
     }
   };
 
   return (
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 bg-gray-900">
+      
+      {/* HEADER */}
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img
-          src="./assets/images/GRAND_PE_GLOBAL.png"
+          src="/assets/images/GRAND_PE_GLOBAL.png"
           alt="Grand-PE Logo"
           className="mx-auto h-10 w-auto"
         />
@@ -43,14 +48,19 @@ export default function LoginForm() {
         </h2>
       </div>
 
+      {/* FORM */}
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <form onSubmit={handleSubmit} className="space-y-6">
 
           {/* EMAIL */}
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-100">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-100"
+            >
               Email address
             </label>
+
             <div className="mt-2">
               <input
                 id="email"
@@ -65,9 +75,13 @@ export default function LoginForm() {
 
           {/* PASSWORD */}
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-100">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-100"
+            >
               Password
             </label>
+
             <div className="mt-2">
               <input
                 id="password"
@@ -94,7 +108,10 @@ export default function LoginForm() {
         {/* FOOTER */}
         <p className="mt-10 text-center text-sm text-gray-400">
           Don’t have an account?{' '}
-          <Link to="/register" className="font-semibold text-indigo-400 hover:text-indigo-300">
+          <Link
+            to="/register"
+            className="font-semibold text-indigo-400 hover:text-indigo-300"
+          >
             Register
           </Link>
         </p>
