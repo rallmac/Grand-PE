@@ -9,6 +9,7 @@ import TechPage from "./pages/tech";
 import TranslatePage from "./pages/translate";
 import Register from "./pages/Register";
 import SignIn from "./pages/SignIn";
+import CreatePassword from "./pages/CreatePassword";
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
         <Route path="/translate" element={<TranslatePage />} />
         <Route path="/register" element={<Register />} />
         <Route path="/signin" element={<SignIn />} />
+        <Route path="/create-password" element={<CreatePassword />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
