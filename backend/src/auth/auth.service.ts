@@ -23,7 +23,10 @@ export class AuthService {
     const existingUser = await this.userModel.findOne({ email });
 
     if (existingUser && existingUser.isVerified) {
-      throw new BadRequestException('User already exists');
+      throw new BadRequestException({
+        success: false,
+        message: 'User already exists'
+      });
     }
 
     if (existingUser && !existingUser.isVerified) {
@@ -41,7 +44,10 @@ export class AuthService {
 
     await this.emailService.sendVerificationEmail(email, token);
 
-    return { message: 'Verification email sent' };
+    return {
+      success: true,
+      message: 'Verification email sent'
+    };
   }
 
   // ================= VALIDATE =================
@@ -110,7 +116,7 @@ export class AuthService {
     user.refreshToken = await bcrypt.hash(refresh_token, 10);
     await user.save();
 
-    return { access_token, refresh_token };
+    return { access_token, refresh_token, message: 'Login successful' };
   }
 
   // ================= RESEND VERIFICATION =================

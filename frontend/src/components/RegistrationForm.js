@@ -4,9 +4,12 @@ import { useState } from 'react';
 
 export default function RegistrationForm() {
   const [email, setEmail] = useState('');
+  const [success, setSuccess] = useState('');
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log('FORM SUBMITTED');
 
     try {
       const res = await axios.post(
@@ -14,9 +17,11 @@ export default function RegistrationForm() {
         { email }
       );
 
-      console.log(res.data);
-    } catch (error) {
-      console.log(error);
+      setSuccess(res.data.message);
+      setError('');
+    } catch (err) {
+      setError(err.response?.data?.message || 'Something went wrong');
+      setSuccess('');
     }
   };
 

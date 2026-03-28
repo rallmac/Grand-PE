@@ -9,9 +9,15 @@ import TechPage from "./pages/tech";
 import TranslatePage from "./pages/translate";
 import Register from "./pages/Register";
 import SignIn from "./pages/SignIn";
-import CreatePassword from "./pages/CreatePassword";
+import SetPassword from "./pages/SetPassword";
 import ResetPassword from "./pages/ResetPassword";
 import ForgotPassword from "./pages/ForgotPassword";
+import Verify from "./pages/Verify";
+import Dashboard from "./pages/Dashboard";
+
+//This file connects all the pages in the application
+//The connection is done by importing the pages and
+//routing them into a clearly defined link. 
 
 
 function App() {
@@ -27,9 +33,11 @@ function App() {
         <Route path="/translate" element={<TranslatePage />} />
         <Route path="/register" element={<Register />} />
         <Route path="/signin" element={<SignIn />} />
-        <Route path="/create-password" element={<CreatePassword />} />
+        <Route path="/set-password" element={<SetPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/verify" element={<Verify />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
