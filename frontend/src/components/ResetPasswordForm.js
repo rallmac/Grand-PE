@@ -1,29 +1,8 @@
 import { Link } from 'react-router-dom';
-import axios from 'axios';
-import { useState } from 'react';
+//import axios from 'axios';
+//import { useState } from 'react';
 
-export default function RegistrationForm() {
-  const [email, setEmail] = useState('');
-  const [success, setSuccess] = useState('');
-  const [error, setError] = useState('');
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('FORM SUBMITTED');
-
-    try {
-      const res = await axios.post(
-        `${process.env.REACT_APP_API_URL}/auth/register`,
-        { email }
-      );
-
-      setSuccess(res.data.message);
-      setError('');
-    } catch (err) {
-      setError(err.response?.data?.message || 'Something went wrong');
-      setSuccess('');
-    }
-  };
+export default function ResetPasswordForm() {
 
   return (
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 bg-gray-900">
@@ -34,22 +13,34 @@ export default function RegistrationForm() {
           className="mx-auto h-10 w-auto"
         />
         <h2 className="mt-10 text-center text-2xl font-bold text-white">
-          Create an account to get started
+          Reset your password
         </h2>
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form className="space-y-6">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-100">
-              Email address
+            <label className="block text-sm font-medium text-gray-100">
+              Password
             </label>
             <div className="mt-2">
               <input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                id="password"
+                type="password"
+                required
+                className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-white"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-100">
+              Confirm Password
+            </label>
+            <div className="mt-2">
+              <input
+                id="password"
+                type="password"
                 required
                 className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-white"
               />
@@ -61,11 +52,10 @@ export default function RegistrationForm() {
               type="submit"
               className="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-white"
             >
-              Register
+              Reset Password
             </button>
           </div>
         </form>
-
         <p className="mt-10 text-center text-sm text-gray-400">
           By Registration, you agree to terms and conditions
           <Link to="/signin" className="font-semibold text-indigo-400 hover:text-indigo-300">

@@ -1,10 +1,12 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useState } from 'react';
 
 export default function SignInForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,7 +25,9 @@ export default function SignInForm() {
       // Save token if returned
       if (res.data.access_token) {
         localStorage.setItem('token', res.data.access_token);
-      }
+      };
+
+      navigate('/dashboard');
 
     } catch (error) {
       console.error(

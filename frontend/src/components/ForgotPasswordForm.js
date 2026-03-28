@@ -1,15 +1,12 @@
-import { Link } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useState } from 'react';
 
-export default function RegistrationForm() {
+export default function ForgotPasswordForm() {
   const [email, setEmail] = useState('');
-  const [success, setSuccess] = useState('');
-  const [error, setError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('FORM SUBMITTED');
 
     try {
       const res = await axios.post(
@@ -17,11 +14,9 @@ export default function RegistrationForm() {
         { email }
       );
 
-      setSuccess(res.data.message);
-      setError('');
-    } catch (err) {
-      setError(err.response?.data?.message || 'Something went wrong');
-      setSuccess('');
+      console.log(res.data);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -34,7 +29,7 @@ export default function RegistrationForm() {
           className="mx-auto h-10 w-auto"
         />
         <h2 className="mt-10 text-center text-2xl font-bold text-white">
-          Create an account to get started
+          Receive reset mail if user exists
         </h2>
       </div>
 
@@ -61,17 +56,10 @@ export default function RegistrationForm() {
               type="submit"
               className="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-white"
             >
-              Register
+              Send Reset Link
             </button>
           </div>
         </form>
-
-        <p className="mt-10 text-center text-sm text-gray-400">
-          By Registration, you agree to terms and conditions
-          <Link to="/signin" className="font-semibold text-indigo-400 hover:text-indigo-300">
-            View terms and conditions
-          </Link>
-        </p>
       </div>
     </div>
   );

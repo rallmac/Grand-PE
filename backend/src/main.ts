@@ -6,7 +6,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const allowedOrigins = [
-    'http://localhost:3002',
+    'http://localhost:3001',
     'https://grand-pe.onrender.com',
   ];
 
