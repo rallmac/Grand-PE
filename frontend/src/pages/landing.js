@@ -215,6 +215,7 @@ function LandingPage() {
               <li><Link to="/tech" onClick={() => setIsMobileMenuOpen(false)}>Tech</Link></li>
               <li><Link to="/translate" onClick={() => setIsMobileMenuOpen(false)}>Translate</Link></li>
               <li><Link to="/plants" onClick={() => setIsMobileMenuOpen(false)}>Plants & Export</Link></li>
+              <li><Link to="/signin" onClick={() => setIsMobileMenuOpen(false)}>Signin</Link></li>
             </ul>
           </nav>
         </div>
