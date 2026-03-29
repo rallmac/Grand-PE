@@ -74,13 +74,17 @@ export class AuthService {
   // ================= VERIFY EMAIL =================
   async verifyEmail(token: string) {
     console.log("Incoming token:", token);
+
     const user = await this.userModel.findOne({
       verificationToken: token,
       verificationTokenExpires: { $gt: new Date() },
     });
+
     console.log("User found:", user);
 
-    if (!user) throw new BadRequestException('Invalid or expired token');
+    if (!user) {
+      throw new BadRequestException('Invalid or expired token');
+    }
 
     user.isVerified = true;
     user.verificationToken = null;
@@ -90,7 +94,6 @@ export class AuthService {
 
     return { message: 'Email verified. Set your password.' };
   }
-
   // ================= SET PASSWORD =================
   async setPassword(token: string, password: string) {
     const user = await this.userModel.findOne({ verificationToken: token });
