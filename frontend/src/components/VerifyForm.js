@@ -1,4 +1,6 @@
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { useState, useEffect } from 'react';
 
 //This is the verify form component. This form is will then
 //be imported and called in the Verify.js page
