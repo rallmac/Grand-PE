@@ -12,7 +12,7 @@ export class EmailService {
 	});
 
 	async sendVerificationEmail(to: string, token: string) {
-		const url = `https://grand-pe-backend.vercel.app/auth/verify?token=${token}`;
+		const url = `https://grand-pe.onrender.com/verify?token=${token}`;
 
 		await this.transporter.sendMail({
 			from: `"Grand-PE" <${process.env.EMAIL_USER}>`,
@@ -27,7 +27,7 @@ export class EmailService {
 	}
 
 	async sendResetPasswordEmail(to: string, token: string) {
-		const url = `https://grand-pe-backend.vercel.app/auth/reset-password?token=${token}`;
+		const url = `https://grand-pe.onrender.com/reset-password?token=${token}`;
 
 		await this.transporter.sendMail({
 			to,
@@ -40,3 +40,4 @@ export class EmailService {
 		});
 	}
 }
+
