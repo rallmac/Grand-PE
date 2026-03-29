@@ -82,10 +82,6 @@ export class AuthService {
 
     console.log("User found:", user);
 
-    if (!user) {
-      throw new BadRequestException('Invalid or expired token');
-    }
-
     user.isVerified = true;
     user.verificationToken = null;
     user.verificationTokenExpires = null;
