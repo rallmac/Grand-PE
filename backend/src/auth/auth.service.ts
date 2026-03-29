@@ -42,7 +42,7 @@ export class AuthService {
       verificationTokenExpires: new Date(Date.now() + 1000 * 60 * 60),
     });
 
-    await user.save();
+    await existingUser.save();
 
     await this.emailService.sendVerificationEmail(email, token);
 
@@ -73,23 +73,28 @@ export class AuthService {
 
   // ================= VERIFY EMAIL =================
   async verifyEmail(token: string) {
-    console.log("Incoming token:", token);
+  console.log("Incoming token:", token);
 
-    const user = await this.userModel.findOne({
-      verificationToken: token,
-      verificationTokenExpires: { $gt: new Date() },
-    });
+  const user = await this.userModel.findOne({
+    verificationToken: token,
+    verificationTokenExpires: { $gt: new Date() },
+  });
 
-    console.log("User found:", user);
+  console.log("User found:", user);
 
-    user.isVerified = true;
-    user.verificationToken = null;
-    user.verificationTokenExpires = null;
-
-    await user.save();
-
-    return { message: 'Email verified. Set your password.' };
+  if (!user) {
+    throw new BadRequestException('Invalid or expired token');
   }
+
+  user.isVerified = true;
+  user.verificationToken = null;
+  user.verificationTokenExpires = null;
+
+  await user.save();
+
+  return { message: 'Email verified. Set your password.' };
+}
+
   // ================= SET PASSWORD =================
   async setPassword(token: string, password: string) {
     const user = await this.userModel.findOne({ verificationToken: token });
