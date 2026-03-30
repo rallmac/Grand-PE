@@ -63,9 +63,9 @@ export class AuthService {
       verificationTokenExpires: { $gt: new Date() },
     });
 
-    if (!user) {
-      throw new BadRequestException('Invalid or expired token');
-    }
+    //if (!user) {
+    //  throw new BadRequestException('Invalid or expired token');
+    //}
 
     user.isVerified = true;
     user.verificationToken = null;
@@ -77,7 +77,7 @@ export class AuthService {
   }
 
   // ================= RESEND VERIFICATION =================
-  async resendVerification(email: string) {
+  {/*async resendVerification(email: string) {
     const user = await this.userModel.findOne({ email });
 
     if (!user) {
@@ -98,7 +98,7 @@ export class AuthService {
     await this.emailService.sendVerificationEmail(email, token);
 
     return { message: 'Verification email resent' };
-  }
+  }*/}
 
   // ================= SET PASSWORD =================
   async setPassword(token: string, password: string) {
