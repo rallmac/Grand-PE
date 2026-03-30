@@ -12,8 +12,8 @@ export default function SetPasswordForm() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
-  const [searchParams] = useSearchParams("");
-  const [navigate] = useNavigate("")
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate()
 
   const token = searchParams.get("token");
 
@@ -26,7 +26,7 @@ export default function SetPasswordForm() {
 
     try {
       const res = await axios.post(
-        `${process.env.REACT_APP__API_URL}/auth/set-password`,
+        `${process.env.REACT_APP_API_URL}/auth/set-password`,
         {
           token,
           password,
