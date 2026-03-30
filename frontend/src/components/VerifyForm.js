@@ -19,12 +19,16 @@ export default function VerifyForm() {
     axios
       .get(`https://grand-pe-backend.vercel.app/auth/verify?token=${urlToken}`)
       .then((res) => {
-        if (res.data.isVerified) {
-          setStatus('success');
-        } else {
-          setStatus('error');
-        }
-      })
+  setStatus('success');
+})
+.catch((err) => {
+  // If already verified, still treat as success
+  if (err.response?.data?.message === 'Email already verified') {
+    setStatus('success');
+  } else {
+    setStatus('error');
+  }
+});
       .catch((err) => {
         console.error("Verification error:", err.response?.data || err.message);
         setStatus('error');

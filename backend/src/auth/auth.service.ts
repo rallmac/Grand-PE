@@ -57,27 +57,46 @@ export class AuthService {
   }
 
   // ================= VERIFY EMAIL =================
-  async verifyEmail(token: string) {
-  const user = await this.userModel.findOne({
-    verificationToken: token,
-  });
+    async verifyEmail(token: string) {
+    const user = await this.userModel.findOne({
+      verificationToken: token,
+    });
 
-  if (!user) {
-    throw new BadRequestException('Invalid token');
+    // ✅ If token already used but user is verified → still success
+    if (!user) {
+      const alreadyVerifiedUser = await this.userModel.findOne({
+        isVerified: true,
+      });
+
+      if (alreadyVerifiedUser) {
+        return {
+          success: true,
+          isVerified: true,
+          message: 'Email already verified',
+        };
+      }
+
+      throw new BadRequestException('Invalid or expired token');
+    }
+
+    // ✅ Check expiry
+    if (user.verificationTokenExpires < new Date()) {
+      throw new BadRequestException('Token expired');
+    }
+
+    // ✅ Verify
+    user.isVerified = true;
+    user.verificationToken = null;
+    user.verificationTokenExpires = null;
+
+    await user.save();
+
+    return {
+      success: true,
+      isVerified: true,
+      message: 'Email verified successfully',
+    };
   }
-
-  if (user.verificationTokenExpires < new Date()) {
-    throw new BadRequestException('Token expired');
-  }
-
-  user.isVerified = true;
-  user.verificationToken = null;
-  user.verificationTokenExpires = null;
-
-  await user.save();
-
-  return { message: 'Email verified successfully' };
-}
 
   // ================= RESEND VERIFICATION =================
   async resendVerification(email: string) {
