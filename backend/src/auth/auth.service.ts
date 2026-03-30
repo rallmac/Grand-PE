@@ -106,7 +106,7 @@ export class AuthService {
   // ================= SET PASSWORD =================
   async setPassword(token: string, password: string) {
     const user = await this.userModel.findOne({
-      isVerified = true
+      isVerified: true,
       verificationToken: null,
       verificationTokenExpires: null,
     });
