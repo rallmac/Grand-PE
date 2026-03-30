@@ -18,7 +18,13 @@ export default function VerifyForm() {
 
     axios
       .get(`https://grand-pe-backend.vercel.app/auth/verify?token=${urlToken}`)
-      .then(() => setStatus('success'))
+      .then((res) => {
+        if (res.data.isVerified) {
+          setStatus('success');
+        } else {
+          setStatus('error');
+        }
+      })
       .catch((err) => {
         console.error("Verification error:", err.response?.data || err.message);
         setStatus('error');
@@ -35,10 +41,7 @@ export default function VerifyForm() {
       </p>
 
       <button className="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-white">
-        <Link
-          className="text-white"
-          to={`/set-password?token=${token}`}
-        >
+        <Link className="text-white" to={`/set-password?token=${token}`}>
           Set Password
         </Link>
       </button>
