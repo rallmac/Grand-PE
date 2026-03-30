@@ -22,27 +22,25 @@ export class AuthService {
   async register(email: string) {
     const existingUser = await this.userModel.findOne({ email });
 
-    if (existingUser == existingUser.isVerified) {
+    if (existingUser && existingUser.isVerified) {
       throw new BadRequestException({
         success: false,
         message: 'User already exists'
       });
     }
 
-    if (existingUser == !existingUser.isVerified) {
+    if (existingUser && !existingUser.isVerified) {
       return this.resendVerification(email);
     }
 
     const token = randomBytes(32).toString('hex');
 
-    await this.userModel.create({
+    const user = await this.userModel.create({
       email,
       isVerified: false,
       verificationToken: token,
       verificationTokenExpires: new Date(Date.now() + 1000 * 60 * 60),
     });
-
-    await existingUser.save();
 
     await this.emailService.sendVerificationEmail(email, token);
 
