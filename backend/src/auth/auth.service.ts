@@ -58,26 +58,29 @@ export class AuthService {
 
   // ================= VERIFY EMAIL =================
   async verifyEmail(token: string) {
-    const user = await this.userModel.findOne({
-      verificationToken: token,
-      verificationTokenExpires: { $gt: new Date() },
-    });
+  const user = await this.userModel.findOne({
+    verificationToken: token,
+  });
 
-    //if (!user) {
-    //  throw new BadRequestException('Invalid or expired token');
-    //}
-
-    user.isVerified = true;
-    user.verificationToken = null;
-    user.verificationTokenExpires = null;
-
-    await user.save();
-
-    return { message: 'Email verified. Set your password.' };
+  if (!user) {
+    throw new BadRequestException('Invalid token');
   }
 
+  if (user.verificationTokenExpires < new Date()) {
+    throw new BadRequestException('Token expired');
+  }
+
+  user.isVerified = true;
+  user.verificationToken = null;
+  user.verificationTokenExpires = null;
+
+  await user.save();
+
+  return { message: 'Email verified successfully' };
+}
+
   // ================= RESEND VERIFICATION =================
-  {/*async resendVerification(email: string) {
+  async resendVerification(email: string) {
     const user = await this.userModel.findOne({ email });
 
     if (!user) {
@@ -98,7 +101,7 @@ export class AuthService {
     await this.emailService.sendVerificationEmail(email, token);
 
     return { message: 'Verification email resent' };
-  }*/}
+  }
 
   // ================= SET PASSWORD =================
   async setPassword(token: string, password: string) {
