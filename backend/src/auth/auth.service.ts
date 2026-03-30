@@ -22,32 +22,102 @@ export class AuthService {
   async register(email: string) {
     const existingUser = await this.userModel.findOne({ email });
 
+    // ✅ Already verified → block
     if (existingUser && existingUser.isVerified) {
       throw new BadRequestException({
         success: false,
-        message: 'User already exists'
+        message: 'User already exists',
       });
     }
 
+    // ✅ Already registered but NOT verified → DO NOT overwrite token
     if (existingUser && !existingUser.isVerified) {
-      return this.resendVerification(email);
+      return {
+        success: true,
+        message: 'Verification email already sent. Please check your inbox.',
+      };
     }
 
+    // ✅ New user
     const token = randomBytes(32).toString('hex');
 
-    const user = await this.userModel.create({
+    await this.userModel.create({
       email,
       isVerified: false,
       verificationToken: token,
-      verificationTokenExpires: new Date(Date.now() + 1000 * 60 * 60),
+      verificationTokenExpires: new Date(Date.now() + 1000 * 60 * 60), // 1 hour
     });
 
     await this.emailService.sendVerificationEmail(email, token);
 
     return {
       success: true,
-      message: 'Verification email sent'
+      message: 'Verification email sent',
     };
+  }
+
+  // ================= VERIFY EMAIL =================
+  async verifyEmail(token: string) {
+    const user = await this.userModel.findOne({
+      verificationToken: token,
+      verificationTokenExpires: { $gt: new Date() },
+    });
+
+    if (!user) {
+      throw new BadRequestException('Invalid or expired token');
+    }
+
+    user.isVerified = true;
+    user.verificationToken = null;
+    user.verificationTokenExpires = null;
+
+    await user.save();
+
+    return { message: 'Email verified. Set your password.' };
+  }
+
+  // ================= RESEND VERIFICATION =================
+  async resendVerification(email: string) {
+    const user = await this.userModel.findOne({ email });
+
+    if (!user) {
+      throw new BadRequestException('User not found');
+    }
+
+    if (user.isVerified) {
+      throw new BadRequestException('User already verified');
+    }
+
+    const token = randomBytes(32).toString('hex');
+
+    user.verificationToken = token;
+    user.verificationTokenExpires = new Date(Date.now() + 1000 * 60 * 60);
+
+    await user.save();
+
+    await this.emailService.sendVerificationEmail(email, token);
+
+    return { message: 'Verification email resent' };
+  }
+
+  // ================= SET PASSWORD =================
+  async setPassword(token: string, password: string) {
+    const user = await this.userModel.findOne({
+      verificationToken: token,
+      verificationTokenExpires: { $gt: new Date() },
+    });
+
+    if (!user) {
+      throw new BadRequestException('Invalid or expired token');
+    }
+
+    user.password = await bcrypt.hash(password, 10);
+    user.verificationToken = null;
+    user.verificationTokenExpires = null;
+
+    await user.save();
+
+    return { message: 'Password set successfully' };
   }
 
   // ================= VALIDATE =================
@@ -69,44 +139,6 @@ export class AuthService {
     return user;
   }
 
-  // ================= VERIFY EMAIL =================
-  async verifyEmail(token: string) {
-  console.log("Incoming token:", token);
-
-  const user = await this.userModel.findOne({
-    verificationToken: token,
-    verificationTokenExpires: { $gt: new Date() },
-  });
-
-  console.log("User found:", user);
-
-  if (!user) {
-    throw new BadRequestException('Invalid or expired token');
-  }
-
-  user.isVerified = true;
-  user.verificationToken = null;
-  user.verificationTokenExpires = null;
-
-  await user.save();
-
-  return { message: 'Email verified. Set your password.' };
-}
-
-  // ================= SET PASSWORD =================
-  async setPassword(token: string, password: string) {
-    const user = await this.userModel.findOne({ verificationToken: token });
-
-    if (!user) throw new BadRequestException('Invalid token');
-
-    user.password = await bcrypt.hash(password, 10);
-    user.verificationToken = undefined;
-
-    await user.save();
-
-    return { message: 'Password set successfully' };
-  }
-
   // ================= LOGIN =================
   async login(user: any) {
     const payload = { sub: user._id, email: user.email };
@@ -124,29 +156,11 @@ export class AuthService {
     user.refreshToken = await bcrypt.hash(refresh_token, 10);
     await user.save();
 
-    return { access_token, refresh_token, message: 'Login successful' };
-  }
-
-  // ================= RESEND VERIFICATION =================
-  async resendVerification(email: string) {
-    const user = await this.userModel.findOne({ email });
-
-    if (!user) throw new BadRequestException('User not found');
-
-    if (user.isVerified) {
-      throw new BadRequestException('User already verified');
-    }
-
-    const token = randomBytes(32).toString('hex');
-
-    user.verificationToken = token;
-    user.verificationTokenExpires = new Date(Date.now() + 3600000);
-
-    await user.save();
-
-    await this.emailService.sendVerificationEmail(email, token);
-
-    return { message: 'Verification email resent' };
+    return {
+      access_token,
+      refresh_token,
+      message: 'Login successful',
+    };
   }
 
   // ================= FORGOT PASSWORD =================
@@ -166,9 +180,8 @@ export class AuthService {
     }
 
     user.password = await bcrypt.hash(password, 10);
-
-    user.resetPasswordToken = undefined;
-    user.resetPasswordExpires = undefined;
+    user.resetPasswordToken = null;
+    user.resetPasswordExpires = null;
 
     await user.save();
 
@@ -195,7 +208,7 @@ export class AuthService {
     const token = randomBytes(32).toString('hex');
 
     user.resetPasswordToken = token;
-    user.resetPasswordExpires = new Date(Date.now() + 3600000);
+    user.resetPasswordExpires = new Date(Date.now() + 1000 * 60 * 60);
     user.lastResetEmailSent = now;
 
     await user.save();
