@@ -106,17 +106,18 @@ export class AuthService {
   // ================= SET PASSWORD =================
   async setPassword(token: string, password: string) {
     const user = await this.userModel.findOne({
-      verificationToken: token,
-      verificationTokenExpires: { $gt: new Date() },
+      isVerified = true
+      verificationToken: null,
+      verificationTokenExpires: null,
     });
 
     if (!user) {
-      throw new BadRequestException('Invalid or expired token');
+      throw new BadRequestException('Verify email to set password');
     }
 
     user.password = await bcrypt.hash(password, 10);
-    user.verificationToken = null;
-    user.verificationTokenExpires = null;
+    //user.verificationToken = null;
+    //user.verificationTokenExpires = null;
 
     await user.save();
 
