@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 export default function VerifyForm() {
   const [status, setStatus] = useState('loading');
   const [token, setToken] = useState('');
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const urlToken = new URLSearchParams(window.location.search).get('token');
@@ -33,7 +34,8 @@ export default function VerifyForm() {
         } else {
           setStatus('error');
         }
-      });
+      }
+      );
   }, []);
 
   if (status === 'loading') return <p>Verifying...</p>;
@@ -45,7 +47,14 @@ export default function VerifyForm() {
         Email Verification is successful!
       </p>
 
-      <button className="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-white">
+      <button
+        onClick={() => setLoading(true)}
+        className={`flex w-full justify-center rounded-md px-3 py-1.5 text-white"
+        ${loading
+          ? 'bg-indigo-500 cursor-not-allowed'
+          : 'bg-indigo-400 hover:bg-indigo-400'
+        }`}
+      >
         <Link className="text-white" to={`/set-password?token=${token}`}>
           Set Password
         </Link>
