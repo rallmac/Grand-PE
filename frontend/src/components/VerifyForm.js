@@ -45,7 +45,7 @@ export default function VerifyForm() {
         Email Verification is successful!
       </p>
 
-      <button className="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-white">
+      <button className="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-white hover:bg-indigo-400">
         <Link className="text-white" to={`/set-password?token=${token}`}>
           Set Password
         </Link>

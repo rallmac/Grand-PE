@@ -6,9 +6,11 @@ export default function RegistrationForm() {
   const [email, setEmail] = useState('');
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     console.log('FORM SUBMITTED');
 
     try {
@@ -78,7 +80,11 @@ export default function RegistrationForm() {
           <div>
             <button
               type="submit"
-              className="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-2 text-white"
+              disabled={loading}
+              className={`flex w-full justify-center rounded-md px-3 py-1.5 text-white
+                ${loading
+                  ? 'bg-indigo-500 cursor-not-allowed'
+                  : 'bg-indigo-500 hover:bg-indigo-400'}`}
             >
               Register
             </button>
