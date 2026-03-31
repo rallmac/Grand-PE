@@ -5,11 +5,13 @@ import { useState } from 'react';
 export default function SignInForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       const res = await axios.post(
@@ -102,7 +104,11 @@ export default function SignInForm() {
           <div>
             <button
               type="submit"
-              className="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-white hover:bg-indigo-400"
+              disabled={loading}
+              className={`flex w-full justify-center rounded-md px-3 py-1.5 text-white
+                ${loading
+                  ? 'bg-indigo-500 cursor-not-allowed'
+                  : 'bg-indigo-500 hover:bg-indigo-400'}`}
             >
               Sign in
             </button>
