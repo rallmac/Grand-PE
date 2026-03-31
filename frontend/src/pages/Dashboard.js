@@ -1,8 +1,66 @@
-// This page will import all the components that
-// will make-up the dashboard
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Dashboard() {
-	return(
-		<h3 className="text-center">Welcome to your dashboard</h3>
-	)
+  const [collapsed, setCollapsed] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
+    navigate('/signin');
+  };
+
+  return (
+    <div className="flex min-h-screen bg-gray-900 text-white">
+      
+      {/* SIDEBAR */}
+      <div
+        className={`${
+          collapsed ? 'w-16' : 'w-64'
+        } bg-gray-800 transition-all duration-300 flex flex-col`}
+      >
+        {/* TOGGLE BUTTON */}
+        <button
+          onClick={() => setCollapsed(!collapsed)}
+          className="p-4 text-gray-400 hover:text-white"
+        >
+          {collapsed ? '➡️' : '⬅️'}
+        </button>
+
+        {/* NAV ITEMS */}
+        <div className="flex flex-col gap-2 px-2">
+
+          {/* HOME */}
+          <button
+            onClick={() => navigate('/home')}
+            className="flex items-center gap-3 p-2 rounded hover:bg-gray-700"
+          >
+            🏠 {!collapsed && <span>Home</span>}
+          </button>
+
+        </div>
+
+        {/* LOGOUT (BOTTOM) */}
+        <div className="mt-auto p-2">
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-3 w-full p-2 rounded hover:bg-red-600"
+          >
+            🚪 {!collapsed && <span>Logout</span>}
+          </button>
+        </div>
+      </div>
+
+      {/* MAIN CONTENT */}
+      <div className="flex-1 p-6">
+        <h3 className="text-xl font-semibold">
+          Welcome to your dashboard
+        </h3>
+        <p className="mt-2 text-gray-400">
+          Here you can buy various items of your choice.
+        </p>
+      </div>
+    </div>
+  );
 }
