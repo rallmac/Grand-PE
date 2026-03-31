@@ -6,93 +6,136 @@ export default function RegistrationForm() {
   const [email, setEmail] = useState('');
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('FORM SUBMITTED');
+    setError('');
+    setSuccess('');
+
+    // 🧠 Basic validation
+    if (!email) {
+      return setError('Email is required');
+    }
+
+    // normalize email (small but pro touch)
+    const normalizedEmail = email.trim().toLowerCase();
+
+    setLoading(true);
 
     try {
       const res = await axios.post(
         `${process.env.REACT_APP_API_URL}/auth/register`,
-        { email }
+        { email: normalizedEmail }
       );
 
-      setSuccess(res.data.message);
-      setError('');
-      setEmail(''); // ✅ clear input after success
+      setSuccess(
+        res.data.message ||
+        'Verification email sent. Please check your inbox.'
+      );
+
+      setEmail('');
 
     } catch (err) {
-      setError(err.response?.data?.message || 'Something went wrong');
-      setSuccess('');
+      let message =
+        err.response?.data?.message ||
+        err.message ||
+        'Something went wrong';
+
+      // 🧠 Handle NestJS validation arrays
+      if (Array.isArray(message)) {
+        message = message[0];
+      }
+
+      setError(message);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 bg-gray-900">
+    <div className="flex min-h-screen flex-col justify-center px-6 py-12 lg:px-8 bg-gray-900">
       
-      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+      {/* HEADER */}
+      <div className="sm:mx-auto sm:w-full sm:max-w-sm text-center">
         <img
-          src="./assets/images/GRAND_PE_GLOBAL.png"
-          alt="Grand-PE Logo"
+          src="/assets/images/GRAND_PE_GLOBAL.png"
+          alt="Logo"
           className="mx-auto h-10 w-auto"
         />
-        <h2 className="mt-10 text-center text-2xl font-bold text-white">
-          Create an account to get started
+        <h2 className="mt-10 text-2xl font-bold text-white">
+          Get started
         </h2>
+        <p className="mt-2 text-sm text-gray-400">
+          Enter your email to receive a verification link
+        </p>
       </div>
 
+      {/* FORM */}
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
 
-        {/* ✅ SUCCESS MESSAGE */}
+        {/* SUCCESS */}
         {success && (
-          <p className="text-green-400 text-center mb-4">
-            {success}
-          </p>
+          <div className="bg-green-500/10 text-green-400 p-4 rounded text-sm mb-4 text-center">
+            <p>{success}</p>
+            <p className="mt-2 text-xs text-gray-400">
+              Didn’t get the email? Check spam or try again.
+            </p>
+          </div>
         )}
 
-        {/* ❌ ERROR MESSAGE */}
+        {/* ERROR */}
         {error && (
-          <p className="text-red-400 text-center mb-4">
+          <div className="bg-red-500/10 text-red-400 p-3 rounded text-sm mb-4 text-center">
             {error}
-          </p>
+          </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          
+
+          {/* EMAIL */}
           <div>
-            <label className="block text-sm font-medium text-gray-100">
+            <label className="block text-sm text-gray-100">
               Email address
             </label>
 
-            <div className="mt-2">
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="block w-full rounded-md bg-white/5 px-3 py-2 text-white"
-              />
-            </div>
+            <input
+              type="email"
+              value={email}
+              autoFocus
+              disabled={loading}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              placeholder="you@example.com"
+              className="mt-2 w-full rounded-md bg-white/5 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            />
           </div>
 
-          <div>
-            <button
-              type="submit"
-              className="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-2 text-white"
-            >
-              Register
-            </button>
-          </div>
+          {/* BUTTON */}
+          <button
+            type="submit"
+            disabled={loading}
+            className={`flex w-full justify-center items-center gap-2 rounded-md px-3 py-2 text-white transition
+              ${loading
+                ? 'bg-indigo-500 cursor-not-allowed'
+                : 'bg-indigo-500 hover:bg-indigo-400'}`}
+          >
+            {loading && (
+              <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+            )}
+            {loading ? 'Sending link...' : 'Send verification link'}
+          </button>
 
         </form>
 
+        {/* FOOTER */}
         <p className="mt-10 text-center text-sm text-gray-400">
-          By Registration, you agree to terms and conditions{' '}
+          Already have an account?{' '}
           <Link
             to="/signin"
             className="font-semibold text-indigo-400 hover:text-indigo-300"
           >
-            View terms and conditions
+            Sign in
           </Link>
         </p>
 
