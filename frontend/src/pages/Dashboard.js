@@ -33,7 +33,7 @@ export default function Dashboard() {
 
           {/* HOME */}
           <button
-            onClick={() => navigate('/dashboard')}
+            onClick={() => navigate('/home')}
             className="flex items-center gap-3 p-2 rounded hover:bg-gray-700"
           >
             🏠 {!collapsed && <span>Home</span>}
