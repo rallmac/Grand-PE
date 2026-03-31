@@ -6,7 +6,15 @@ export default function ResetPasswordForm() {
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
-    setLoading(true);
+    e.preventDefault();
+    setLoading(true)
+    try {
+      // axios logic
+    } catch (err){
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

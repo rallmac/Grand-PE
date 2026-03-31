@@ -34,7 +34,8 @@ export default function VerifyForm() {
         } else {
           setStatus('error');
         }
-      });
+      }
+      );
   }, []);
 
   if (status === 'loading') return <p>Verifying...</p>;

@@ -45,6 +45,8 @@ export default function SetPasswordForm() {
     } catch (err) {
       setError(err.response?.data?.message || "Something went wrong");
       setMessage("");
+    } finally {
+      setLoading(false);
     }
   };
 

@@ -4,9 +4,11 @@ import { useState } from 'react';
 
 export default function ForgotPasswordForm() {
   const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       const res = await axios.post(
@@ -17,6 +19,8 @@ export default function ForgotPasswordForm() {
       console.log(res.data);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -54,7 +58,12 @@ export default function ForgotPasswordForm() {
           <div>
             <button
               type="submit"
-              className="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-white hover:bg-indigo-400"
+              disabled={loading}
+              className={`flex w-full justify-center rounded-md px-3 py-1.5 text-white
+                ${loading
+                  ? 'bg-indigo-500 curso-not-allowed'
+                  : 'bg-indigo-500 hover:bg-indigo-400'
+                }`}
             >
               Send Reset Link
             </button>

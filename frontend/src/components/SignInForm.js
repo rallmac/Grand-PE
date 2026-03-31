@@ -36,6 +36,8 @@ export default function SignInForm() {
         'Login error:',
         error.response?.data || error.message
       );
+    } finally {
+      setLoading(false);
     }
   };
 
