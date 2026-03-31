@@ -11,6 +11,7 @@ export default function SetPasswordForm() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const [searchParams] = useSearchParams();
   const navigate = useNavigate()
@@ -19,6 +20,7 @@ export default function SetPasswordForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     if (password !== confirmPassword) {
       return setError("Passwords do not match")
@@ -106,7 +108,12 @@ export default function SetPasswordForm() {
           <div>
             <button
               type="submit"
-              className="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-white hover:bg-indigo-400"
+              disabled={loading}
+              className={`flex w-full justify-center rounded-md px-3 py-1.5 text-white
+                ${loading
+                  ? 'bg-indigo-500 cursor-not-allowed'
+                  : 'bg-indigo-500 hover:bg-indigo-400'
+                }`}
             >
               Set Password
             </button>

@@ -1,8 +1,13 @@
 import { Link } from 'react-router-dom';
 //import axios from 'axios';
-//import { useState } from 'react';
+import { useState } from 'react';
 
 export default function ResetPasswordForm() {
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
+    setLoading(true);
+  };
 
   return (
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 bg-gray-900">
@@ -50,7 +55,12 @@ export default function ResetPasswordForm() {
           <div>
             <button
               type="submit"
-              className="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-white hover:bg-indigo-400"
+              disabled={loading}
+              className={`flex w-full justify-center rounded-md px-3 py-1.5 text-white
+              ${loading
+                ? 'bg-indigo-500 cursor-not-allowed'
+                : 'ng-indigo-500 hover:bg-indigo-400'
+              }`}
             >
               Reset Password
             </button>
