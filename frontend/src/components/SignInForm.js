@@ -177,6 +177,15 @@ export default function SignInForm() {
             Register
           </Link>
         </p>
+        <p className="mt-10 text-center text-sm text-gray-400">
+          Explore more at{' '}
+          <Link
+            to="/home"
+            className="font-semibold text-indigo-400 hover:text-indigo-300"
+          >
+            Home
+          </Link>
+        </p>
       </div>
     </div>
   );
