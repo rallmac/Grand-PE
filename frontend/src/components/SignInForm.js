@@ -1,54 +1,75 @@
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function SignInForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [remember, setRemember] = useState(false);
+
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const navigate = useNavigate();
 
+  // 🔐 Redirect if already logged in
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      navigate('/dashboard');
+    }
+  }, [navigate]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
+
+    // 🧠 Basic validation
+    if (!email || !password) {
+      return setError('Please fill in all fields');
+    }
+
     setLoading(true);
 
     try {
       const res = await axios.post(
         `${process.env.REACT_APP_API_URL}/auth/login`,
-        {
-          email,
-          password,
-        }
+        { email, password }
       );
 
-      console.log('Login success:', res.data);
+      const token = res.data.access_token;
 
-      // Save token if returned
-      if (res.data.access_token) {
-        localStorage.setItem('token', res.data.access_token);
-      };
+      if (token) {
+        if (remember) {
+          localStorage.setItem('token', token);
+        } else {
+          sessionStorage.setItem('token', token);
+        }
+      }
 
       navigate('/dashboard');
 
-    } catch (error) {
-      console.error(
-        'Login error:',
-        error.response?.data || error.message
-      );
+    } catch (err) {
+      const message =
+        err.response?.data?.message ||
+        err.message ||
+        'Something went wrong';
+
+      setError(message);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 bg-gray-900">
+    <div className="flex min-h-screen flex-col justify-center px-6 py-12 lg:px-8 bg-gray-900">
       
       {/* HEADER */}
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img
           src="/assets/images/GRAND_PE_GLOBAL.png"
-          alt="Grand-PE Logo"
+          alt="Logo"
           className="mx-auto h-10 w-auto"
         />
         <h2 className="mt-10 text-center text-2xl font-bold text-white">
@@ -58,63 +79,92 @@ export default function SignInForm() {
 
       {/* FORM */}
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        
         <form onSubmit={handleSubmit} className="space-y-6">
+
+          {/* ERROR MESSAGE */}
+          {error && (
+            <div className="bg-red-500/10 text-red-400 p-2 rounded text-sm">
+              {error}
+            </div>
+          )}
 
           {/* EMAIL */}
           <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-100"
-            >
+            <label className="block text-sm text-gray-100">
               Email address
             </label>
 
-            <div className="mt-2">
-              <input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-white"
-              />
-            </div>
+            <input
+              type="email"
+              value={email}
+              disabled={loading}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="mt-2 w-full rounded-md bg-white/5 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            />
           </div>
 
           {/* PASSWORD */}
           <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-100"
-            >
+            <label className="block text-sm text-gray-100">
               Password
             </label>
 
-            <div className="mt-2">
+            <div className="mt-2 relative">
               <input
-                id="password"
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 value={password}
+                disabled={loading}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-white"
+                className="w-full rounded-md bg-white/5 px-3 py-2 text-white pr-10 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               />
+
+              {/* 👁 Toggle */}
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-2 top-2 text-gray-400 text-sm"
+              >
+                {showPassword ? 'Hide' : 'Show'}
+              </button>
             </div>
           </div>
 
-          {/* BUTTON */}
-          <div>
-            <button
-              type="submit"
-              disabled={loading}
-              className={`flex w-full justify-center rounded-md px-3 py-1.5 text-white
-                ${loading
-                  ? 'bg-indigo-500 cursor-not-allowed'
-                  : 'bg-indigo-500 hover:bg-indigo-400'}`}
+          {/* REMEMBER + FORGOT */}
+          <div className="flex items-center justify-between text-sm">
+            <label className="flex items-center gap-2 text-gray-300">
+              <input
+                type="checkbox"
+                checked={remember}
+                onChange={() => setRemember(!remember)}
+              />
+              Remember me
+            </label>
+
+            <Link
+              to="/forgot-password"
+              className="text-indigo-400 hover:text-indigo-300"
             >
-              Sign in
-            </button>
+              Forgot password?
+            </Link>
           </div>
+
+          {/* BUTTON */}
+          <button
+            type="submit"
+            disabled={loading}
+            className={`flex w-full justify-center items-center gap-2 rounded-md px-3 py-2 text-white transition
+              ${loading
+                ? 'bg-indigo-500 cursor-not-allowed'
+                : 'bg-indigo-500 hover:bg-indigo-400'}`}
+          >
+            {loading && (
+              <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+            )}
+            {loading ? 'Signing in...' : 'Sign in'}
+          </button>
         </form>
 
         {/* FOOTER */}
