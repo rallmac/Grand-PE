@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import IdleLogout from '../hooks/IdleTimerHook';
 
 export default function Dashboard() {
   const [collapsed, setCollapsed] = useState(() => {
@@ -21,6 +22,8 @@ export default function Dashboard() {
     sessionStorage.removeItem('token');
     navigate('/signin');
   };
+
+  IdleLogout(handleLogout, 2 * 60 * 60 * 1000);
 
   return (
     <div className="flex min-h-screen bg-gray-900 text-white">
