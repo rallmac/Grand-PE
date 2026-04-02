@@ -2,7 +2,18 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export default function Dashboard() {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(() => {
+    const saved = localStorage.getItem('sidebarCollapsed');
+    return saved ? JSON.parse(saved) : true
+  });
+
+  const toggleSidebar = () => {
+    setCollapsed((prev) => {
+      localStorage.setItem('sidebarCollapsed', JSON.stringify(!prev));
+      return !prev;
+    });
+  };
+
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -22,7 +33,7 @@ export default function Dashboard() {
       >
         {/* TOGGLE BUTTON */}
         <button
-          onClick={() => setCollapsed(!collapsed)}
+          onClick={toggleSidebar}
           className="p-4 text-gray-400 hover:text-white"
         >
           {collapsed ? '➡️' : '⬅️'}
