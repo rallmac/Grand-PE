@@ -22,7 +22,7 @@ export default function Dashboard() {
       >
         {/* TOGGLE BUTTON */}
         <button
-          onClick={() => setCollapsed(collapsed)}
+          onClick={() => setCollapsed(!collapsed)}
           className="p-4 text-gray-400 hover:text-white"
         >
           {collapsed ? '➡️' : '⬅️'}
