@@ -14,6 +14,8 @@ import ResetPassword from "./pages/ResetPassword";
 import ForgotPassword from "./pages/ForgotPassword";
 import Verify from "./pages/Verify";
 import Dashboard from "./pages/Dashboard";
+import ProtectedRoute from "./components/ProtectedRoute";
+import PublicRoute from "./components/PublicRoute";
 
 //This file connects all the pages in the application
 //The connection is done by importing the pages and
@@ -32,12 +34,12 @@ function App() {
         <Route path="/tech" element={<TechPage />} />
         <Route path="/translate" element={<TranslatePage />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/signin" element={<SignIn />} />
+        <Route path="/signin" element={<PublicRoute><SignIn /></PublicRoute>} />
         <Route path="/set-password" element={<SetPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/verify" element={<Verify />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
