@@ -8,6 +8,8 @@ import { AuthModule } from './auth/auth.module';
 import { EmailService } from './email/email.service';
 import { ScheduleModule } from '@nestjs/schedule';
 import { CleanupService } from './cleanup/cleanup.service';
+import { AdminModule } from './admin/admin.module';
+import { ProductsModule } from './products/products.module';
 
 @Module({
   imports: [
@@ -23,6 +25,8 @@ import { CleanupService } from './cleanup/cleanup.service';
     ScheduleModule.forRoot(),
     UserModule,
     AuthModule,
+    AdminModule,
+    ProductsModule,
   ],
   controllers: [AppController],
   providers: [AppService, EmailService, CleanupService],
