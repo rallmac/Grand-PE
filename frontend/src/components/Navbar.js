@@ -77,7 +77,7 @@ export default function Navbar() {
             )}
           </a>
           <Link to='/signin'>
-          <button className="items-center gap-2 px-3 py-2 rounded-md hover:bg-neutral-50 text-sm transition-transform duration-200 hover:scale-[1.03]">
+          <button className="items-center gap-2 px-3 text-black py-2 rounded-md hover:bg-neutral-50 text-sm transition-transform duration-200 hover:scale-[1.03]">
             <User className="flex w-5 h-5" />
             <span className="hidden md:flex">Login / Register</span>
           </button>
@@ -218,7 +218,7 @@ export default function Navbar() {
                 </a>
 
                 <a
-                  href="/login"
+                  href="/signin"
                   className="flex items-center gap-3 py-3 px-4 rounded-md hover:bg-neutral-50"
                   onClick={() => setIsMenuOpen(false)}
                 >
