@@ -3,6 +3,7 @@
 import { useMemo, useRef, useState } from 'react'
 import { useCart } from '../lib/cart'
 import { ShoppingCart, Search, Menu, User, X, MapPin, ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react'
+import { Link } from 'react-router-dom';
 
 const categoryLinks = [
   { label: 'Promotions', href: '/' },
@@ -75,10 +76,12 @@ export default function Navbar() {
               </span>
             )}
           </a>
+          <Link to='/signin'>
           <button className="items-center gap-2 px-3 py-2 rounded-md hover:bg-neutral-50 text-sm transition-transform duration-200 hover:scale-[1.03]">
             <User className="flex w-5 h-5" />
             <span className="hidden md:flex">Login / Register</span>
           </button>
+          </Link>
         </div>
       </div>
 
