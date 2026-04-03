@@ -69,7 +69,10 @@ export default function Dashboard() {
       </div>
 
       {/* MAIN CONTENT */}
-      <div className="w-full p-6">
+      <div className={`p-6 transition-all duration-300 ${
+          collapsed ? 'm-16' : 'm-16'
+        }`}
+      >
         <h3 className="text-xl font-semibold">
           Welcome to your dashboard
         </h3>
