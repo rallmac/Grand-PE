@@ -30,9 +30,11 @@ export default function Dashboard() {
       
       {/* SIDEBAR */}
       <div
-        className={`${
-          collapsed ? 'w-16' : 'w-64'
-        } bg-gray-800 transition-all duration-300 flex flex-col`}
+        className={`
+          fixed top-0 left-0 h-full z-50
+          ${collapsed ? 'w-16' : 'w-64'}
+          bg-gray-800 transition-all duration-300 flex flex-col
+        `}
       >
         {/* TOGGLE BUTTON */}
         <button
@@ -67,7 +69,7 @@ export default function Dashboard() {
       </div>
 
       {/* MAIN CONTENT */}
-      <div className="flex-1 p-6">
+      <div className="w-full p-6">
         <h3 className="text-xl font-semibold">
           Welcome to your dashboard
         </h3>
