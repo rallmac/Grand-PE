@@ -38,6 +38,17 @@ export class AuthService {
       };
     }
 
+    // User can login or register based on assigned role
+    const isAllowedAdmin = await this.adminAdminAllowlistRepo.findOne({
+        where: {email: user.email},
+    });
+
+    if (isAllowedAdmin) {
+        user.role = 'admin';
+    } else {
+        user.role = 'user';
+    }
+
     // ✅ New user
     const token = randomBytes(32).toString('hex');
 
