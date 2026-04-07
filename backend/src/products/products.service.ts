@@ -5,6 +5,11 @@ import { UpdateProductDto } from './dto/update-product.dto';
 @Injectable()
 export class ProductsService {
   create(createProductDto: CreateProductDto) {
+    const product = new this.productModel.create(createProductDto);
+
+    product.isOutOfStock = product.quantityAvilable <= 0;
+
+    return product.save();
     return 'This action adds a new product';
   }
 
@@ -17,6 +22,13 @@ export class ProductsService {
   }
 
   update(id: number, updateProductDto: UpdateProductDto) {
+    const product = await this.productModel.findById(id);
+
+    Object.assign(product, updateDto);
+
+    product.isAvailable = product.quantityAvailable <= 0;
+
+    return product.save();
     return `This action updates a #${id} product`;
   }
 
