@@ -32,6 +32,18 @@ export class ProductsService {
     return `This action updates a #${id} product`;
   }
 
+  async orderProducts(id: string, name: string) {
+      const product = await this.productModel.findOne(id, name);
+
+      product.quantityAvailable -= order.quantity;
+      product.quantityOrdered += order.quantity;
+
+      if (product.quantityAvailable < order.quantity) {
+          throw new BadRequestException('Not enough stock');
+          // message: 'Not enough product to order'
+      }
+  }
+
   remove(id: number) {
     return `This action removes a #${id} product`;
   }
