@@ -7,6 +7,6 @@ export class Category {
     @Prop()
     id: string;
 
-    @Prop()
+    @Prop({ required: true })
     name: string;
 }
