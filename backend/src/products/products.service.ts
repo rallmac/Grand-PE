@@ -1,9 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
+import { Product } from './schema/product.schema';
 
 @Injectable()
 export class ProductsService {
+  constructor(
+      @InjectModel(Product.name)
+      private productModule: Model<Product>,
+  ){}
+
   create(createProductDto: CreateProductDto) {
     const product = new this.productModel.create(createProductDto);
 
@@ -32,16 +40,23 @@ export class ProductsService {
     return `This action updates a #${id} product`;
   }
 
-  async orderProducts(id: string, name: string) {
-      const product = await this.productModel.findOne(id, name);
+  async orderProducts(id: string, quantity: number) {
+      const product = await this.productModel.findById(id);
 
-      product.quantityAvailable -= order.quantity;
-      product.quantityOrdered += order.quantity;
+      product.quantityAvailable -= quantity;
+      product.quantityOrdered += quantity;
 
-      if (product.quantityAvailable < order.quantity) {
-          throw new BadRequestException('Not enough stock');
-          // message: 'Not enough product to order'
+      if (!product){
+          throw new BadRequestException('Product not found');
       }
+
+      if (product.quantityAvailable < quantity) {
+          throw new BadRequestException('Not enough stock');
+      }
+
+      product.save();
+
+      return product;
   }
 
   remove(id: number) {
