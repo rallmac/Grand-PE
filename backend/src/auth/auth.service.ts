@@ -9,6 +9,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { randomBytes } from 'crypto';
 import * as bcrypt from 'bcrypt';
 import { EmailService } from '../email/email.service';
+import { AdminAllowlist } from '../admin/schema/admin-allowlist.schema';
+
 
 @Injectable()
 export class AuthService {
@@ -16,6 +18,8 @@ export class AuthService {
     private jwtService: JwtService,
     @InjectModel('User') private userModel: Model<any>,
     private emailService: EmailService,
+    @InjectModel(AdminAllowlist.name)
+    private adminAllowlistModel: Model<AdminAllowlist>,
   ) {}
 
   // ================= REGISTER =================
@@ -39,21 +43,18 @@ export class AuthService {
     }
 
     // User can login or register based on assigned role
-    const isAllowedAdmin = await this.adminAdminAllowlistRepo.findOne({
-        where: {email: user.email},
+    const isAllowedAdmin = await this.adminAllowlistModel.findOne({
+      email: email,
     });
 
-    if (isAllowedAdmin) {
-        user.role = 'admin';
-    } else {
-        user.role = 'user';
-    }
+    const role = isAllowedAdmin ? 'admin' : 'user';
 
     // ✅ New user
     const token = randomBytes(32).toString('hex');
 
     await this.userModel.create({
       email,
+      role,
       isVerified: false,
       verificationToken: token,
       verificationTokenExpires: new Date(Date.now() + 1000 * 60 * 60), // 1 hour
