@@ -9,11 +9,15 @@ import { User, UserSchema } from '../user/schema/user.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 import { EmailService } from '../email/email.service';
 import { StringValue } from 'ms';
+import { AdminAllowlist, AdminAllowlistSchema } from '../admin/schema/admin-allowlist.schema';
+import { UserModule } from '../user/user.module';
+import { AdminModule } from '../admin/admin.module';
+
 
 @Module({
   imports: [
     MongooseModule.forFeature([
-      {name: User.name, schema: UserSchema},
+      {name: AdminAllowlist.name, schema: AdminAllowlistSchema},
     ]),
   
     ConfigModule,
@@ -26,6 +30,8 @@ import { StringValue } from 'ms';
         signOptions: { expiresIn: '1h' as StringValue }
       }),
     }),
+    UserModule,
+    AdminModule,
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy, EmailService],

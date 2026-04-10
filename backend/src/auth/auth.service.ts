@@ -8,16 +8,21 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { randomBytes } from 'crypto';
 import * as bcrypt from 'bcrypt';
+
 import { EmailService } from '../email/email.service';
 import { AdminAllowlist } from '../admin/schema/admin-allowlist.schema';
-
+import { User } from '../user/schema/user.schema';
 
 @Injectable()
 export class AuthService {
   constructor(
     private jwtService: JwtService,
-    @InjectModel('User') private userModel: Model<any>,
+
+    @InjectModel(User.name)
+    private userModel: Model<User>,
+
     private emailService: EmailService,
+
     @InjectModel(AdminAllowlist.name)
     private adminAllowlistModel: Model<AdminAllowlist>,
   ) {}
@@ -26,7 +31,6 @@ export class AuthService {
   async register(email: string) {
     const existingUser = await this.userModel.findOne({ email });
 
-    // ✅ Already verified → block
     if (existingUser && existingUser.isVerified) {
       throw new BadRequestException({
         success: false,
@@ -34,7 +38,6 @@ export class AuthService {
       });
     }
 
-    // ✅ Already registered but NOT verified → DO NOT overwrite token
     if (existingUser && !existingUser.isVerified) {
       return {
         success: true,
@@ -42,14 +45,10 @@ export class AuthService {
       };
     }
 
-    // User can login or register based on assigned role
-    const isAllowedAdmin = await this.adminAllowlistModel.findOne({
-      email: email,
-    });
-
+    // Check admin allowlist
+    const isAllowedAdmin = await this.adminAllowlistModel.findOne({ email });
     const role = isAllowedAdmin ? 'admin' : 'user';
 
-    // ✅ New user
     const token = randomBytes(32).toString('hex');
 
     await this.userModel.create({
@@ -57,7 +56,7 @@ export class AuthService {
       role,
       isVerified: false,
       verificationToken: token,
-      verificationTokenExpires: new Date(Date.now() + 1000 * 60 * 60), // 1 hour
+      verificationTokenExpires: new Date(Date.now() + 1000 * 60 * 60),
     });
 
     await this.emailService.sendVerificationEmail(email, token);
@@ -69,37 +68,26 @@ export class AuthService {
   }
 
   // ================= VERIFY EMAIL =================
-    async verifyEmail(token: string) {
+  async verifyEmail(token: string) {
     const user = await this.userModel.findOne({
       verificationToken: token,
     });
 
-    // ✅ If token already used but user is verified → still success
     if (!user) {
-      const alreadyVerifiedUser = await this.userModel.findOne({
-        isVerified: true,
-      });
-
-      if (alreadyVerifiedUser) {
-        return {
-          success: true,
-          isVerified: true,
-          message: 'Email already verified',
-        };
-      }
-
       throw new BadRequestException('Invalid or expired token');
     }
 
-    // ✅ Check expiry
-    if (user.verificationTokenExpires < new Date()) {
+    // Safe expiry check
+    if (
+      !user.verificationTokenExpires ||
+      user.verificationTokenExpires < new Date()
+    ) {
       throw new BadRequestException('Token expired');
     }
 
-    // ✅ Verify
     user.isVerified = true;
-    user.verificationToken = null;
-    user.verificationTokenExpires = null;
+    user.verificationToken = undefined;
+    user.verificationTokenExpires = undefined;
 
     await user.save();
 
@@ -135,20 +123,17 @@ export class AuthService {
   }
 
   // ================= SET PASSWORD =================
-  async setPassword(token: string, password: string) {
+  async setPassword(email: string, password: string) {
     const user = await this.userModel.findOne({
+      email,
       isVerified: true,
-      verificationToken: null,
-      verificationTokenExpires: null,
     });
 
     if (!user) {
-      throw new BadRequestException('Verify email to set password');
+      throw new BadRequestException('Verify email first');
     }
 
     user.password = await bcrypt.hash(password, 10);
-    //user.verificationToken = null;
-    //user.verificationTokenExpires = null;
 
     await user.save();
 
@@ -215,8 +200,8 @@ export class AuthService {
     }
 
     user.password = await bcrypt.hash(password, 10);
-    user.resetPasswordToken = null;
-    user.resetPasswordExpires = null;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
 
     await user.save();
 
