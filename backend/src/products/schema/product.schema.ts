@@ -39,3 +39,5 @@ export class Product {
 	@Prop()
 	createdAt : Date;
 }
+
+export const ProductSchema = SchemaFactory.createForClass(Product);
