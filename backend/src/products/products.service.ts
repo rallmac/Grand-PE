@@ -33,16 +33,15 @@ export class ProductsService {
   async update(id: string, updateProductDto: UpdateProductDto) {
     const product = await this.productModel.findById(id);
 
-    Object.assign(product, UpdateProductDto);
-
-    //product.isOutOfStock = product.quantityAvailable <= 0;
-
     if (!product) {
-      throw new NotFoundException('Product not found');
+        throw new NotFoundException('Product not found');
     }
 
+    Object.assign(product, updateProductDto);
+
+    product.isOutOfStock = product.quantityAvailable <= 0;
+
     return product.save();
-    return `This action updates a #${id} product`;
   }
 
   async orderProduct(id: string, quantity: number) {

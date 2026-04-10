@@ -1,11 +1,11 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Types } from 'mongoose';
-import { Category } from '../../category/schema/category.schema';
+import { Category } from '../../categories/schema/category.schema';
 
 
 @Schema()
 export class Product {
-	@Prop({ type: autoincrement })
+	@Prop({ required: true })
 	id : string;
 
 	@Prop({ required: true })
