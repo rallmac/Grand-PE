@@ -31,6 +31,11 @@ export function HeaderGrandpe() {
                   : "/assets/images/GRAND_PE_GLOBAL_LIMITED.png"
               }
               alt="Grand-PE Logo"
+              style={
+                location.pathname === '/solar'
+                  ? { width: 'default'}
+                  : { height: '50px' }
+              }
             />
           </Link>
 
