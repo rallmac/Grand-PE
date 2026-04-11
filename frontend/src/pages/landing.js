@@ -197,6 +197,7 @@ function LandingPage() {
             <img
               src="/assets/images/GRAND_PE_GLOBAL_LIMITED.jpg"
               alt="Grand-PE Global Limited Logo"
+              style={{ height: '50px' }}
             />
           </Link>
           <button
@@ -220,6 +221,9 @@ function LandingPage() {
           </nav>
         </div>
       </header>
+
+      {/* This is a spacer. it acts to prevent contents hiding under the fixed header */}
+      <div style={{ height: '90px' }} area-hidden='true' />
 
       <main>
         {/* Hero Section */}
