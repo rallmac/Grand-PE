@@ -98,7 +98,7 @@ export function HeaderGrandpe() {
       </header>
 
       {/* Spacer to prevent content hiding under fixed header */}
-      <div style={{ height: "90px" }} aria-hidden="true" />
+      <div style={{ height: "90px" }} area-hidden="false" />
     </>
   );
 }

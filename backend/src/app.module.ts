@@ -11,6 +11,8 @@ import { CleanupService } from './cleanup/cleanup.service';
 import { ProductsModule } from './products/products.module';
 import { AdminModule } from './admin/admin.module';
 import { CategoriesModule } from './categories/categories.module';
+import { PaymentModule } from './payment/payment.module';
+import { OrdersModule } from './orders/orders.module';
 
 @Module({
   imports: [
@@ -29,6 +31,8 @@ import { CategoriesModule } from './categories/categories.module';
     ProductsModule,
     AdminModule,
     CategoriesModule,
+    OrdersModule,
+    PaymentModule,
   ],
   controllers: [AppController],
   providers: [AppService, EmailService, CleanupService],

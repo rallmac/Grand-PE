@@ -222,7 +222,7 @@ function LandingPage() {
         </div>
       </header>
       {/* This is a spacer. it acts to prevent content hiding under the fixed header*/}
-      <div style={{ height: '90px' }} area-hidden='true'/>
+      <div style={{ height: '90px' }} aria-hidden='true'/>
 
       <main>
         {/* Hero Section */}
