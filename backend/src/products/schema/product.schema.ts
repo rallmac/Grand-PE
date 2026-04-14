@@ -40,4 +40,6 @@ export class Product {
 	createdAt : Date;
 }
 
+export type ProductDocument = Product & Document;
+
 export const ProductSchema = SchemaFactory.createForClass(Product);
