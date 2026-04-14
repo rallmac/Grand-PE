@@ -10,6 +10,7 @@ import {
   Req,
 } from '@nestjs/common';
 
+import { OrdersService } from '../orders/orders.service';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -20,7 +21,10 @@ import { Roles } from '../decorators/roles.decorator';
 
 @Controller('products')
 export class ProductsController {
-  constructor(private readonly productsService: ProductsService) {}
+  constructor(
+    private readonly orderService: OrdersService,
+    private readonly productsService: ProductsService
+    ) {}
 
   // Admin only
   @UseGuards(JwtAuthGuard, RolesGuard)
@@ -58,6 +62,6 @@ export class ProductsController {
   @Roles('admin')
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.productsService.remove(+id);
+    return this.orderService.remove(+id);
   }
 }

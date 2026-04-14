@@ -47,26 +47,4 @@ export class ProductsService {
     return product.save();
   }
 
-  async orderProduct(id: string, quantity: number) {
-    const product = await this.productModel.findById(id);
-
-    if (!product) {
-      throw new NotFoundException('Product not found!');
-    }
-
-    if (product.quantityAvailable < quantity) {
-      throw new BadRequestException('Not enough stock');
-    }
-
-    product.quantityAvailable -= quantity;
-    product.quantityOrdered += quantity;
-
-    return product.save();
-
-    //return product;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} product`;
-  }
 }
