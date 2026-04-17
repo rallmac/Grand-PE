@@ -16,7 +16,7 @@ import Verify from "./pages/Verify";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PublicRoute from "./components/PublicRoute";
-import Chart from "./pages/Chart";
+import Chart from "./pages/Cart";
 
 //This file connects all the pages in the application
 //The connection is done by importing the pages and
@@ -40,7 +40,7 @@ function App() {
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/verify" element={<Verify />} />
-        <Route path="/chart" element={<Chart />} />
+        <Route path="/cart" element={<Cart />} />
         <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

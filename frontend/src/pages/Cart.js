@@ -38,7 +38,7 @@ const products = [
   },
 ]
 
-export default function Chart() {
+export default function Cart() {
   const [open, setOpen] = useState(true)
 
   return (
