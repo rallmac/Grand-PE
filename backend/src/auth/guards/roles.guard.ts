@@ -12,8 +12,10 @@ import { Reflector } from '@nestjs/core';
 		): boolean 
 	{ 
 		const requiredRoles = 
-		this.reflector.get<string[]> ( 'roles', context.getHandler(),
-		);
+		this.reflector.get<string[]> ( 'roles', [
+                    context.getHandler(),
+                    context.getClass(),
+                ]);
 
 		if (!requiredRoles) return true;
 
