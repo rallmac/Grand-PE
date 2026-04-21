@@ -14,6 +14,18 @@ PassportStrategy(Strategy) {
 	}
 
 	async validate(payload: any) {
-		return payload;
+            const user = await this.userModel.findById(payload.sub);
+
+            if (!user) {
+                throw new UnauthorizedException('User is not found');
+            }
+
+            if (!user.isAdmin) {
+                throw new UnauthorizedException('Access Revoked');
+            }
+		return {
+                    userId: user._id,
+                    role: user.role,
+                };
 	}
 }
