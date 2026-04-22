@@ -1,7 +1,7 @@
 import * as mongoose from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import * as dotenv from 'dotenv';
-import { userSchema } from './user/schema/user.schema';
+import { UserSchema } from '../user/schema/user.schema';
 
 
 dotenv.config();
@@ -19,13 +19,13 @@ if (!SUPERADMIN_PASSWORD) {
 
 async function seedSuperAdmin() {
 	try{
-		await mongoose.connect(MONGO_URI);
+		await mongoose.connect(MONGO_URI as string);
 
-		const User = mongoose.model('User', userSchema);
+		const User = mongoose.model('User', UserSchema);
 
 		const email = 'tobijahekperikpe@gmail.com';
 
-		const password = process.env.SUPERADMIN_PASSWORD;
+		const password = process.env.SUPERADMIN_PASSWORD as string;
 
 		const existing = await User.findOne({ email });
 
@@ -44,12 +44,11 @@ async function seedSuperAdmin() {
 		});
 
 		console.log('Superadmin created successfully');
-	} catch {
+	} catch (error){
 		console.error('Error sending superadmin', error);
 	} finally {
 		await mongoose.disconnect();
 	}
-	await mongoose.disconnect();
 }
 
 seedSuperAdmin();

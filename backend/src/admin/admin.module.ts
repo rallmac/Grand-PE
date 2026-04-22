@@ -12,11 +12,11 @@ import { EmailModule } from '../email/email.module';
   imports: [
       MongooseModule.forFeature([
           { name: AdminAllowlist.name, schema: AdminAllowlistSchema },
-      ])
+      ]),
       EmailModule,
   ],
   controllers: [AdminController],
-  providers: [AdminService]
+  providers: [AdminService],
   exports: [MongooseModule],
 })
 export class AdminModule {}

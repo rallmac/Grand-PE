@@ -12,7 +12,7 @@ import { Reflector } from '@nestjs/core';
 		): boolean 
 	{ 
 		const requiredRoles = 
-		this.reflector.get<string[]> ( 'roles', [
+		this.reflector.getAllAndOverride<string[]> ( 'roles', [
                     context.getHandler(),
                     context.getClass(),
                 ]);
