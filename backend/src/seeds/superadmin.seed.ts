@@ -4,10 +4,11 @@ import * as dotenv from 'dotenv';
 import { UserSchema } from '../user/schema/user.schema';
 
 
-dotenv.config();
+dotenv.config({ path: '../../.env' });
 
 const MONGO_URI = process.env.MONGODB_URI;
 const SUPERADMIN_PASSWORD = process.env.SUPERADMIN_PASSWORD;
+const SUPERADMIN_EMAIL = process.env.SUPERADMIN_EMAIL;
 
 if (!MONGO_URI) {
 	throw new Error('MONGO_URI is not defined');
@@ -23,7 +24,7 @@ async function seedSuperAdmin() {
 
 		const User = mongoose.model('User', UserSchema);
 
-		const email = 'tobijahekperikpe@gmail.com';
+		const email = process.env.SUPERADMIN_EMAIL as string;
 
 		const password = process.env.SUPERADMIN_PASSWORD as string;
 
@@ -52,5 +53,3 @@ async function seedSuperAdmin() {
 }
 
 seedSuperAdmin();
-
-// ts-node src/seeds/superadmin.seed.ts
