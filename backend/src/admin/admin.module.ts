@@ -6,6 +6,7 @@ import {
   AdminAllowlistSchema
 } from './schema/admin-allowlist.schema';
 import { MongooseModule } from '@nestjs/mongoose';
+import { EmailModule } from '../email/email.module';
 
 
 @Module({
@@ -13,6 +14,7 @@ import { MongooseModule } from '@nestjs/mongoose';
     MongooseModule.forFeature([
       { name: AdminAllowlist.name, schema: AdminAllowlistSchema },
     ]),
+    EmailModule,
   ],
   controllers: [AdminController],
   providers: [AdminService],

@@ -15,6 +15,9 @@ export class User {
   @Prop({ default: false })
   isVerified: boolean;
 
+  @Prop({ default:false })
+  isAdmin: boolean;
+
   @Prop()
   verificationToken?: string;
 

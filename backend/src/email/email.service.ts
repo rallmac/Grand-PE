@@ -39,5 +39,30 @@ export class EmailService {
 				`,
 		});
 	}
+
+
+	async approvedAsAdmin(to: string) {
+		await this.transporter.sendMail({
+			to,
+			subject: 'Approved as admin',
+			html: `
+				<h3>Account Approved As Admin</h3>
+				<p>This is to inform you that your request to be an admin has been approved</p>
+				<p>You can now perform services on products</p>
+				`,
+		});
+	}
+
+	async removedAsAdmin(to: string) {
+		await this.transporter.sendMail({
+			to,
+			subject: 'Admin Access Removed',
+			html: `
+				<h3>Admin Access Revoked</h3>
+				<p>Your admin access has been removed.</p>
+				<p>You will no longer be able to login to the admin dashboard.</p>
+				`,
+		});
+	}
 }
 
