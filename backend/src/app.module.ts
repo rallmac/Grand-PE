@@ -13,6 +13,7 @@ import { ProductsModule } from './products/products.module';
 import { CategoriesModule } from './categories/categories.module';
 import { OrdersModule } from './orders/orders.module';
 import { PaymentModule } from './payment/payment.module';
+import { EmailModule } from './email/email.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { PaymentModule } from './payment/payment.module';
     CategoriesModule,
     OrdersModule,
     PaymentModule,
+    EmailModule,
   ],
   controllers: [AppController],
   providers: [AppService, EmailService, CleanupService],
