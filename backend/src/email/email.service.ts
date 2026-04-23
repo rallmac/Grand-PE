@@ -30,6 +30,7 @@ export class EmailService {
 		const url = `https://grand-pe.onrender.com/reset-password?token=${token}`;
 
 		await this.transporter.sendMail({
+			from: `"Grand-PE" <${process.env.EMAIL_USER}>`,
 			to,
 			subject: 'Reset your password',
 			html: `
@@ -43,6 +44,7 @@ export class EmailService {
 
 	async approvedAsAdmin(to: string) {
 		await this.transporter.sendMail({
+			from: `"Grand-PE" <${process.env.EMAIL_USER}>`,
 			to,
 			subject: 'Approved as admin',
 			html: `
@@ -55,6 +57,7 @@ export class EmailService {
 
 	async removedAsAdmin(to: string) {
 		await this.transporter.sendMail({
+			from: `"Grand-PE" <${process.env.EMAIL_USER}>`,
 			to,
 			subject: 'Admin Access Removed',
 			html: `
