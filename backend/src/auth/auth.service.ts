@@ -8,7 +8,6 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { randomBytes } from 'crypto';
 import * as bcrypt from 'bcrypt';
-
 import { EmailService } from '../email/email.service';
 import { AdminAllowlist } from '../admin/schema/admin-allowlist.schema';
 import { User } from '../user/schema/user.schema';
@@ -123,17 +122,29 @@ export class AuthService {
   }
 
   // ================= SET PASSWORD =================
-  async setPassword(email: string, password: string) {
+  async setPassword(token: string, password: string) {
+
     const user = await this.userModel.findOne({
-      email,
-      isVerified: true,
+      verificationToken: token,
     });
 
     if (!user) {
       throw new BadRequestException('Verify email first');
     }
 
+    if (
+      !user.verificationTokenExpires ||
+      user.verificationTokenExpires < new Date()
+      ) {
+      throw new BadRequestException('Invalid or expired token')
+    }
+
     user.password = await bcrypt.hash(password, 10);
+
+    user.isVerified: true;
+
+    user.verificationToken = undefined;
+    user.verificationTokenExpires: undefined;
 
     await user.save();
 
