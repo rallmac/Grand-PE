@@ -40,6 +40,22 @@ export class EmailService {
 		});
 	}
 
+        async approveAsAdmin(to: string, token: string) {
+		const url = `https://grand-pe.onrender.com/approve-admin?token=${token}`;
+
+		await this.transporter.sendMail({
+			from: `"Grand-PE" <${process.env.EMAIL_USER}>`,
+			to: 'superadmin',
+			subject: 'Approve as admin',
+			html: `
+				<h3>Approve as admin</h3>
+				<p>This user is requesting admin access, click the link below to approve</p>
+				<p>If user is not needed as admin kindly ignore this message</p>
+				<a href="${url}"><h4>Approve</h4></a>
+				`,
+		});
+	}
+
         async approvedAsAdmin(to: string) {
             await this.transporter.sendMail({
                 to,
