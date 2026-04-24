@@ -9,14 +9,14 @@ import { User, UserSchema } from '../user/schema/user.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 import { EmailService } from '../email/email.service';
 import { StringValue } from 'ms';
-import { AdminAllowlist, AdminAllowlistSchema } from '../admin/schema/admin-allowlist.schema';
+import { Admin, AdminSchema } from '../admin/schema/admin-allowlist.schema';
 import { UserModule } from '../user/user.module';
 import { AdminModule } from '../admin/admin.module';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
-      {name: AdminAllowlist.name, schema: AdminAllowlistSchema},
+      {name: Admin.name, schema: AdminSchema},
     ]),
   
     ConfigModule,

@@ -2,10 +2,10 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 
 @Schema()
-export class AdminAllowlist{
+export class Admin{
 	@Prop({ required: true, unique: true })
 	email: string;
 }
 
-export const AdminAllowlistSchema =
-SchemaFactory.createForClass(AdminAllowlist);
+export const AdminSchema =
+SchemaFactory.createForClass(Admin);
