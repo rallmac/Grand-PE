@@ -12,15 +12,18 @@ export class AdminService {
 
         private readonly mailService: EmailService,
     ) {}
-    async whitelistEmail(email: string) {
-        const exists = await this.adminModel.findOne({ email });
-        if (exists) throw new Error('Already whitelisted');
+    
+    async adminRegister(email: string, password: string) {
+		const exists = await this.adminModel.findOne({ email });
+		if (exists) throw new Error('Admin already registered');
 
-        const admin = this.adminModel.create({ email });
+		const admin = this.adminModel.create({ email });
 
-        await this.mailService.approvedAsAdmin(email);
+		await this.mailService.sendVerificationEmail(email, token)
 
-        return admin;
+		await this.mailService.approveAsAdmin(email);
+
+		return admin;
     }
 
     async removedFromWhitelist(email: string) {
