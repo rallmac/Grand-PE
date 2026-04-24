@@ -66,37 +66,6 @@ export class AuthService {
     };
   }
 
-  // ================= VERIFY EMAIL =================
-  async verifyEmail(token: string) {
-    const user = await this.userModel.findOne({
-      verificationToken: token,
-    });
-
-    if (!user) {
-      throw new BadRequestException('Invalid or expired token');
-    }
-
-    // Safe expiry check
-    if (
-      !user.verificationTokenExpires ||
-      user.verificationTokenExpires < new Date()
-    ) {
-      throw new BadRequestException('Token expired');
-    }
-
-    user.isVerified = true;
-    user.verificationToken = undefined;
-    user.verificationTokenExpires = undefined;
-
-    await user.save();
-
-    return {
-      success: true,
-      isVerified: true,
-      message: 'Email verified successfully',
-    };
-  }
-
   // ================= RESEND VERIFICATION =================
   async resendVerification(email: string) {
     const user = await this.userModel.findOne({ email });

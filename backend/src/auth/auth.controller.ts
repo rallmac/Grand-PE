@@ -19,11 +19,6 @@ export class AuthController {
 		return this.authService.register(email);
 	}
 
-	@Get('verify')
-	async verify(@Query('token') token: string){
-		return this.authService.verifyEmail(token);
-	}
-
 	@Post('set-password')
 	async setPassword(@Body() body: any) {
 		return this.authService.setPassword(body.token, body.password)
