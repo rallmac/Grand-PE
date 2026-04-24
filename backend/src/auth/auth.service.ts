@@ -10,7 +10,7 @@ import { randomBytes } from 'crypto';
 import * as bcrypt from 'bcrypt';
 
 import { EmailService } from '../email/email.service';
-import { AdminAllowlist } from '../admin/schema/admin-allowlist.schema';
+import { Admin } from '../admin/schema/admin.schema';
 import { User } from '../user/schema/user.schema';
 
 @Injectable()
@@ -23,8 +23,8 @@ export class AuthService {
 
     private emailService: EmailService,
 
-    @InjectModel(AdminAllowlist.name)
-    private adminAllowlistModel: Model<AdminAllowlist>,
+    @InjectModel(Admin.name)
+    private adminModel: Model<Admin>,
   ) {}
 
   // ================= REGISTER =================
@@ -46,7 +46,7 @@ export class AuthService {
     }
 
     // Check admin allowlist
-    const isAllowedAdmin = await this.adminAllowlistModel.findOne({ email });
+    const isAllowedAdmin = await this.adminModel.findOne({ email });
     const role = isAllowedAdmin ? 'admin' : 'user';
 
     const token = randomBytes(32).toString('hex');
@@ -67,14 +67,14 @@ export class AuthService {
     };
   }
 
-  // ================= VERIFY EMAIL =================
-  async verifyEmail(token: string) {
+  // ================= SET PASSWORD =================
+  async setPassword(token: string, password: string) {
     const user = await this.userModel.findOne({
       verificationToken: token,
     });
 
     if (!user) {
-      throw new BadRequestException('Invalid or expired token');
+      throw new BadRequestException('Verify email first');
     }
 
     // Safe expiry check
@@ -82,19 +82,20 @@ export class AuthService {
       !user.verificationTokenExpires ||
       user.verificationTokenExpires < new Date()
     ) {
-      throw new BadRequestException('Token expired');
+      throw new BadRequestException('Invalid or expired token');
     }
 
+    user.password = await bcrypt.hash(password, 10);
+
     user.isVerified = true;
+
     user.verificationToken = undefined;
     user.verificationTokenExpires = undefined;
 
     await user.save();
 
     return {
-      success: true,
-      isVerified: true,
-      message: 'Email verified successfully',
+      message: 'Password set successfully'
     };
   }
 

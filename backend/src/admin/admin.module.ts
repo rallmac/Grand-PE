@@ -2,16 +2,16 @@ import { Module } from '@nestjs/common';
 import { AdminController } from './admin.controller';
 import { AdminService } from './admin.service';
 import {
-    AdminAllowlist,
-    AdminAllowlistSchema
-} from './schema/admin-allowlist.schema';
+    Admin,
+    AdminSchema
+} from './schema/admin.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 import { EmailModule } from '../email/email.module';
 
 @Module({
   imports: [
       MongooseModule.forFeature([
-          { name: AdminAllowlist.name, schema: AdminAllowlistSchema },
+          { name: Admin.name, schema: AdminSchema },
       ]),
       EmailModule,
   ],
