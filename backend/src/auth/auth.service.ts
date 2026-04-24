@@ -122,24 +122,6 @@ export class AuthService {
     return { message: 'Verification email resent' };
   }
 
-  // ================= SET PASSWORD =================
-  async setPassword(email: string, password: string) {
-    const user = await this.userModel.findOne({
-      email,
-      isVerified: true,
-    });
-
-    if (!user) {
-      throw new BadRequestException('Verify email first');
-    }
-
-    user.password = await bcrypt.hash(password, 10);
-
-    await user.save();
-
-    return { message: 'Password set successfully' };
-  }
-
   // ================= VALIDATE =================
   async validateUser(email: string, password: string) {
     const user = await this.userModel
