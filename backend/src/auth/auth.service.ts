@@ -141,10 +141,10 @@ export class AuthService {
 
     user.password = await bcrypt.hash(password, 10);
 
-    user.isVerified: true;
+    user.isVerified = true;
 
     user.verificationToken = undefined;
-    user.verificationTokenExpires: undefined;
+    user.verificationTokenExpires = undefined;
 
     await user.save();
 
