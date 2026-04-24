@@ -12,7 +12,7 @@ export class EmailService {
 	});
 
 	async sendVerificationEmail(to: string, token: string) {
-		const url = `https://grand-pe.onrender.com/verify?token=${token}`;
+		const url = `https://grand-pe.onrender.com/set-password?token=${token}`;
 
 		await this.transporter.sendMail({
 			from: `"Grand-PE" <${process.env.EMAIL_USER}>`,
@@ -21,7 +21,7 @@ export class EmailService {
 			html: `
 				<h3>Verify your email<h3/>
 				<p>Click the link below to verify your email:</P>
-				<a href="${url}">${url}</a>
+				<a href="${url}">Verify Email</a>
 				`,
 		});
 	}
@@ -35,7 +35,7 @@ export class EmailService {
 			html: `
 				<h3>Reset Password</h3>
 				<p>Click below to reset:</p>
-				<a href="${url}">${url}</a>
+				<a href="${url}">Reset Password</a>
 				`,
 		});
 	}
