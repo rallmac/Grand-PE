@@ -9,7 +9,7 @@ import { User, UserSchema } from '../user/schema/user.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 import { EmailService } from '../email/email.service';
 import { StringValue } from 'ms';
-import { Admin, AdminSchema } from '../admin/schema/admin-allowlist.schema';
+import { Admin, AdminSchema } from '../admin/schema/admin.schema';
 import { UserModule } from '../user/user.module';
 import { AdminModule } from '../admin/admin.module';
 

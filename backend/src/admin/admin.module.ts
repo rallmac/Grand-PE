@@ -4,7 +4,7 @@ import { AdminService } from './admin.service';
 import {
   Admin,
   AdminSchema
-} from './schema/admin-allowlist.schema';
+} from './schema/admin.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 import { EmailModule } from '../email/email.module';
 

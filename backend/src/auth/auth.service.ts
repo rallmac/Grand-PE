@@ -9,7 +9,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { randomBytes } from 'crypto';
 import * as bcrypt from 'bcrypt';
 import { EmailService } from '../email/email.service';
-import { Admin } from '../admin/schema/admin-allowlist.schema';
+import { Admin } from '../admin/schema/admin.schema';
 import { User } from '../user/schema/user.schema';
 
 @Injectable()

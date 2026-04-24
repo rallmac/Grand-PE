@@ -17,7 +17,6 @@ export class AdminController {
 		return this.adminService.whitelistEmail(email);
 	}
 
-
 	@Delete('whitelist')
 	remove(@Body('email') email: string){
 		return this.adminService.removedFromWhitelist(email);
