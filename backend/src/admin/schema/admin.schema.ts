@@ -12,7 +12,7 @@ export class Admin {
   isVerified: boolean;
 
   @Prop({ default: false })
-  isApproved: boolean;
+  isApproved: boolean; // Superadmin control
 
   @Prop({ select: false })
   verificationToken?: string;
@@ -29,14 +29,15 @@ export class Admin {
   @Prop({ select: false })
   refreshToken?: string;
 
-  @Prop({ default: 0,  select: false})
-  loginAttepts: number;
+  @Prop({ default: 0, select: false })
+  loginAttempts: number;
 
-  @Prop({ select: false })
-  loclUntil: Date | null;
+  @Prop({ type: Date, default: null })
+  lockUntil: Date | null;
 
   @Prop({ default: Date.now })
   lastActivity: Date;
 }
 
 export const AdminSchema = SchemaFactory.createForClass(Admin);
+
