@@ -28,6 +28,15 @@ export class Admin {
 
   @Prop({ select: false })
   refreshToken?: string;
+
+  @Prop({ default: 0,  select: false})
+  loginAttepts: number;
+
+  @Prop({ select: false })
+  loclUntil: Date | null;
+
+  @Prop({ default: Date.now })
+  lastActivity: Date;
 }
 
 export const AdminSchema = SchemaFactory.createForClass(Admin);
