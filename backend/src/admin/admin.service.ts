@@ -110,7 +110,7 @@ export class AdminService {
 
     // Reset attempts on success
     admin.loginAttempts = 0;
-    admin.lockUntil = undefined;
+    admin.lockUntil = null;
 
     if (!admin.isVerified) {
       throw new UnauthorizedException('Verify your email first');
