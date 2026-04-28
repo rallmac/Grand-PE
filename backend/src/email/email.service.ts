@@ -30,6 +30,7 @@ export class EmailService {
 		const url = `https://grand-pe.onrender.com/reset-password?token=${token}`;
 
 		await this.transporter.sendMail({
+			from: `"Grand-PE" <${process.env.EMAIL_USER}>`,
 			to,
 			subject: 'Reset your password',
 			html: `
@@ -40,8 +41,7 @@ export class EmailService {
 		});
 	}
 
-        async approveAsAdmin(to: string, token: string) {
-		const url = `https://grand-pe.onrender.com/approve-admin?token=${token}`;
+	async approveAsAdmin(to: string) {
 
 		await this.transporter.sendMail({
 			from: `"Grand-PE" <${process.env.EMAIL_USER}>`,
@@ -51,33 +51,37 @@ export class EmailService {
 				<h3>Approve as admin</h3>
 				<p>This user is requesting admin access, click the link below to approve</p>
 				<p>If user is not needed as admin kindly ignore this message</p>
-				<a href="${url}"><h4>Approve</h4></a>
+				<a><h4>Approve</h4></a>
 				`,
 		});
 	}
 
-        async approvedAsAdmin(to: string) {
-            await this.transporter.sendMail({
-                to,
-                subject: 'Approved as admin',
-                html: `
-                   <h3>Account Approved As Admin</h3>
-                   <p>This is to inform you that your request to be an admin has been approved</p>
-                   <p>You can now perform services on products</p>
-                `,
-            });
-        }
 
-        async removedAsAdmin(to: string) {
-            await this.transporter.sendMail({
-                to,
-                subject: 'Admin Access Removed',
-                html: `
-                   <h3>Admin Access Revoked</h3>
-                   <p>Your admin access has been removed.</p>
-                   <p>You will no longer be able to login to the admin dashboard.</p>
-                `,
-            });
-        }
+	async approvedAsAdmin(to: string) {
+		await this.transporter.sendMail({
+			from: `"Grand-PE" <${process.env.EMAIL_USER}>`,
+			to,
+			subject: 'Approved as admin',
+			html: `
+				<h3>Account Approved As Admin</h3>
+				<p>This is to inform you that your request to be an admin has been approved</p>
+				<p>You can now perform services on products</p>
+				`,
+		});
+	}
+
+	async removedAsAdmin(to: string) {
+		await this.transporter.sendMail({
+			from: `"Grand-PE" <${process.env.EMAIL_USER}>`,
+			to,
+			subject: 'Admin Access Removed',
+			html: `
+				<h3>Admin Access Revoked</h3>
+				<p>Your admin access has been removed.</p>
+				<p>You will no longer be able to login to the admin dashboard.</p>
+				`,
+		});
+	}
 }
+
 
