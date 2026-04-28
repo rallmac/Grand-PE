@@ -74,7 +74,7 @@ export class AdminService {
     await admin.save();
 
     // Notify superadmin
-    await this.emailService.notifySuperAdminForApproval(admin.email);
+    await this.emailService.approvedAsAdmin(admin.email);
 
     return { message: 'Account verified. Await approval.' };
   }

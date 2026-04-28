@@ -1,9 +1,20 @@
 import { Module } from '@nestjs/common';
 import { SuperadminService } from './superadmin.service';
 import { SuperadminController } from './superadmin.controller';
+import { MongooseModule } from '@nestjs/mongoose';
+import { Admin, AdminSchema } from '../admin/schema/admin.schema';
+import { EmailModule } from '../email/email.module';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
+  imports: [
+    MongooseModule.forFeature([
+      { name: Admin.name, schema: AdminSchema },
+    ]),
+    EmailModule,
+    JwtModule.register({}),
+  ],
   providers: [SuperadminService],
-  controllers: [SuperadminController]
+  controllers: [SuperadminController],
 })
 export class SuperadminModule {}
