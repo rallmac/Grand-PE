@@ -14,6 +14,7 @@ import { CategoriesModule } from './categories/categories.module';
 import { PaymentModule } from './payment/payment.module';
 import { OrdersModule } from './orders/orders.module';
 import { EmailModule } from './email/email.module';
+import { SuperadminModule } from './superadmin/superadmin.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { EmailModule } from './email/email.module';
     OrdersModule,
     PaymentModule,
     EmailModule,
+    SuperadminModule,
   ],
   controllers: [AppController],
   providers: [AppService, EmailService, CleanupService],

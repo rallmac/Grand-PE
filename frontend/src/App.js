@@ -16,6 +16,9 @@ import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PublicRoute from "./components/PublicRoute";
 import Cart from "./pages/Cart";
+import NewSignup from "./pages/NewSignup";
+import IdePage from "./pages/IdePage";
+
 
 //This file connects all the pages in the application
 //The connection is done by importing the pages and
@@ -40,6 +43,8 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/new-signup" element={<NewSignup />} />
+        <Route path="/ide-page" element={<IdePage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
