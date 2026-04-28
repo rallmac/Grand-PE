@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 
-export default function AuthCard() {
+export default function UpgradeSignup() {
   const [form, setForm] = useState({
     firstName: "",
     lastName: "",
@@ -177,4 +177,3 @@ export default function AuthCard() {
     </div>
   );
 }
-
