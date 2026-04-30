@@ -115,6 +115,7 @@ return (
                 <li><button type="button" className="link-button">Blog</button></li>
                 <li><button type="button" className="link-button">Privacy Policy</button></li>
                 <li><button type="button" className="link-button">Terms of Service</button></li>
+                <li><Link to="/admin-signin">Admin</Link></li>
               </ul>
             </div>
             <div className="footer-section newsletter">
