@@ -18,6 +18,11 @@ import PublicRoute from "./components/PublicRoute";
 import Cart from "./pages/Cart";
 import NewSignup from "./pages/NewSignup";
 import IdePage from "./pages/IdePage";
+import AdminSignIn from "./pages/AdminSignIn";
+import AdminRegister from "./pages/AdminRegister";
+import AdminSetPassword from "./pages/AdminSetPassword";
+import AdminResetPassword from "./pages/AdminResetPassword";
+import AdminDashboard from "./pages/AdminDashboard";
 
 
 //This file connects all the pages in the application
@@ -45,6 +50,11 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/new-signup" element={<NewSignup />} />
         <Route path="/ide-page" element={<IdePage />} />
+        <Route path="/admin-signin" element={<AdminSignIn />} />
+        <Route path="/admin-register" element={<AdminRegister />} />
+        <Route path="/admin-set-password" element={<AdminSetPassword />} />
+        <Route path="/admin-reset-password" element={<AdminResetPassword />} />
+        <Route path="/admin-dashboard" element={<AdminDashboard />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
