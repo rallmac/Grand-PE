@@ -63,7 +63,29 @@ export default function SignInForm() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col justify-center px-6 py-12 lg:px-8 bg-gray-900">
+    <div className="flex min-h-screen flex-col justify-center px-6 py-12 lg:px-8 bg-white">
+
+    {/* CONTAINER */}
+    <div className="w-full max-w-6xl bg-white rounded-3xl shadow-sm overflow-hidden grid grid-cols-1 md:grid-cols-2">
+
+    {/* LEFT - IMAGE (Tablet & Desktop only) */}
+      <div className="hidden md:block relative">
+        <img
+          src="/assets/images/gallery.jpg"
+          className="w-full h-full object-cover"
+        />
+
+        {/* Optional overlay */}
+        <div className="absolute inset-0 bg-black/30 flex flex-col justify-end p-8 text-white">
+          <h2 className="text-xl text-white font-semibold">
+            Migrate to clean energy
+          </h2>
+          <p className="text-sm opacity-80">
+            Power your home with elegance and simplicity
+          </p>
+        </div>
+      </div>
+
       
       {/* HEADER */}
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -72,10 +94,9 @@ export default function SignInForm() {
           alt="Logo"
           className="mx-auto h-10 w-auto"
         />
-        <h2 className="mt-10 text-center text-2xl font-bold text-white">
+        <h2 className="mt-10 text-center text-2xl font-bold text-indigo-900">
           Sign in to your account
         </h2>
-      </div>
 
       {/* FORM */}
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -91,7 +112,7 @@ export default function SignInForm() {
 
           {/* EMAIL */}
           <div>
-            <label className="block text-sm text-gray-100">
+            <label className="block text-sm text-gray-900">
               Email address
             </label>
 
@@ -101,13 +122,13 @@ export default function SignInForm() {
               disabled={loading}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="mt-2 w-full rounded-md bg-white/5 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="mt-2 w-full rounded-md outline outline-2 outline-indigo-800 bg-gray-200 px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
           </div>
 
           {/* PASSWORD */}
           <div>
-            <label className="block text-sm text-gray-100">
+            <label className="block text-sm text-gray-900">
               Password
             </label>
 
@@ -118,14 +139,14 @@ export default function SignInForm() {
                 disabled={loading}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="w-full rounded-md bg-white/5 px-3 py-2 text-white pr-10 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full rounded-md outline outline-2 outline-indigo-800 bg-gray-200 px-3 py-2 text-black pr-10 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               />
 
               {/* 👁 Toggle */}
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-2 top-2 text-gray-400 text-sm"
+                className="absolute right-2 top-2 text-gray-600 text-sm"
               >
                 {showPassword ? 'Hide' : 'Show'}
               </button>
@@ -134,7 +155,7 @@ export default function SignInForm() {
 
           {/* REMEMBER + FORGOT */}
           <div className="flex items-center justify-between text-sm">
-            <label className="flex items-center gap-2 text-gray-300">
+            <label className="flex items-center gap-2 text-gray-700">
               <input
                 type="checkbox"
                 checked={remember}
@@ -168,7 +189,7 @@ export default function SignInForm() {
         </form>
 
         {/* FOOTER */}
-        <p className="mt-10 text-center text-sm text-gray-400">
+        <p className="mt-10 text-center text-sm text-gray-700">
           Don’t have an account?{' '}
           <Link
             to="/register"
@@ -177,7 +198,7 @@ export default function SignInForm() {
             Register
           </Link>
         </p>
-        <p className="mt-10 text-center text-sm text-gray-400">
+        <p className="mt-10 text-center text-sm text-gray-700">
           Explore more at{' '}
           <Link
             to="/home"
@@ -187,6 +208,9 @@ export default function SignInForm() {
           </Link>
         </p>
       </div>
+      </div>
+
+    </div>
     </div>
   );
 }
