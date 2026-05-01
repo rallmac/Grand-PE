@@ -68,7 +68,7 @@ export default function SignInForm() {
     {/* CONTAINER */}
     <div className="w-full max-w-6xl bg-white rounded-3xl shadow-sm overflow-hidden grid grid-cols-1 md:grid-cols-2">
 
-    {/* LEFT - IMAGE (Tablet & Desktop only) */}
+      {/* LEFT - IMAGE (Tablet & Desktop only) */}
       <div className="hidden md:block relative">
         <img
           src="/assets/images/gallery.jpg"
@@ -81,7 +81,7 @@ export default function SignInForm() {
             Migrate to clean energy
           </h2>
           <p className="text-sm opacity-80">
-            Power your home with elegance and simplicity
+            Built for reliability. Designed for peace of mind.
           </p>
         </div>
       </div>
