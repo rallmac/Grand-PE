@@ -77,9 +77,9 @@ export default function SignInForm() {
           {/* Overlay */}
           <div className="absolute inset-0 bg-black/30 flex justify-start items-end p-8 text-white">
             <div className="max-w-sm text-left">
-              <h2 className="text-xl font-semibold whitespace-nowrap overflow-hidden text-ellipsis">
+              <p className="text-xl text-white font-semibold whitespace-nowrap overflow-hidden text-ellipsis">
                 Powering progress through innovation.
-              </h2>
+              </p>
               <p className="text-sm opacity-80">
                 Reliable systems built to scale with your ambition.
               </p>
