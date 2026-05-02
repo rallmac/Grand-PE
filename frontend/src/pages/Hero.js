@@ -40,7 +40,7 @@ export default function Hero() {
 
   const [current, setCurrent] = useState(0);
 
-  // 🔥 Auto fade
+  // Auto fade
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrent((prev) =>
@@ -61,7 +61,7 @@ export default function Hero() {
     <div className="bg-gray-100 mt-4 md:mt-6 py-4 px-3 md:px-6">
       <div className="relative max-w-7xl mx-auto overflow-hidden rounded-2xl">
 
-        {/* Slides (stacked) */}
+        {/* Slides */}
         <div className="relative w-full h-[65vh] sm:h-[75vh] md:h-[340px]">
           {slides.map((slide, index) => (
             <div
@@ -78,23 +78,23 @@ export default function Hero() {
               />
 
               {/* Gradient */}
-              <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent" />
 
               {/* Content */}
-              <div className="absolute inset-0 flex items-center">
-                <div className="text-white pl-12 md:pl-20 pr-4 md:pr-10 max-w-lg">
+              <div className="absolute inset-0 flex items-end md:items-center">
+                <div className="text-white pl-6 sm:pl-10 md:pl-20 pr-4 md:pr-10 pb-6 md:pb-0 max-w-lg">
                   
-                  <h1 className="text-white text-lg sm:text-2xl md:text-4xl font-bold mb-2">
+                  <h1 className="text-white text-xl sm:text-3xl md:text-4xl font-extrabold leading-tight mb-2">
                     {slide.title}
                   </h1>
 
-                  <p className="text-xs sm:text-sm md:text-base mb-4 opacity-90">
+                  <p className="text-sm sm:text-base md:text-base mb-4 font-semibold opacity-95">
                     {slide.description}
                   </p>
 
                   <Link
                     to={slide.link}
-                    className="inline-block bg-indigo-500 hover:bg-indigo-600 transition text-white text-xs sm:text-sm md:text-base px-4 py-2 md:px-6 md:py-3 rounded-md font-medium"
+                    className="inline-block bg-indigo-500 hover:bg-indigo-600 transition text-white text-sm md:text-base px-5 py-2.5 md:px-6 md:py-3 rounded-md font-semibold"
                   >
                     {slide.buttonText}
                   </Link>
