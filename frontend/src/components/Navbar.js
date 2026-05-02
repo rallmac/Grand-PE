@@ -75,16 +75,6 @@ export default function Navbar() {
         </div>
       </div>
 
-      <div className="md:hidden container-px pb-3">
-        <div className="flex items-center rounded-full bg-neutral-100 px-4 py-2 shadow-[0_1px_6px_rgba(0,0,0,0.08)] border border-neutral-200">
-          <Search className="w-4 h-4 text-neutral-400" />
-          <input
-            placeholder="Search for products"
-            className="w-full bg-transparent pl-3 text-sm placeholder:text-neutral-400 focus:outline-none"
-          />
-        </div>
-      </div>
-
       {/* Second header line - Categories slider */}
       <div className="hidden md:block border-t bg-neutral-100/70">
         <div className="container-px mx-auto max-w-[1440px] flex items-center gap-4 py-3">
