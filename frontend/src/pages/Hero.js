@@ -77,8 +77,8 @@ export default function Hero() {
                 className="w-full h-full object-cover object-center"
               />
 
-              {/* Gradient */}
-              <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent" />
+              {/* ✅ Even dim overlay */}
+              <div className="absolute inset-0 bg-black/60" />
 
               {/* Content */}
               <div className="absolute inset-0 flex items-end md:items-center">

@@ -84,19 +84,43 @@ function AboutPage() {
       {/* Body of page */}
       <main>
         {/* Page Banner */}
-        <section
-          className="page-banner"
-          style={{
-            backgroundImage: "url('/assets/images/about.jpg')",
-          }}
-        >
-          <div className="container">
-            <h1 className="reveal-on-scroll">About Grand-PE Global Limited</h1>
+        <div className="bg-gray-100 mt-4 md:mt-6 py-4 px-3 md:px-6">
+          <div className="relative max-w-7xl mx-auto overflow-hidden rounded-2xl">
+
+            <div className="relative w-full h-[65vh] sm:h-[75vh] md:h-[340px]">
+              
+              {/* Image */}
+              <img
+                src="/assets/images/about.jpg"
+                alt="About Grand-PE"
+                className="w-full h-full object-cover object-center"
+              />
+
+              {/* Even dim overlay (no directional gradient) */}
+              <div className="absolute inset-0 bg-black/70" />
+
+              {/* Content (CENTERED) */}
+              <div className="absolute inset-0 flex items-center justify-center text-center">
+                <div className="text-white px-6 md:px-10 max-w-2xl reveal-on-scroll">
+                  
+                  <h1 className="text-white text-2xl sm:text-3xl md:text-4xl font-extrabold leading-tight mb-4">
+                    About Grand-PE Global Limited
+                  </h1>
+
+                  <p className="text-sm sm:text-base md:text-lg font-semibold opacity-95">
+                    Delivering excellence across solar energy, technology, communication,
+                    and global trade — empowering businesses and communities for a smarter future.
+                  </p>
+
+                </div>
+              </div>
+
+            </div>
           </div>
-        </section>
+        </div>
 
         {/* Overview Section */}
-        <section className="about-overview section-padding">
+        <section className="about-overview">
           <div className="container reveal-on-scroll">
             <h2>Our Story</h2>
             <p className="lead">
