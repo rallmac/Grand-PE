@@ -27,7 +27,7 @@ export default function Hero() {
                   />
 
                   {/* ✅ EVEN DIM (same system) */}
-                  <div className="absolute inset-0 bg-black/60" />
+                  {/*<div className="absolute inset-0 bg-black/60" />*/}
 
                 </div>
 
