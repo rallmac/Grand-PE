@@ -173,95 +173,82 @@ function PlantsPage() {
       {/* Body of Page */}
       <main>
         {/* Hero Section for Plants */}
-        <section className="hero business-page-hero">
-          <div className="hero-carousel" id="plants-hero-carousel">
-            <div 
-              className="hero-slides-wrapper"
+        <section className="bg-gray-100 mt-4 md:mt-6 py-4 px-3 md:px-6">
+          <div className="relative max-w-7xl mx-auto overflow-hidden rounded-2xl">
+
+            {/* Slides */}
+            <div
+              className="relative w-full h-[65vh] sm:h-[75vh] md:h-[340px]"
               onMouseEnter={handleCarouselMouseEnter}
               onMouseLeave={handleCarouselMouseLeave}
             >
               {heroSlides.map((slide, index) => (
                 <div
                   key={index}
-                  className={`hero-slide ${index === currentSlide ? 'active' : ''}`}
-                  style={{
-                    backgroundImage: `url('${slide.image}')`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    backgroundRepeat: 'no-repeat',
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: '100%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    textAlign: 'center',
-                    opacity: index === currentSlide ? 1 : 0,
-                    transition: 'opacity 1.2s ease-in-out',
-                    zIndex: index === currentSlide ? 2 : 1
-                  }}
+                  className={`absolute inset-0 transition-opacity duration-[1200ms] ease-in-out ${
+                    index === currentSlide ? "opacity-100 z-10" : "opacity-0 z-0"
+                  }`}
                 >
-                  {/* Dark overlay for text readability */}
-                  <div style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: '100%',
-                    background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.6) 100%)',
-                    zIndex: 1
-                  }} />
-                  <div className="hero-content" style={{ position: 'relative', zIndex: 3, maxWidth: '850px', padding: '20px' }}>
-                    <h1 style={{ 
-                      fontSize: '3.8rem', 
-                      marginBottom: '0.5em', 
-                      color: 'var(--light-text-color)', 
-                      textShadow: '2px 2px 6px rgba(0, 0, 0, 0.6)', 
-                      fontWeight: '700' 
-                    }}>
-                      {slide.title}
-                    </h1>
-                    <p style={{ 
-                      fontSize: '1.3rem', 
-                      marginBottom: '1.5em', 
-                      textShadow: '1px 1px 3px rgba(0, 0, 0, 0.5)', 
-                      fontWeight: '400',
-                      color: 'var(--light-text-color)'
-                    }}>
-                      {slide.description}
-                    </p>
+                  {/* Image */}
+                  <img
+                    src={slide.image}
+                    alt={slide.title}
+                    className="w-full h-full object-cover object-center"
+                  />
+
+                  {/* Even dim overlay */}
+                  <div className="absolute inset-0 bg-black/60" />
+
+                  {/* Content */}
+                  <div className="absolute inset-0 flex items-center justify-center text-center">
+                    <div className="text-white px-6 md:px-10 max-w-3xl">
+                      
+                      <h1 className="text-white text-2xl sm:text-3xl md:text-5xl font-extrabold leading-tight mb-4">
+                        {slide.title}
+                      </h1>
+
+                      <p className="text-base sm:text-lg md:text-xl font-semibold opacity-95">
+                        {slide.description}
+                      </p>
+
+                    </div>
                   </div>
                 </div>
               ))}
             </div>
-          </div>
-          <div className="carousel-nav">
-            <button 
-              className="prev-btn" 
-              aria-label="Previous Slide"
+
+            {/* Left Arrow */}
+            <button
               onClick={prevSlide}
+              aria-label="Previous Slide"
+              className="absolute text-white left-2 md:left-4 top-1/2 -translate-y-1/2 w-8 h-8 md:w-10 md:h-10 rounded-full bg-white/10 hover:bg-white/20 shadow flex items-center justify-center z-20"
             >
-              <i className="fas fa-chevron-left"></i>
+              ‹
             </button>
-            <button 
-              className="next-btn" 
-              aria-label="Next Slide"
+
+            {/* Right Arrow */}
+            <button
               onClick={nextSlide}
+              aria-label="Next Slide"
+              className="absolute text-white right-2 md:right-4 top-1/2 -translate-y-1/2 w-8 h-8 md:w-10 md:h-10 rounded-full bg-white/10 hover:bg-white/20 shadow flex items-center justify-center z-20"
             >
-              <i className="fas fa-chevron-right"></i>
+              ›
             </button>
-          </div>
-          <div className="carousel-indicators">
-            {heroSlides.map((_, index) => (
-              <button
-                key={index}
-                className={`indicator-dot ${index === currentSlide ? 'active' : ''}`}
-                aria-label={`Go to slide ${index + 1}`}
-                onClick={() => goToSlide(index)}
-              />
-            ))}
+
+            {/* Indicators */}
+            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2 md:hidden z-20">
+              {heroSlides.map((_, index) => (
+                <button
+                  key={index}
+                  aria-label={`Go to slide ${index + 1}`}
+                  onClick={() => goToSlide(index)}
+                  className={`w-2 h-2 rounded-full ${
+                    index === currentSlide ? "bg-white" : "bg-white/50"
+                  }`}
+                />
+              ))}
+            </div>
+
           </div>
         </section>
 
@@ -272,7 +259,7 @@ function PlantsPage() {
         </div>
 
         {/* Export Services Section */}
-        <section id="export-services" className="services-section section-padding">
+        <section id="export-services" className="services-section">
           <div className="container">
             <h2 className="text-center reveal-on-scroll">
               Our Agricultural Export Services
