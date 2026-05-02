@@ -1,71 +1,140 @@
-import { useMemo, useState } from "react";
-import "./solar-page.css";
-
+import { useState, useMemo, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 export default function Hero() {
   const slides = useMemo(
     () => [
-      { src: "/assets/images/carousel-1.jpg", alt: "Discover Top Electronics" },
-      { src: "/assets/images/carousel-2.jpg", alt: "Discover Top Electronics 2" },
+      {
+        image: "/assets/images/carousel-1.jpg",
+        title: "Grand-PE Solar",
+        description:
+          "From Homes to Industries, We Light the Way — Seamless Solar Solutions for All.",
+        link: "/solar",
+        buttonText: "Explore Solar",
+      },
+      {
+        image: "/assets/images/GRAND_PE_TECH.png",
+        title: "Grand-PE Tech",
+        description: "Empowering Innovation — Smart Tech, Smarter Future.",
+        link: "/tech",
+        buttonText: "Discover Tech",
+      },
+      {
+        image: "/assets/images/GRAND_PE_TRANSLATE.jpg",
+        title: "Grand-PE Translate",
+        description:
+          "Bridging Voices — Empowering Communication Through Sign and Speech.",
+        link: "/translate",
+        buttonText: "Our Services",
+      },
+      {
+        image: "/assets/images/plants1.png",
+        title: "Grand-PE Plants & Export",
+        description: "From Native Soil to Global Shelves.",
+        link: "/plants",
+        buttonText: "View Products",
+      },
     ],
     []
   );
 
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [current, setCurrent] = useState(0);
 
-  const goPrev = () => {
-    setCurrentIndex((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
-  };
+  // 🔥 Auto fade
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrent((prev) =>
+        prev === slides.length - 1 ? 0 : prev + 1
+      );
+    }, 5000);
 
-  const goNext = () => {
-    setCurrentIndex((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
-  };
+    return () => clearInterval(interval);
+  }, [slides.length]);
+
+  const next = () =>
+    setCurrent((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
+
+  const prev = () =>
+    setCurrent((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
 
   return (
-    <section className="solar-section solar-container">
-      <div className="solar-hero-frame">
-        <div
-          className="solar-hero-track"
-          style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-        >
-          {slides.map((slide) => (
-            <div className="solar-hero-slide" key={slide.src}>
-              <div className="solar-image-card solar-hero-card">
-                <img src={slide.src} alt={slide.alt} />
+    <div className="bg-gray-100 mt-4 md:mt-6 py-4 px-3 md:px-6">
+      <div className="relative max-w-7xl mx-auto overflow-hidden rounded-2xl">
+
+        {/* Slides (stacked) */}
+        <div className="relative w-full h-[65vh] sm:h-[75vh] md:h-[340px]">
+          {slides.map((slide, index) => (
+            <div
+              key={index}
+              className={`absolute inset-0 transition-opacity duration-[1200ms] ease-in-out ${
+                index === current ? "opacity-100 z-10" : "opacity-0 z-0"
+              }`}
+            >
+              {/* Image */}
+              <img
+                src={slide.image}
+                alt={slide.title}
+                className="w-full h-full object-cover object-center"
+              />
+
+              {/* Gradient */}
+              <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
+
+              {/* Content */}
+              <div className="absolute inset-0 flex items-center">
+                <div className="text-white pl-12 md:pl-20 pr-4 md:pr-10 max-w-lg">
+                  
+                  <h1 className="text-white text-lg sm:text-2xl md:text-4xl font-bold mb-2">
+                    {slide.title}
+                  </h1>
+
+                  <p className="text-xs sm:text-sm md:text-base mb-4 opacity-90">
+                    {slide.description}
+                  </p>
+
+                  <Link
+                    to={slide.link}
+                    className="inline-block bg-indigo-500 hover:bg-indigo-600 transition text-white text-xs sm:text-sm md:text-base px-4 py-2 md:px-6 md:py-3 rounded-md font-medium"
+                  >
+                    {slide.buttonText}
+                  </Link>
+
+                </div>
               </div>
             </div>
           ))}
         </div>
 
+        {/* Left Arrow */}
         <button
-          type="button"
-          className="solar-hero-arrow solar-hero-arrow-left"
-          onClick={goPrev}
-          aria-label="Previous slide"
+          onClick={prev}
+          className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 w-8 h-8 md:w-10 md:h-10 rounded-full bg-white/80 hover:bg-white shadow flex items-center justify-center z-20"
         >
           ‹
         </button>
+
+        {/* Right Arrow */}
         <button
-          type="button"
-          className="solar-hero-arrow solar-hero-arrow-right"
-          onClick={goNext}
-          aria-label="Next slide"
+          onClick={next}
+          className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 w-8 h-8 md:w-10 md:h-10 rounded-full bg-white/80 hover:bg-white shadow flex items-center justify-center z-20"
         >
           ›
         </button>
 
-        <div className="solar-hero-dots">
-          {slides.map((_, index) => (
+        {/* Indicators */}
+        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2 md:hidden z-20">
+          {slides.map((_, i) => (
             <button
-              key={index}
-              type="button"
-              className={`solar-hero-dot ${index === currentIndex ? "active" : ""}`}
-              onClick={() => setCurrentIndex(index)}
-              aria-label={`Go to slide ${index + 1}`}
+              key={i}
+              onClick={() => setCurrent(i)}
+              className={`w-2 h-2 rounded-full ${
+                i === current ? "bg-white" : "bg-white/50"
+              }`}
             />
           ))}
         </div>
+
       </div>
-    </section>
+    </div>
   );
 }
