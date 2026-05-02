@@ -48,16 +48,6 @@ export default function Navbar() {
           <img src="/assets/images/GRAND_PE_GLOBAL_LIMITED.png" alt="Grand-PE Solar" className="h-16 w-auto" />
         </a>*/}
 
-        <div className="hidden md:flex items-center flex-1">
-          <div className="flex w-full items-center rounded-full bg-neutral-100 px-4 py-2 shadow-[0_1px_6px_rgba(0,0,0,0.08)] border border-neutral-200">
-            <Search className="w-4 h-4 text-neutral-400" />
-            <input
-              placeholder="Search for products"
-              className="w-full bg-transparent pl-3 text-sm placeholder:text-neutral-400 focus:outline-none"
-            />
-          </div>
-        </div>
-
         <div className="flex items-center gap-2 sm:gap-3">
           <button className="items-center gap-2 px-3 py-2 rounded-md hover:bg-neutral-50 text-sm transition-transform duration-200 hover:scale-[1.03]">
             <MapPin className="hidden md:flex w-5 h-5" />

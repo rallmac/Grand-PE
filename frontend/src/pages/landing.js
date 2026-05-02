@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../css/style.css";
 import { FooterGrandpe } from "../components/FooterGrandpe";
+import { HeaderGrandpe } from "../components/HeaderGrandpe";
+import Hero from "./Hero"
 
 function LandingPage() {
   // Carousel state
@@ -191,138 +193,13 @@ function LandingPage() {
   return (
     <>
       {/* Header */}
-      <header className="main-header">
-        <div className="container">
-          <Link to="/" className="logo">
-            <img
-              src="/assets/images/GRAND_PE_GLOBAL_LIMITED.jpg"
-              alt="Grand-PE Global Limited Logo"
-              style={{ height: '50px' }}
-            />
-          </Link>
-          <button
-            className="mobile-nav-toggle"
-            aria-label="Toggle navigation"
-            aria-expanded={isMobileMenuOpen}
-            onClick={toggleMobileMenu}
-          >
-            {isMobileMenuOpen ? '✕' : '☰'}
-          </button>
-          <nav className={`main-nav ${isMobileMenuOpen ? 'active' : ''}`}>
-            <ul>
-              <li><Link to="/home" className="active" onClick={() => setIsMobileMenuOpen(false)}>Home</Link></li>
-              <li><Link to="/about" onClick={() => setIsMobileMenuOpen(false)}>About Us</Link></li>
-              <li><Link to="/solar" onClick={() => setIsMobileMenuOpen(false)}>Solar</Link></li>
-              <li><Link to="/tech" onClick={() => setIsMobileMenuOpen(false)}>Tech</Link></li>
-              <li><Link to="/translate" onClick={() => setIsMobileMenuOpen(false)}>Translate</Link></li>
-              <li><Link to="/plants" onClick={() => setIsMobileMenuOpen(false)}>Plants & Export</Link></li>
-              <li><Link to="/signin" onClick={() => setIsMobileMenuOpen(false)}>Signin</Link></li>
-            </ul>
-          </nav>
-        </div>
-      </header>
-      {/* This is a spacer. it acts to prevent content hiding under the fixed header*/}
-      <div style={{ height: '90px' }} aria-hidden='true'/>
+      <HeaderGrandpe />
 
       <main>
         {/* Hero Section */}
-        <section className="hero">
-          <div className="hero-carousel" id="homepage-hero-carousel">
-            <div 
-              className="hero-slides-wrapper"
-              onMouseEnter={handleCarouselMouseEnter}
-              onMouseLeave={handleCarouselMouseLeave}
-            >
-              {heroSlides.map((slide, index) => (
-                <div
-                  key={index}
-                  className={`hero-slide ${index === currentSlide ? 'active' : ''}`}
-                  style={{
-                    backgroundImage: `url('${slide.image}')`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    backgroundRepeat: 'no-repeat',
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: '100%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    textAlign: 'center',
-                    opacity: index === currentSlide ? 1 : 0,
-                    transition: 'opacity 1.2s ease-in-out',
-                    zIndex: index === currentSlide ? 2 : 1
-                  }}
-                >
-                  {/* Dark overlay for text readability */}
-                  <div style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: '100%',
-                    background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.6) 100%)',
-                    zIndex: 1
-                  }} />
-                  <div className="hero-content" style={{ position: 'relative', zIndex: 3, maxWidth: '850px', padding: '20px' }}>
-                    <h1 style={{ 
-                      fontSize: '3.8rem', 
-                      marginBottom: '0.5em', 
-                      color: 'var(--light-text-color)', 
-                      textShadow: '2px 2px 6px rgba(0, 0, 0, 0.6)', 
-                      fontWeight: '700' 
-                    }}>
-                      {slide.title}
-                    </h1>
-                    <p style={{ 
-                      fontSize: '1.3rem', 
-                      marginBottom: '1.5em', 
-                      textShadow: '1px 1px 3px rgba(0, 0, 0, 0.5)', 
-                      fontWeight: '400',
-                      color: 'var(--light-text-color)'
-                    }}>
-                      {slide.description}
-                    </p>
-                    <Link to={slide.link} className="btn btn-accent" style={{ fontSize: '1.1rem', padding: '15px 30px' }}>
-                      {slide.buttonText}
-                    </Link>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="carousel-nav">
-            <button 
-              className="prev-btn" 
-              aria-label="Previous Slide"
-              onClick={prevSlide}
-            >
-              <i className="fas fa-chevron-left"></i>
-            </button>
-            <button 
-              className="next-btn" 
-              aria-label="Next Slide"
-              onClick={nextSlide}
-            >
-              <i className="fas fa-chevron-right"></i>
-            </button>
-          </div>
-          <div className="carousel-indicators">
-            {heroSlides.map((_, index) => (
-              <button
-                key={index}
-                className={`indicator-dot ${index === currentSlide ? 'active' : ''}`}
-                aria-label={`Go to slide ${index + 1}`}
-                onClick={() => goToSlide(index)}
-              />
-            ))}
-          </div>
-        </section>
-
+        <Hero />
         {/* Brief Intro Section */}
-        <section className="intro-section section-padding">
+        <section className="intro-section">
           <div className="container text-center">
             <h2 className="reveal-on-scroll">Welcome to Grand-PE Global Limited</h2>
             <p className="lead reveal-on-scroll">
