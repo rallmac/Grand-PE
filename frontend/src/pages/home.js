@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "../css/style.css";
 import { FooterGrandpe } from "../components/FooterGrandpe";
 import { HeaderGrandpe } from "../components/HeaderGrandpe";
+import Hero from "./Hero";
 
 function HomePage() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -81,65 +82,12 @@ function HomePage() {
       {/* Header Section */}
       <HeaderGrandpe />
 
+      <Hero />
+
       {/* Body of page */}
       <main>
-        {/* Hero Section */}
-        <section className="hero">
-          <div className="hero-carousel" id="homepage-hero-carousel">
-            <div 
-              className="hero-slides-wrapper"
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-            >
-              {slides.map((slide, index) => (
-                <div
-                  key={index}
-                  className={`hero-slide ${index === currentSlide ? 'active' : ''}`}
-                  style={{
-                    backgroundImage: `url('${slide.image}')`,
-                  }}
-                >
-                  <div className="hero-content reveal-on-scroll">
-                    <h1>{slide.title}</h1>
-                    <p>{slide.description}</p>
-                    <Link to={slide.link} className="btn btn-accent">
-                      {slide.buttonText}
-                    </Link>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="carousel-nav">
-            <button 
-              className="prev-btn" 
-              aria-label="Previous Slide"
-              onClick={prevSlide}
-            >
-              <i className="fas fa-chevron-left"></i>
-            </button>
-            <button 
-              className="next-btn" 
-              aria-label="Next Slide"
-              onClick={nextSlide}
-            >
-              <i className="fas fa-chevron-right"></i>
-            </button>
-          </div>
-          <div className="carousel-indicators">
-            {slides.map((_, index) => (
-              <button
-                key={index}
-                className={`indicator-dot ${index === currentSlide ? 'active' : ''}`}
-                aria-label={`Go to slide ${index + 1}`}
-                onClick={() => goToSlide(index)}
-              />
-            ))}
-          </div>
-        </section>
-
         {/* Brief Intro Section */}
-        <section className="intro-section section-padding">
+        <section className="intro-section">
           <div className="container text-center">
             <h2 className="reveal-on-scroll">Welcome to Grand-PE Global Limited</h2>
             <p className="lead reveal-on-scroll">
