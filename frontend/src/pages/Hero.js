@@ -108,7 +108,7 @@ export default function Hero() {
         {/* Left Arrow */}
         <button
           onClick={prev}
-          className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 w-8 h-8 md:w-10 md:h-10 rounded-full bg-white/80 hover:bg-white shadow flex items-center justify-center z-20"
+          className="absolute text-white left-2 md:left-4 top-1/2 -translate-y-1/2 w-8 h-8 md:w-10 md:h-10 rounded-full bg-white/10 hover:bg-white/20 shadow flex items-center justify-center z-20"
         >
           ‹
         </button>
@@ -116,7 +116,7 @@ export default function Hero() {
         {/* Right Arrow */}
         <button
           onClick={next}
-          className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 w-8 h-8 md:w-10 md:h-10 rounded-full bg-white/80 hover:bg-white shadow flex items-center justify-center z-20"
+          className="absolute text-white right-2 md:right-4 top-1/2 -translate-y-1/2 w-8 h-8 md:w-10 md:h-10 rounded-full bg-white/10 hover:bg-white/20 shadow flex items-center justify-center z-20"
         >
           ›
         </button>
