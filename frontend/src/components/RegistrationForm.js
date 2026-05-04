@@ -66,7 +66,7 @@ export default function RegistrationForm() {
               className="mx-auto h-10 w-auto"
             />
 
-            <h2 className="mt-10 text-2xl font-bold text-indigo-900">
+            <h2 className="mt-10 text-2xl font-bold text-[#265073]">
               Get started
             </h2>
 
@@ -99,7 +99,7 @@ export default function RegistrationForm() {
 
               {/* EMAIL */}
               <div>
-                <label className="block text-sm text-gray-900">
+                <label className="block text-sm font-medium text-gray-900">
                   Email address
                 </label>
 
@@ -111,7 +111,7 @@ export default function RegistrationForm() {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   placeholder="you@example.com"
-                  className="mt-2 w-full rounded-md outline outline-2 outline-indigo-800 bg-gray-200 px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="mt-2 w-full rounded-md bg-gray-100 px-3 py-2 text-black outline-none focus:ring-2 focus:ring-[#265073]"
                 />
               </div>
 
@@ -120,9 +120,11 @@ export default function RegistrationForm() {
                 type="submit"
                 disabled={loading}
                 className={`flex w-full justify-center items-center gap-2 rounded-md px-3 py-2 text-white transition
-                  ${loading
-                    ? 'bg-indigo-500 cursor-not-allowed'
-                    : 'bg-indigo-500 hover:bg-indigo-400'}`}
+                  ${
+                    loading
+                      ? 'bg-[#1f3e59] cursor-not-allowed'
+                      : 'bg-[#265073] hover:bg-[#1f3e59]'
+                  }`}
               >
                 {loading && (
                   <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
@@ -137,7 +139,7 @@ export default function RegistrationForm() {
               Already have an account?{' '}
               <Link
                 to="/signin"
-                className="font-semibold text-indigo-400 hover:text-indigo-300"
+                className="font-semibold text-[#265073] hover:underline"
               >
                 Sign in
               </Link>
@@ -154,16 +156,16 @@ export default function RegistrationForm() {
             alt=""
           />
 
-            <div className="absolute inset-0 bg-black/30 flex justify-end items-end p-8 text-white">
-              <div className="max-w-sm text-right">
-                <h2 className="text-xl font-semibold whitespace-nowrap text-white overflow-hidden text-ellipsis">
-                  Reliable power, day and night.
-                </h2>
-                <p className="text-sm opacity-80">
-                  Power your home with elegance and simplicity
-                </p>
-              </div>
+          <div className="absolute inset-0 bg-black/30 flex justify-end items-end p-8 text-white">
+            <div className="max-w-sm text-right">
+              <h2 className="text-xl font-semibold text-white">
+                Reliable power, day and night.
+              </h2>
+              <p className="text-sm opacity-80">
+                Power your home with elegance and simplicity
+              </p>
             </div>
+          </div>
         </div>
 
       </div>

@@ -43,26 +43,26 @@ export function HeaderGrandpe() {
           </Link>
 
           {/* DESKTOP NAV */}
-          <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-700">
-            <NavLink to="/home" className="hover:text-indigo-600">
+          <nav className="hidden md:flex items-center gap-6 text-sm font-semibold text-gray-700">
+            <NavLink to="/home" className="hover:text-[#265073]">
               Home
             </NavLink>
-            <NavLink to="/about" className="hover:text-indigo-600">
+            <NavLink to="/about" className="hover:text-[#265073]">
               About
             </NavLink>
-            <NavLink to="/solar" className="hover:text-indigo-600">
+            <NavLink to="/solar" className="hover:text-[#265073]">
               Solar
             </NavLink>
-            <NavLink to="/tech" className="hover:text-indigo-600">
+            <NavLink to="/tech" className="hover:text-[#265073]">
               Tech
             </NavLink>
-            <NavLink to="/plants" className="hover:text-indigo-600">
+            <NavLink to="/plants" className="hover:text-[#265073]">
               Plants
             </NavLink>
 
             <NavLink
               to="/signin"
-              className="ml-2 px-4 py-2 rounded-md bg-indigo-600 text-white hover:bg-indigo-500 transition"
+              className="ml-2 px-4 py-2 rounded-md bg-[#265073] text-white hover:bg-[#1f3e59] transition"
             >
               Sign in
             </NavLink>
@@ -79,44 +79,43 @@ export function HeaderGrandpe() {
 
         {/* 🔽 MOBILE NAV */}
         {isMobileMenuOpen && (
-          <div className="md:hidden bg-white border-t border-gray-200 px-6 py-4 space-y-4 text-gray-700 text-sm">
-            <NavLink to="/home" onClick={closeMenu} className="block">
+          <div className="md:hidden bg-white border-t border-gray-200 px-6 py-4 space-y-4 text-gray-700 text-sm font-semibold">
+            <NavLink to="/home" onClick={closeMenu} className="block hover:text-[#265073]">
               Home
             </NavLink>
-            <NavLink to="/about" onClick={closeMenu} className="block">
+            <NavLink to="/about" onClick={closeMenu} className="block hover:text-[#265073]">
               About
             </NavLink>
-            <NavLink to="/solar" onClick={closeMenu} className="block">
+            <NavLink to="/solar" onClick={closeMenu} className="block hover:text-[#265073]">
               Solar
             </NavLink>
-            <NavLink to="/tech" onClick={closeMenu} className="block">
+            <NavLink to="/tech" onClick={closeMenu} className="block hover:text-[#265073]">
               Tech
             </NavLink>
-            <NavLink to="/plants" onClick={closeMenu} className="block">
+            <NavLink to="/plants" onClick={closeMenu} className="block hover:text-[#265073]">
               Plants & Export
             </NavLink>
 
             <NavLink
               to="/signin"
               onClick={closeMenu}
-              className="block mt-2 px-4 py-2 rounded-md bg-indigo-600 text-white text-center"
+              className="block mt-2 px-4 py-2 rounded-md bg-[#265073] text-white text-center hover:bg-[#1f3e59] transition"
             >
               Sign in
             </NavLink>
           </div>
         )}
 
-        {/* 🔍 SEARCH BAR (ALWAYS VISIBLE, SEPARATE ROW) */}
+        {/* 🔍 SEARCH BAR */}
         <div className="border-t border-gray-200 bg-white">
           <div className="max-w-3xl mx-auto px-6 py-3">
-
             <form onSubmit={handleSearch} className="relative">
               <input
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search products, tech, solar, plants..."
-                className="w-full rounded-full bg-gray-100 px-5 py-2.5 text-sm text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-indigo-500"
+                className="w-full rounded-full bg-gray-100 px-5 py-2.5 text-sm text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-[#265073]"
               />
 
               <button
@@ -126,13 +125,12 @@ export function HeaderGrandpe() {
                 🔍
               </button>
             </form>
-
           </div>
         </div>
 
       </header>
 
-      {/* SPACER (header + search height) */}
+      {/* SPACER */}
       <div className="h-[110px]" />
     </>
   );
