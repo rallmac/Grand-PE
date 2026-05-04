@@ -40,7 +40,6 @@ export default function Hero() {
 
   const [current, setCurrent] = useState(0);
 
-  // Auto fade
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrent((prev) =>
@@ -77,8 +76,8 @@ export default function Hero() {
                 className="w-full h-full object-cover object-center"
               />
 
-              {/* ✅ Even dim overlay */}
-              <div className="absolute inset-0 bg-black/60" />
+              {/* ✅ Reduced overlay (50% lighter) */}
+              <div className="absolute inset-0 bg-black/30" />
 
               {/* Content */}
               <div className="absolute inset-0 flex items-end md:items-center">
@@ -94,7 +93,7 @@ export default function Hero() {
 
                   <Link
                     to={slide.link}
-                    className="inline-block bg-indigo-500 hover:bg-indigo-600 transition text-white text-sm md:text-base px-5 py-2.5 md:px-6 md:py-3 rounded-md font-semibold"
+                    className="inline-block bg-[#265073] hover:bg-[#1f3e59] transition text-white text-sm md:text-base px-5 py-2.5 md:px-6 md:py-3 rounded-md font-semibold"
                   >
                     {slide.buttonText}
                   </Link>
