@@ -26,9 +26,6 @@ export default function Hero() {
                     className="object-cover w-full h-full transition-transform duration-500 ease-out transform-gpu group-hover:scale-[1.06] group-hover:brightness-105"
                   />
 
-                  {/* ✅ EVEN DIM (same system) */}
-                  {/*<div className="absolute inset-0 bg-black/60" />*/}
-
                 </div>
 
               </CarouselItem>
@@ -37,8 +34,8 @@ export default function Hero() {
 
           {/* Controls */}
           <div className="absolute inset-0 z-20 flex items-center justify-between px-3 md:px-4 pointer-events-none">
-            <CarouselPrevious className="pointer-events-auto left-2 md:left-3 size-10 bg-[#b10045] text-white border-none shadow-md hover:bg-[#8f0038] disabled:opacity-40 disabled:cursor-not-allowed" />
-            <CarouselNext className="pointer-events-auto right-2 md:right-3 size-10 bg-[#b10045] text-white border-none shadow-md hover:bg-[#8f0038] disabled:opacity-40 disabled:cursor-not-allowed" />
+            <CarouselPrevious className="pointer-events-auto left-2 md:left-3 size-10 !bg-[#265073] text-white border-none shadow-md hover:!bg-[#265073] disabled:opacity-40 disabled:cursor-not-allowed" />
+            <CarouselNext className="pointer-events-auto right-2 md:right-3 size-10 !bg-[#265073] text-white border-none shadow-md hover:!bg-[#265073] disabled:opacity-40 disabled:cursor-not-allowed" />
           </div>
 
         </Carousel>
