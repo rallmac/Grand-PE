@@ -56,7 +56,7 @@ export default function ForgotPasswordForm() {
               className="mx-auto h-10 w-auto"
             />
 
-            <h2 className="mt-10 text-2xl font-bold text-indigo-900">
+            <h2 className="mt-10 text-2xl font-bold text-[#265073]">
               Forgot your password?
             </h2>
 
@@ -70,7 +70,7 @@ export default function ForgotPasswordForm() {
 
             {/* MESSAGE */}
             {message && (
-              <div className="bg-indigo-500/10 text-indigo-600 p-4 rounded text-sm mb-4 text-center">
+              <div className="bg-[#265073]/10 text-[#265073] p-4 rounded text-sm mb-4 text-center">
                 {message}
               </div>
             )}
@@ -79,7 +79,7 @@ export default function ForgotPasswordForm() {
 
               {/* EMAIL */}
               <div>
-                <label className="block text-sm text-gray-900">
+                <label className="block text-sm font-medium text-gray-900">
                   Email address
                 </label>
 
@@ -91,7 +91,7 @@ export default function ForgotPasswordForm() {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   placeholder="you@example.com"
-                  className="mt-2 w-full rounded-md outline outline-2 outline-indigo-800 bg-gray-200 px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="mt-2 w-full rounded-md bg-gray-100 px-3 py-2 text-black outline-none focus:ring-2 focus:ring-[#265073]"
                 />
               </div>
 
@@ -100,9 +100,11 @@ export default function ForgotPasswordForm() {
                 type="submit"
                 disabled={loading}
                 className={`flex w-full justify-center items-center gap-2 rounded-md px-3 py-2 text-white transition
-                  ${loading
-                    ? 'bg-indigo-500 cursor-not-allowed'
-                    : 'bg-indigo-500 hover:bg-indigo-400'}`}
+                  ${
+                    loading
+                      ? 'bg-[#1f3e59] cursor-not-allowed'
+                      : 'bg-[#265073] hover:bg-[#1f3e59]'
+                  }`}
               >
                 {loading && (
                   <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
@@ -117,7 +119,7 @@ export default function ForgotPasswordForm() {
               Remember your password?{' '}
               <Link
                 to="/signin"
-                className="font-semibold text-indigo-400 hover:text-indigo-300"
+                className="font-semibold text-[#265073] hover:underline"
               >
                 Sign in
               </Link>
@@ -134,10 +136,9 @@ export default function ForgotPasswordForm() {
             alt="Tech background"
           />
 
-          {/* Overlay */}
           <div className="absolute inset-0 bg-black/30 flex justify-end items-end p-8 text-white">
             <div className="max-w-sm text-right">
-              <h2 className="text-xl text-white font-semibold whitespace-nowrap overflow-hidden text-ellipsis">
+              <h2 className="text-xl font-semibold text-white">
                 Secure access. Powered by tech.
               </h2>
               <p className="text-sm opacity-80">
