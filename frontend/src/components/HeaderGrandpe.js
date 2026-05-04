@@ -1,104 +1,137 @@
 import React, { useState } from "react";
 import { NavLink, Link, useLocation } from "react-router-dom";
-import "../css/style.css";
 
 export function HeaderGrandpe() {
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [search, setSearch] = useState("");
 
-  // Toggle mobile menu
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  // Close mobile menu when link is clicked
   const closeMenu = () => {
     setIsMobileMenuOpen(false);
   };
 
+  const handleSearch = (e) => {
+    e.preventDefault();
+    console.log("Search:", search);
+  };
+
   return (
     <>
-      {/* Header */}
-      <header className="main-header">
-        <div className="container">
+      {/* MAIN HEADER */}
+      <header className="fixed top-0 left-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
 
-          {/* Logo */}
-          <Link to="/" className="logo">
+        {/* TOP NAV */}
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 flex items-center justify-between h-16">
+
+          {/* LOGO */}
+          <Link to="/" className="flex items-center">
             <img
               src={
                 location.pathname === "/solar"
                   ? "/assets/images/GRAND_PE_SOLAR_LOGO.png"
                   : "/assets/images/GRAND_PE_GLOBAL_LIMITED.png"
               }
-              alt="Grand-PE Logo"
-              style={
-                  location.pathname === '/solar'
-                  ? { width: 'auto' }
-                  : { height: '50px' }
-              }
+              alt="Logo"
+              className={`object-contain ${
+                location.pathname === "/solar" ? "h-10" : "h-8"
+              }`}
             />
           </Link>
 
-          {/* Mobile menu button */}
+          {/* DESKTOP NAV */}
+          <nav className="hidden md:flex items-center gap-6 text-sm font-semibold text-gray-700">
+            <NavLink to="/home" className="hover:text-[#265073]">
+              Home
+            </NavLink>
+            <NavLink to="/about" className="hover:text-[#265073]">
+              About
+            </NavLink>
+            <NavLink to="/solar" className="hover:text-[#265073]">
+              Solar
+            </NavLink>
+            <NavLink to="/tech" className="hover:text-[#265073]">
+              Tech
+            </NavLink>
+            <NavLink to="/plants" className="hover:text-[#265073]">
+              Plants
+            </NavLink>
+
+            <NavLink
+              to="/signin"
+              className="ml-2 px-4 py-2 rounded-md bg-[#265073] text-white hover:bg-[#1f3e59] transition"
+            >
+              Sign in
+            </NavLink>
+          </nav>
+
+          {/* MOBILE BUTTON */}
           <button
-            className="mobile-nav-toggle"
-            aria-label="Toggle navigation"
-            aria-expanded={isMobileMenuOpen}
             onClick={toggleMobileMenu}
+            className="md:hidden text-2xl text-gray-700"
           >
             {isMobileMenuOpen ? "✕" : "☰"}
           </button>
-
-          {/* Navigation */}
-          <nav className={`main-nav ${isMobileMenuOpen ? "active" : ""}`}>
-            <ul>
-              <li>
-                <NavLink to="/home" end onClick={closeMenu}>
-                  Home
-                </NavLink>
-              </li>
-
-              <li>
-                <NavLink to="/about" onClick={closeMenu}>
-                  About Us
-                </NavLink>
-              </li>
-
-              <li>
-                <NavLink to="/solar" onClick={closeMenu}>
-                  Solar
-                </NavLink>
-              </li>
-
-              <li>
-                <NavLink to="/tech" onClick={closeMenu}>
-                  Tech
-                </NavLink>
-              </li>
-
-              <li>
-                <NavLink to="/translate" onClick={closeMenu}>
-                  Translate
-                </NavLink>
-              </li>
-
-              <li>
-                <NavLink to="/plants" onClick={closeMenu}>
-                  Plants & Export
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/signin" onClick={closeMenu}>
-                  SignIn
-                </NavLink>
-              </li>
-            </ul>
-          </nav>
         </div>
+
+        {/* 🔽 MOBILE NAV */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden bg-white border-t border-gray-200 px-6 py-4 space-y-4 text-gray-700 text-sm font-semibold">
+            <NavLink to="/home" onClick={closeMenu} className="block hover:text-[#265073]">
+              Home
+            </NavLink>
+            <NavLink to="/about" onClick={closeMenu} className="block hover:text-[#265073]">
+              About
+            </NavLink>
+            <NavLink to="/solar" onClick={closeMenu} className="block hover:text-[#265073]">
+              Solar
+            </NavLink>
+            <NavLink to="/tech" onClick={closeMenu} className="block hover:text-[#265073]">
+              Tech
+            </NavLink>
+            <NavLink to="/plants" onClick={closeMenu} className="block hover:text-[#265073]">
+              Plants & Export
+            </NavLink>
+
+            <NavLink
+              to="/signin"
+              onClick={closeMenu}
+              className="block mt-2 px-4 py-2 rounded-md bg-[#265073] text-white text-center hover:bg-[#1f3e59] transition"
+            >
+              Sign in
+            </NavLink>
+          </div>
+        )}
+
+        {/* 🔍 SEARCH BAR */}
+        <div className="border-t border-gray-200 bg-white">
+          <div className="max-w-3xl mx-auto px-6 py-3">
+            <form onSubmit={handleSearch} className="relative">
+              <input
+                type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search products, tech, solar, plants..."
+                className="w-full rounded-full bg-gray-100 px-5 py-2.5 text-sm text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-[#265073]"
+              />
+
+              <button
+                type="submit"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500"
+              >
+                🔍
+              </button>
+            </form>
+          </div>
+        </div>
+
       </header>
 
-      {/* Spacer to prevent content hiding under fixed header */}
-      <div style={{ height: "90px" }} aria-hidden="true" />
+      {/* SPACER */}
+      <div className="h-[110px]" />
     </>
   );
 }
