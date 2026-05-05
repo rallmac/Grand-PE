@@ -2,19 +2,17 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useState } from 'react';
 
-export default function RegistrationForm() {
+export default function ForgotPasswordForm() {
   const [email, setEmail] = useState('');
-  const [success, setSuccess] = useState('');
-  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
-    setSuccess('');
+    setMessage('');
 
     if (!email) {
-      return setError('Email is required');
+      return setMessage('Please enter your email');
     }
 
     const normalizedEmail = email.trim().toLowerCase();
@@ -22,29 +20,20 @@ export default function RegistrationForm() {
     setLoading(true);
 
     try {
-      const res = await axios.post(
-        `${process.env.REACT_APP_API_URL}/auth/register`,
+      await axios.post(
+        `${process.env.REACT_APP_API_URL}/auth/forgot-password`,
         { email: normalizedEmail }
       );
 
-      setSuccess(
-        res.data.message ||
-        'Verification email sent. Please check your inbox.'
+      setMessage(
+        'If an account with that email exists, a password reset link has been sent.'
       );
 
       setEmail('');
-
     } catch (err) {
-      let message =
-        err.response?.data?.message ||
-        err.message ||
-        'Something went wrong';
-
-      if (Array.isArray(message)) {
-        message = message[0];
-      }
-
-      setError(message);
+      setMessage(
+        'If an account with that email exists, a password reset link has been sent.'
+      );
     } finally {
       setLoading(false);
     }
@@ -62,31 +51,21 @@ export default function RegistrationForm() {
         />
 
         <h2 className="mt-10 text-2xl font-bold text-white">
-          Access Admin Features
+          Forgot your admin password?
         </h2>
 
         <p className="mt-2 text-sm text-gray-400">
-          Enter your email to receive a verification link
+          Enter your email and we’ll send you a reset link
         </p>
       </div>
 
       {/* FORM CARD */}
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm bg-white/5 backdrop-blur-md rounded-2xl p-6 shadow-lg border border-white/10">
 
-        {/* SUCCESS */}
-        {success && (
-          <div className="bg-green-500/10 text-green-400 p-4 rounded text-sm mb-4 text-center">
-            <p>{success}</p>
-            <p className="mt-2 text-xs text-gray-400">
-              Didn’t get the email? Check spam or try again.
-            </p>
-          </div>
-        )}
-
-        {/* ERROR */}
-        {error && (
-          <div className="bg-red-500/10 text-red-400 p-3 rounded text-sm mb-4 text-center">
-            {error}
+        {/* MESSAGE */}
+        {message && (
+          <div className="bg-[#265073]/10 text-[#265073] p-4 rounded text-sm mb-4 text-center">
+            {message}
           </div>
         )}
 
@@ -124,14 +103,14 @@ export default function RegistrationForm() {
             {loading && (
               <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
             )}
-            {loading ? 'Sending link...' : 'Send verification link'}
+            {loading ? 'Sending link...' : 'Send reset link'}
           </button>
 
         </form>
 
         {/* FOOTER */}
         <p className="mt-10 text-center text-sm text-gray-400">
-          Already have an account?{' '}
+          Remember your password?{' '}
           <Link
             to="/admin-signin"
             className="font-semibold text-[#265073] hover:underline"

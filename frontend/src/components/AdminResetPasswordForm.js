@@ -21,12 +21,10 @@ export default function ResetPasswordForm() {
     setError('');
     setMessage('');
 
-    // 🔐 Token check
     if (!token) {
       return setError('Invalid or missing reset token');
     }
 
-    // 🧠 Validation
     if (!password || !confirmPassword) {
       return setError('All fields are required');
     }
@@ -77,7 +75,7 @@ export default function ResetPasswordForm() {
 
   return (
     <div className="flex min-h-screen flex-col justify-center px-6 py-12 lg:px-8 bg-gray-900">
-      
+
       {/* HEADER */}
       <div className="sm:mx-auto sm:w-full sm:max-w-sm text-center">
         <img
@@ -85,15 +83,18 @@ export default function ResetPasswordForm() {
           alt="Logo"
           className="mx-auto h-10 w-auto"
         />
+
         <h2 className="mt-10 text-2xl font-bold text-white">
           Reset your admin password
         </h2>
+
         <p className="mt-2 text-sm text-gray-400">
           Enter a new password to regain access to your account
         </p>
       </div>
 
-      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+      {/* FORM CARD */}
+      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm bg-white/5 backdrop-blur-md rounded-2xl p-6 shadow-lg border border-white/10">
 
         {/* SUCCESS */}
         {message && (
@@ -113,7 +114,7 @@ export default function ResetPasswordForm() {
 
           {/* PASSWORD */}
           <div>
-            <label className="block text-sm text-gray-100">
+            <label className="block text-sm text-gray-300">
               New Password
             </label>
 
@@ -124,13 +125,13 @@ export default function ResetPasswordForm() {
                 disabled={loading}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="w-full rounded-md bg-white/5 px-3 py-2 text-white pr-10 focus:ring-2 focus:ring-indigo-500"
+                className="w-full rounded-md bg-gray-800 px-3 py-2 text-white pr-10 outline-none focus:ring-2 focus:ring-[#265073]"
               />
 
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-2 top-2 text-gray-400 text-sm"
+                className="absolute right-2 top-2 text-gray-400 text-sm hover:text-[#265073]"
               >
                 {showPassword ? 'Hide' : 'Show'}
               </button>
@@ -139,7 +140,7 @@ export default function ResetPasswordForm() {
 
           {/* CONFIRM PASSWORD */}
           <div>
-            <label className="block text-sm text-gray-100">
+            <label className="block text-sm text-gray-300">
               Confirm Password
             </label>
 
@@ -149,7 +150,7 @@ export default function ResetPasswordForm() {
               disabled={loading}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
-              className="mt-2 w-full rounded-md bg-white/5 px-3 py-2 text-white focus:ring-2 focus:ring-indigo-500"
+              className="mt-2 w-full rounded-md bg-gray-800 px-3 py-2 text-white outline-none focus:ring-2 focus:ring-[#265073]"
             />
           </div>
 
@@ -158,9 +159,11 @@ export default function ResetPasswordForm() {
             type="submit"
             disabled={loading}
             className={`flex w-full justify-center items-center gap-2 rounded-md px-3 py-2 text-white transition
-              ${loading
-                ? 'bg-indigo-500 cursor-not-allowed'
-                : 'bg-indigo-500 hover:bg-indigo-400'}`}
+              ${
+                loading
+                  ? 'bg-[#1f3e59] cursor-not-allowed'
+                  : 'bg-[#265073] hover:bg-[#1f3e59]'
+              }`}
           >
             {loading && (
               <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
@@ -175,7 +178,7 @@ export default function ResetPasswordForm() {
           Remember your password?{' '}
           <Link
             to="/admin-signin"
-            className="font-semibold text-indigo-400 hover:text-indigo-300"
+            className="font-semibold text-[#265073] hover:underline"
           >
             Sign in
           </Link>
