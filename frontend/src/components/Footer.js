@@ -1,4 +1,3 @@
-// use native img
 import { Mail, Phone } from 'lucide-react'
 
 const categories = [
@@ -19,24 +18,37 @@ const brands = [
 
 export default function Footer() {
   const year = new Date().getFullYear()
+
   return (
-    <footer className="mt-16 border-t bg-[#f7f7f7] text-black">
+    <footer className="mt-16 border-t border-white/10 bg-[#0f172a] text-gray-300">
+
       <div className="mx-auto max-w-[1440px] px-4 sm:px-6 py-10 grid grid-cols-1 gap-10 md:grid-cols-4">
+
+        {/* LOGO + DESCRIPTION */}
         <div className="space-y-4">
           <div className="h-24 w-full max-w-[260px] mx-auto">
-            <img src="/assets/images/grand_pe_solar.png" alt="Grand-PE Solar" className="h-full w-full object-contain object-center" />
+            <img
+              src="/assets/images/grand_pe_solar.png"
+              alt="Grand-PE Solar"
+              className="h-full w-full object-contain object-center"
+            />
           </div>
-          <p className="text-sm leading-6 text-black">
+
+          <p className="text-sm leading-6 text-gray-400">
             Switch to clean, reliable solar energy today. We supply high-quality solar systems, professional installation, and dependable performance you can trust.
           </p>
         </div>
 
+        {/* CATEGORIES */}
         <div className="space-y-3">
-          <h4 className="text-base font-semibold">Categories</h4>
+          <h4 className="text-base font-semibold text-white">Categories</h4>
           <ul className="space-y-2 text-sm">
             {categories.map((item) => (
               <li key={item.label}>
-                <a href={item.href} className="text-black hover:text-black inline-block transition-transform duration-200 hover:scale-[1.03]">
+                <a
+                  href={item.href}
+                  className="text-gray-300 hover:text-[#265073] inline-block transition-transform duration-200 hover:scale-[1.03]"
+                >
                   {item.label}
                 </a>
               </li>
@@ -44,12 +56,16 @@ export default function Footer() {
           </ul>
         </div>
 
+        {/* BRANDS */}
         <div className="space-y-3">
-          <h4 className="text-base font-semibold">Top Brands</h4>
+          <h4 className="text-base font-semibold text-white">Top Brands</h4>
           <ul className="space-y-2 text-sm">
             {brands.map((item) => (
               <li key={item.label}>
-                <a href={item.href} className="text-black hover:text-black inline-block transition-transform duration-200 hover:scale-[1.03]">
+                <a
+                  href={item.href}
+                  className="text-gray-300 hover:text-[#265073] inline-block transition-transform duration-200 hover:scale-[1.03]"
+                >
                   {item.label}
                 </a>
               </li>
@@ -57,30 +73,59 @@ export default function Footer() {
           </ul>
         </div>
 
+        {/* CONTACT */}
         <div className="space-y-3">
-          <h4 className="text-base font-semibold">Contact Us</h4>
+          <h4 className="text-base font-semibold text-white">Contact Us</h4>
+
           <div className="space-y-2 text-sm">
             <div className="flex items-center gap-2">
-              <Mail className="w-4 h-4" />
-              <a href="mailto:online@grandpe.com" className="text-black hover:text-black inline-block transition-transform duration-200 hover:scale-[1.03]">online@grandpe.com</a>
+              <Mail className="w-4 h-4 text-[#265073]" />
+              <a
+                href="mailto:online@grandpe.com"
+                className="text-gray-300 hover:text-[#265073] inline-block transition-transform duration-200 hover:scale-[1.03]"
+              >
+                online@grandpe.com
+              </a>
             </div>
+
             <div className="flex items-center gap-2">
-              <Phone className="w-4 h-4" />
-              <a href="tel:+2348064013822" className="text-black hover:text-black inline-block transition-transform duration-200 hover:scale-[1.03]">+2348064013822</a>
+              <Phone className="w-4 h-4 text-[#265073]" />
+              <a
+                href="tel:+2348064013822"
+                className="text-gray-300 hover:text-[#265073] inline-block transition-transform duration-200 hover:scale-[1.03]"
+              >
+                +2348064013822
+              </a>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="border-t border-neutral-200">
-        <div className="mx-auto max-w-[1440px] px-4 sm:px-6 py-4 flex flex-col gap-3 text-xs text-black md:flex-row md:items-center md:justify-between">
+      {/* BOTTOM BAR */}
+      <div className="border-t border-white/10">
+        <div className="mx-auto max-w-[1440px] px-4 sm:px-6 py-4 flex flex-col gap-3 text-xs text-gray-400 md:flex-row md:items-center md:justify-between">
+
           <div>© {year} grand-pe. All rights reserved</div>
+
           <div className="flex items-center gap-6">
-            <a href="/privacy" className="text-black hover:text-black inline-block transition-transform duration-200 hover:scale-[1.03]">Privacy Policy</a>
-            <a href="/terms" className="text-black hover:text-black inline-block transition-transform duration-200 hover:scale-[1.03]">Terms & Conditions</a>
+            <a
+              href="/privacy"
+              className="hover:text-[#265073] transition"
+            >
+              Privacy Policy
+            </a>
+
+            <a
+              href="/terms"
+              className="hover:text-[#265073] transition"
+            >
+              Terms & Conditions
+            </a>
           </div>
+
         </div>
       </div>
+
     </footer>
   )
 }
