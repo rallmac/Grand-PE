@@ -3,7 +3,7 @@ import { AdminService } from './admin.service';
 import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../decorators/roles.decorator';
-import { AdminRegisterDto } './dto/adminRegister.dto';
+import { AdminRegisterDto } from './dto/adminRegister.dto';
 
 @Controller('admin')
 export class AdminController {
