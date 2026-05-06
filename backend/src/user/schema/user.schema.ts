@@ -4,7 +4,19 @@ import { Role } from '../enums/role.enum';
 @Schema()
 export class User {
   @Prop()
-  name: string;
+  firstName: string;
+
+  @Prop()
+  lastName: string;
+
+  @Prop()
+  userName: string;
+
+  @Prop()
+  profilePicture: string;
+
+  @Prop()
+  address: string;
 
   @Prop({ required: true, unique: true })
   email: string;

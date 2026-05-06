@@ -1,6 +1,7 @@
 import { UseGuards, Controller, Post, Body, Get, Query, Req } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './jwt-auth.guard';
+import { RegisterDto } from './dto/register.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -15,8 +16,8 @@ export class AuthController {
 	}
 
 	@Post('register')
-	async register(@Body('email') email: string) {
-		return this.authService.register(email);
+	async register(@Body() dto: RegisterDto) {
+		return this.authService.register(dto);
 	}
 
 	@Post('set-password')
