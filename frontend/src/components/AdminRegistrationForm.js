@@ -13,12 +13,10 @@ export default function RegistrationForm() {
     setError('');
     setSuccess('');
 
-    // 🧠 Basic validation
     if (!email) {
       return setError('Email is required');
     }
 
-    // normalize email (small but pro touch)
     const normalizedEmail = email.trim().toLowerCase();
 
     setLoading(true);
@@ -42,7 +40,6 @@ export default function RegistrationForm() {
         err.message ||
         'Something went wrong';
 
-      // 🧠 Handle NestJS validation arrays
       if (Array.isArray(message)) {
         message = message[0];
       }
@@ -55,7 +52,7 @@ export default function RegistrationForm() {
 
   return (
     <div className="flex min-h-screen flex-col justify-center px-6 py-12 lg:px-8 bg-gray-900">
-      
+
       {/* HEADER */}
       <div className="sm:mx-auto sm:w-full sm:max-w-sm text-center">
         <img
@@ -63,16 +60,18 @@ export default function RegistrationForm() {
           alt="Logo"
           className="mx-auto h-10 w-auto"
         />
+
         <h2 className="mt-10 text-2xl font-bold text-white">
           Access Admin Features
         </h2>
+
         <p className="mt-2 text-sm text-gray-400">
           Enter your email to receive a verification link
         </p>
       </div>
 
-      {/* FORM */}
-      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+      {/* FORM CARD */}
+      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm bg-white/5 backdrop-blur-md rounded-2xl p-6 shadow-lg border border-white/10">
 
         {/* SUCCESS */}
         {success && (
@@ -95,7 +94,7 @@ export default function RegistrationForm() {
 
           {/* EMAIL */}
           <div>
-            <label className="block text-sm text-gray-100">
+            <label className="block text-sm text-gray-300">
               Email address
             </label>
 
@@ -107,7 +106,7 @@ export default function RegistrationForm() {
               onChange={(e) => setEmail(e.target.value)}
               required
               placeholder="you@example.com"
-              className="mt-2 w-full rounded-md bg-white/5 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="mt-2 w-full rounded-md bg-gray-800 px-3 py-2 text-white placeholder-gray-500 outline-none focus:ring-2 focus:ring-[#265073]"
             />
           </div>
 
@@ -116,9 +115,11 @@ export default function RegistrationForm() {
             type="submit"
             disabled={loading}
             className={`flex w-full justify-center items-center gap-2 rounded-md px-3 py-2 text-white transition
-              ${loading
-                ? 'bg-indigo-500 cursor-not-allowed'
-                : 'bg-indigo-500 hover:bg-indigo-400'}`}
+              ${
+                loading
+                  ? 'bg-[#1f3e59] cursor-not-allowed'
+                  : 'bg-[#265073] hover:bg-[#1f3e59]'
+              }`}
           >
             {loading && (
               <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
@@ -133,7 +134,7 @@ export default function RegistrationForm() {
           Already have an account?{' '}
           <Link
             to="/admin-signin"
-            className="font-semibold text-indigo-400 hover:text-indigo-300"
+            className="font-semibold text-[#265073] hover:underline"
           >
             Sign in
           </Link>

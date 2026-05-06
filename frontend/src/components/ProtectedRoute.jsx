@@ -6,7 +6,7 @@ export default function ProtectedRoute({ children }) {
 	  localStorage.getItem('token') ||
 	  sessionStorage.getItem('token');
 
-	if (!isTokneValid(token)) {
+	if (!isTokenValid(token)) {
 		return <Navigate to='/signin' replace/>;
 	}
 
