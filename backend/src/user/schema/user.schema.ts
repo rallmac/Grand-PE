@@ -3,13 +3,13 @@ import { Role } from '../enums/role.enum';
 
 @Schema()
 export class User {
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true })
   firstName: string;
 
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true })
   lastName: string;
 
-  @Prop({ unique: true })
+  @Prop({ required: true, unique: true })
   userName: string;
 
   @Prop()
