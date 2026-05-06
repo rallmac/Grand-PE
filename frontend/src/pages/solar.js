@@ -12,6 +12,7 @@ import BrandsSection from '../components/Brands'
 import SolarSmallAppliances from '../components/SolarSmallAppliances'
 import ExploreSolarPowerSolutions from '../components/ExploreSolarPowerSolutions'
 import { HeaderGrandpe } from '../components/HeaderGrandpe';
+import { RequestForQuote } from '../components/requestForQuote';
 
 
 export default function SolarPage() {
@@ -62,6 +63,7 @@ export default function SolarPage() {
 					<FeaturedProducts />
 					<HisensePromo />
 					<ExploreSolarPowerSolutions />
+					<RequestForQuote />
 					<LGACPromo />
 					<section className="mx-auto max-w-[1440px] px-4 sm:px-6">
 						<div className="relative overflow-hidden rounded-lg transition-transform duration-300 hover:scale-[1.02] cursor-pointer">
