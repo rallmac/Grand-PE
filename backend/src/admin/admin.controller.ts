@@ -3,6 +3,7 @@ import { AdminService } from './admin.service';
 import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../decorators/roles.decorator';
+import { AdminRegisterDto } from './dto/adminRegister.dto';
 
 @Controller('admin')
 export class AdminController {
@@ -11,8 +12,8 @@ export class AdminController {
 	) {}
 
 	@Post('register')
-	async register(@Body('email') email: string){
-		return this.adminService.register(email);
+	async register(@Body() dto: AdminRegisterDto){
+		return this.adminService.register(dto);
 	}
 
 	@Post('login')

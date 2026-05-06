@@ -11,6 +11,7 @@ import * as bcrypt from 'bcrypt';
 import { EmailService } from '../email/email.service';
 import { Admin } from '../admin/schema/admin.schema';
 import { User } from '../user/schema/user.schema';
+import { RegisterDto } from './dto/register.dto';
 
 @Injectable()
 export class AuthService {
@@ -27,7 +28,8 @@ export class AuthService {
   ) {}
 
   // ================= REGISTER =================
-  async register(email: string) {
+  async register( dto: RegisterDto ) {
+    const { firstName, lastName, userName, address, email } = dto;
     const existingUser = await this.userModel.findOne({ email });
 
     if (existingUser && existingUser.isVerified) {
