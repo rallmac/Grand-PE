@@ -4,6 +4,11 @@ import { useState } from 'react';
 
 export default function RegistrationForm() {
   const [email, setEmail] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [userName, setUserName] = useState('');
+  const [address, setAddress] = useState('');
+
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -13,8 +18,8 @@ export default function RegistrationForm() {
     setError('');
     setSuccess('');
 
-    if (!email) {
-      return setError('Email is required');
+    if (!email || !firstName || !lastName || !address || !userName) {
+      return setError('Please fill all required fields');
     }
 
     const normalizedEmail = email.trim().toLowerCase();
@@ -24,7 +29,13 @@ export default function RegistrationForm() {
     try {
       const res = await axios.post(
         `${process.env.REACT_APP_API_URL}/auth/register`,
-        { email: normalizedEmail }
+        {
+          email: normalizedEmail,
+          firstName: firstName.trim(),
+          lastName: lastName.trim(),
+          address: address.trim(),
+          userName: userName.trim()
+        }
       );
 
       setSuccess(
@@ -33,6 +44,10 @@ export default function RegistrationForm() {
       );
 
       setEmail('');
+      setFirstName('');
+      setLastName('');
+      setUserName('');
+      setAddress('');
 
     } catch (err) {
       let message =
@@ -53,7 +68,6 @@ export default function RegistrationForm() {
   return (
     <div className="flex min-h-screen flex-col justify-center px-6 py-12 lg:px-8 bg-gray-900">
 
-      {/* HEADER */}
       <div className="sm:mx-auto sm:w-full sm:max-w-sm text-center">
         <img
           src="/assets/images/GRAND_PE_GLOBAL.png"
@@ -70,10 +84,8 @@ export default function RegistrationForm() {
         </p>
       </div>
 
-      {/* FORM CARD */}
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm bg-white/5 backdrop-blur-md rounded-2xl p-6 shadow-lg border border-white/10">
 
-        {/* SUCCESS */}
         {success && (
           <div className="bg-green-500/10 text-green-400 p-4 rounded text-sm mb-4 text-center">
             <p>{success}</p>
@@ -83,7 +95,6 @@ export default function RegistrationForm() {
           </div>
         )}
 
-        {/* ERROR */}
         {error && (
           <div className="bg-red-500/10 text-red-400 p-3 rounded text-sm mb-4 text-center">
             {error}
@@ -92,7 +103,28 @@ export default function RegistrationForm() {
 
         <form onSubmit={handleSubmit} className="space-y-6">
 
-          {/* EMAIL */}
+          <div className="grid grid-cols-2 gap-4">
+            <input
+              type="text"
+              placeholder="First name"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              disabled={loading}
+              required
+              className="w-full rounded-md bg-gray-800 px-3 py-2 text-white placeholder-gray-500 outline-none focus:ring-2 focus:ring-[#265073]"
+            />
+
+            <input
+              type="text"
+              placeholder="Last name"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              disabled={loading}
+              required
+              className="w-full rounded-md bg-gray-800 px-3 py-2 text-white placeholder-gray-500 outline-none focus:ring-2 focus:ring-[#265073]"
+            />
+          </div>
+
           <div>
             <label className="block text-sm text-gray-300">
               Email address
@@ -110,7 +142,26 @@ export default function RegistrationForm() {
             />
           </div>
 
-          {/* BUTTON */}
+          <input
+            type="text"
+            placeholder="Username"
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
+            disabled={loading}
+            required
+            className="w-full rounded-md bg-gray-800 px-3 py-2 text-white placeholder-gray-500 outline-none focus:ring-2 focus:ring-[#265073]"
+          />
+
+          <input
+            type="text"
+            placeholder="Address"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+            disabled={loading}
+            required
+            className="w-full rounded-md bg-gray-800 px-3 py-2 text-white placeholder-gray-500 outline-none focus:ring-2 focus:ring-[#265073]"
+          />
+
           <button
             type="submit"
             disabled={loading}
@@ -129,7 +180,6 @@ export default function RegistrationForm() {
 
         </form>
 
-        {/* FOOTER */}
         <p className="mt-10 text-center text-sm text-gray-400">
           Already have an account?{' '}
           <Link

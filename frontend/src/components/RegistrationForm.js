@@ -3,28 +3,50 @@ import axios from 'axios';
 import { useState } from 'react';
 
 export default function RegistrationForm() {
-  const [email, setEmail] = useState('');
+  const [formData, setFormData] = useState({
+    email: '',
+    firstName: '',
+    lastName: '',
+    userName: '',
+    address: ''
+  });
+
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setSuccess('');
 
-    if (!email) {
-      return setError('Email is required');
+    const { email, firstName, lastName, userName, address } = formData;
+
+    if (!email || !firstName || !lastName || !address || !userName) {
+      return setError('Please fill all required fields');
     }
 
-    const normalizedEmail = email.trim().toLowerCase();
+    const payload = {
+      email: email.trim().toLowerCase(),
+      firstName: firstName.trim(),
+      lastName: lastName.trim(),
+      address: address.trim(),
+      userName: userName.trim()
+    };
 
     setLoading(true);
 
     try {
       const res = await axios.post(
         `${process.env.REACT_APP_API_URL}/auth/register`,
-        { email: normalizedEmail }
+        payload
       );
 
       setSuccess(
@@ -32,7 +54,14 @@ export default function RegistrationForm() {
         'Verification email sent. Please check your inbox.'
       );
 
-      setEmail('');
+      setFormData({
+        email: '',
+        firstName: '',
+        lastName: '',
+        userName: '',
+        address: ''
+      });
+
     } catch (err) {
       let message =
         err.response?.data?.message ||
@@ -52,14 +81,11 @@ export default function RegistrationForm() {
   return (
     <div className="flex min-h-screen flex-col justify-center px-6 py-12 lg:px-8 bg-white">
 
-      {/* CONTAINER */}
       <div className="w-full max-w-6xl mx-auto bg-white rounded-3xl shadow-sm overflow-hidden grid grid-cols-1 md:grid-cols-2">
 
-        {/* LEFT - FORM */}
         <div className="p-8 sm:p-12">
 
-          {/* HEADER */}
-          <div className="sm:mx-auto sm:w-full sm:max-w-sm text-center">
+          <div className="text-center">
             <img
               src="/assets/images/GRAND_PE_GLOBAL.png"
               alt="Logo"
@@ -71,24 +97,18 @@ export default function RegistrationForm() {
             </h2>
 
             <p className="mt-2 text-sm text-gray-500">
-              Enter your email to receive a verification link
+              Enter your details to receive a verification link
             </p>
           </div>
 
-          {/* FORM */}
-          <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+          <div className="mt-10 max-w-sm mx-auto">
 
-            {/* SUCCESS */}
             {success && (
               <div className="bg-green-500/10 text-green-600 p-4 rounded text-sm mb-4 text-center">
                 <p>{success}</p>
-                <p className="mt-2 text-xs text-gray-500">
-                  Didn’t get the email? Check spam or try again.
-                </p>
               </div>
             )}
 
-            {/* ERROR */}
             {error && (
               <div className="bg-red-500/10 text-red-500 p-3 rounded text-sm mb-4 text-center">
                 {error}
@@ -97,25 +117,79 @@ export default function RegistrationForm() {
 
             <form onSubmit={handleSubmit} className="space-y-6">
 
-              {/* EMAIL */}
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-sm font-medium text-gray-900">
+                    First name
+                  </label>
+                  <input
+                    name="firstName"
+                    value={formData.firstName}
+                    onChange={handleChange}
+                    disabled={loading}
+                    required
+                    className="mt-2 w-full rounded-md bg-gray-100 px-3 py-2 outline-none focus:ring-2 focus:ring-[#265073]"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-gray-900">
+                    Last name
+                  </label>
+                  <input
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleChange}
+                    disabled={loading}
+                    required
+                    className="mt-2 w-full rounded-md bg-gray-100 px-3 py-2 outline-none focus:ring-2 focus:ring-[#265073]"
+                  />
+                </div>
+              </div>
+
               <div>
-                <label className="block text-sm font-medium text-gray-900">
+                <label className="text-sm font-medium text-gray-900">
                   Email address
                 </label>
-
                 <input
                   type="email"
-                  value={email}
-                  autoFocus
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
                   disabled={loading}
-                  onChange={(e) => setEmail(e.target.value)}
                   required
-                  placeholder="you@example.com"
-                  className="mt-2 w-full rounded-md bg-gray-100 px-3 py-2 text-black outline-none focus:ring-2 focus:ring-[#265073]"
+                  className="mt-2 w-full rounded-md bg-gray-100 px-3 py-2 outline-none focus:ring-2 focus:ring-[#265073]"
                 />
               </div>
 
-              {/* BUTTON */}
+              <div>
+                <label className="text-sm font-medium text-gray-900">
+                  Username
+                </label>
+                <input
+                  name="userName"
+                  value={formData.userName}
+                  onChange={handleChange}
+                  disabled={loading}
+                  required
+                  className="mt-2 w-full rounded-md bg-gray-100 px-3 py-2 outline-none focus:ring-2 focus:ring-[#265073]"
+                />
+              </div>
+
+              <div>
+                <label className="text-sm font-medium text-gray-900">
+                  Address
+                </label>
+                <input
+                  name="address"
+                  value={formData.address}
+                  onChange={handleChange}
+                  disabled={loading}
+                  required
+                  className="mt-2 w-full rounded-md bg-gray-100 px-3 py-2 outline-none focus:ring-2 focus:ring-[#265073]"
+                />
+              </div>
+
               <button
                 type="submit"
                 disabled={loading}
@@ -134,13 +208,9 @@ export default function RegistrationForm() {
 
             </form>
 
-            {/* FOOTER */}
             <p className="mt-10 text-center text-sm text-gray-700">
               Already have an account?{' '}
-              <Link
-                to="/signin"
-                className="font-semibold text-[#265073] hover:underline"
-              >
+              <Link to="/signin" className="font-semibold text-[#265073] hover:underline">
                 Sign in
               </Link>
             </p>
@@ -148,17 +218,15 @@ export default function RegistrationForm() {
           </div>
         </div>
 
-        {/* RIGHT - IMAGE */}
         <div className="hidden md:block relative">
           <img
             src="/assets/images/gallery-1.jpg"
             className="w-full h-full object-cover"
             alt=""
           />
-
           <div className="absolute inset-0 bg-black/30 flex justify-end items-end p-8 text-white">
             <div className="max-w-sm text-right">
-              <h2 className="text-xl font-semibold text-white">
+              <h2 className="text-xl text-white font-semibold">
                 Reliable power, day and night.
               </h2>
               <p className="text-sm opacity-80">
