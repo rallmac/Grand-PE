@@ -2,6 +2,21 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 @Schema({ timestamps: true })
 export class Admin {
+  @Prop()
+  firstName: string;
+
+  @Prop()
+  lastName: string;
+
+  @Prop({ unique: true })
+  userName: string;
+
+  @Prop()
+  profilePicture: string;
+
+  @Prop({ required: true })
+  address: string;
+
   @Prop({ required: true, unique: true })
   email: string;
 

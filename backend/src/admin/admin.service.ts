@@ -11,6 +11,7 @@ import { EmailService } from '../email/email.service';
 import { JwtService } from '@nestjs/jwt';
 import { randomBytes } from 'crypto';
 import * as bcrypt from 'bcrypt';
+import { AdminRegisterDto } from './dto/adminRegister.dto';
 
 @Injectable()
 export class AdminService {
@@ -23,7 +24,8 @@ export class AdminService {
   ) {}
 
   // ================= REGISTER =================
-  async register(email: string) {
+  async register(dto: AdminRegisterDto) {
+    const {firstName, lastName, userName, address, email} = dto;
     const existing = await this.adminModel.findOne({ email });
 
     if (existing && existing.isVerified) {
