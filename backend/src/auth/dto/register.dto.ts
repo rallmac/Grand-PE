@@ -1,7 +1,17 @@
 export class RegisterDto {
-	firstName: string;
-	lastName: string;
-	userName: string;
-	email: string;
-	address: string;
+
+  @IsEmail()
+  email: string;
+
+  @IsString()
+  firstName: string;
+
+  @IsString()
+  lastName: string;
+
+  @IsString()
+  userName: string;
+
+  @IsString()
+  address: string;
 }
