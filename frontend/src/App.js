@@ -15,6 +15,8 @@ import ForgotPassword from "./pages/ForgotPassword";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PublicRoute from "./components/PublicRoute";
+import AdminPublicRoute from "./components/AdminPublicRoute";
+import AdminProtectedRoute from "./components/AdminProtectedRoute";
 import Cart from "./pages/Cart";
 import NewSignup from "./pages/NewSignup";
 import IdePage from "./pages/IdePage";
@@ -51,11 +53,11 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/new-signup" element={<NewSignup />} />
         <Route path="/ide-page" element={<IdePage />} />
-        <Route path="/admin-signin" element={<AdminSignIn />} />
+        <Route path="/admin-signin" element={<AdminPublicRoute><AdminSignIn /></AdminPublicRoute>} />
         <Route path="/admin-register" element={<AdminRegister />} />
         <Route path="/admin-set-password" element={<AdminSetPassword />} />
         <Route path="/admin-reset-password" element={<AdminResetPassword />} />
-        <Route path="/admin-dashboard" element={<AdminDashboard />} />
+        <Route path="/admin-dashboard" element={<AdminProtectedRoute><AdminDashboard /></AdminProtectedRoute>} />
         <Route path="/admin-forgot-password" element={<AdminForgotPassword />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
