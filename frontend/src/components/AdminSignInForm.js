@@ -32,7 +32,7 @@ export default function SignInForm() {
 
     try {
       const res = await axios.post(
-        `${process.env.REACT_APP_API_URL}/auth/login`,
+        `${process.env.REACT_APP_API_URL}/admin/login`,
         { email, password }
       );
 

@@ -41,7 +41,7 @@ export default function ResetPasswordForm() {
 
     try {
       const res = await axios.post(
-        `${process.env.REACT_APP_API_URL}/auth/reset-password`,
+        `${process.env.REACT_APP_API_URL}/admin/reset-password`,
         {
           token,
           password,

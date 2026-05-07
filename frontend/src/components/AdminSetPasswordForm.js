@@ -41,7 +41,7 @@ export default function SetPasswordForm() {
 
     try {
       const res = await axios.post(
-        `${process.env.REACT_APP_API_URL}/auth/set-password`,
+        `${process.env.REACT_APP_API_URL}/admin/set-password`,
         {
           token,
           password,
