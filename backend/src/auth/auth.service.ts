@@ -28,44 +28,55 @@ export class AuthService {
   ) {}
 
   // ================= REGISTER =================
-  async register( dto: RegisterDto ) {
-    const { firstName, lastName, userName, address, email } = dto;
-    const existingUser = await this.userModel.findOne({ email });
+  async register(dto: RegisterDto) {
+  try {
+      const { firstName, lastName, userName, address, email } = dto;
 
-    if (existingUser && existingUser.isVerified) {
-      throw new BadRequestException({
-        success: false,
-        message: 'User already exists',
+      if (!email) {
+        throw new BadRequestException("Email is required");
+      }
+
+      const existingUser = await this.userModel.findOne({ email });
+
+      if (existingUser && existingUser.isVerified) {
+        throw new BadRequestException("User already exists");
+      }
+
+      if (existingUser && !existingUser.isVerified) {
+        return {
+          success: true,
+          message: "Verification email already sent",
+        };
+      }
+
+      const isAllowedAdmin = await this.adminModel.findOne({ email });
+      const role = isAllowedAdmin ? "admin" : "user";
+
+      const token = randomBytes(32).toString("hex");
+
+      await this.userModel.create({
+        firstName,
+        lastName,
+        userName,
+        address,
+        email,
+        role,
+        isVerified: false,
+        verificationToken: token,
+        verificationTokenExpires: new Date(Date.now() + 1000 * 60 * 60),
       });
-    }
 
-    if (existingUser && !existingUser.isVerified) {
+      await this.emailService.sendVerificationEmail(email, token);
+
       return {
         success: true,
-        message: 'Verification email already sent. Please check your inbox.',
+        message: "Verification email sent",
       };
+
+    } catch (error) {
+      console.error("REGISTER ERROR:", error);
+      throw error;
     }
-
-    // Check admin allowlist
-    const isAllowedAdmin = await this.adminModel.findOne({ email });
-    const role = isAllowedAdmin ? 'admin' : 'user';
-
-    const token = randomBytes(32).toString('hex');
-
-    await this.userModel.create({
-      email,
-      role,
-      isVerified: false,
-      verificationToken: token,
-      verificationTokenExpires: new Date(Date.now() + 1000 * 60 * 60),
-    });
-
-    await this.emailService.sendVerificationEmail(email, token);
-
-    return {
-      success: true,
-      message: 'Verification email sent',
-    };
   }
 
   // ================= RESEND VERIFICATION =================
