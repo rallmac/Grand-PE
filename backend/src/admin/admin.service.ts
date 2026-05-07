@@ -51,7 +51,7 @@ export class AdminService {
       loginAttempts: 0,
     });
 
-    await this.emailService.sendVerificationEmail(email, token);
+    await this.emailService.adminSendVerificationEmail(email, token);
 
     return { message: 'Verification email sent' };
   }
