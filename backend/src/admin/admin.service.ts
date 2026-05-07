@@ -39,6 +39,10 @@ export class AdminService {
     const token = randomBytes(32).toString('hex');
 
     await this.adminModel.create({
+      firstName,
+      lastName,
+      userName,
+      address,
       email,
       isVerified: false,
       isApproved: false,
