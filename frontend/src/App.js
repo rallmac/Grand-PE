@@ -12,7 +12,6 @@ import SignIn from "./pages/SignIn";
 import SetPassword from "./pages/SetPassword";
 import ResetPassword from "./pages/ResetPassword";
 import ForgotPassword from "./pages/ForgotPassword";
-import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PublicRoute from "./components/PublicRoute";
 import AdminPublicRoute from "./components/AdminPublicRoute";
@@ -49,7 +48,6 @@ function App() {
         <Route path="/set-password" element={<SetPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/new-signup" element={<NewSignup />} />
         <Route path="/ide-page" element={<IdePage />} />
