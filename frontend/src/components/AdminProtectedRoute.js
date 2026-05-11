@@ -1,14 +1,26 @@
 import { Navigate } from 'react-router-dom';
-import { isTokenValid } from '../hooks/IsTokenValid';
+import { jwtDecode } from "jwt-decode";
 
 export default function AdminProtectedRoute({ children }) {
-	const token =
-	  localStorage.getItem('token') ||
-	  sessionStorage.getItem('token');
+  const token =
+    localStorage.getItem("token") ||
+    sessionStorage.getItem("token");
 
-	if (!isTokenValid(token)) {
-		return <Navigate to='/admin-signin' replace/>;
-	}
+  if (!token) {
+    return <Navigate to="/admin-signin" replace />;
+  }
 
-	return children;
+  try {
+    const decoded = jwtDecode(token);
+
+    // 🔐 Check role
+    if (decoded.role !== "admin") {
+      return <Navigate to="/" replace />;
+    }
+
+    return children;
+
+  } catch (err) {
+    return <Navigate to="/admin-signin" replace />;
+  }
 }

@@ -29,6 +29,13 @@ export class Admin {
   @Prop({ default: false })
   isApproved: boolean; // Superadmin control
 
+  @Prop({
+    type: String,
+    enum: ['admin'],
+    default: 'admin',
+  })
+  role: string;
+
   @Prop({ select: false })
   verificationToken?: string;
 

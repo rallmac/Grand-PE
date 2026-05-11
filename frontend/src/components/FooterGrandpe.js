@@ -7,6 +7,7 @@ export function FooterGrandpe() {
   const [formData, setFormData] = useState({ email: "" });
   const [formStatus, setFormStatus] = useState("");
 
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({

@@ -1,4 +1,4 @@
-import { Injectable, CanActivate, ExecutionContext, } from '@nestjs/common';
+import { Injectable, CanActivate, ExecutionContext, ForbiddenException} from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 
 
@@ -15,12 +15,27 @@ import { Reflector } from '@nestjs/core';
 		this.reflector.getAllAndOverride<string[]>( 'roles', [
 			context.getHandler(),
 			context.getClass(),
-		]);
+		],
+	);
 
-		if (!requiredRoles) return true;
+		if (!requiredRoles) {
+			return true;
+		}
 
 		const request = context.switchToHttp().getRequest();
 		const user = request.user;
-		return requiredRoles.includes(user.role);
+
+		// No authenticated user
+		if (!user) {
+			throw new ForbiddenException('Access denied')
+		}
+
+		const hasRole = requiredRoles.includes(user.role);
+
+		if (!hasRole) {
+			throw new ForbiddenException('Admin only');
+		}
+
+		return true;
 	}
 }

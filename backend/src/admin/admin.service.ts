@@ -129,7 +129,7 @@ export class AdminService {
     const payload = {
       sub: admin._id,
       email: admin.email,
-      role: 'admin',
+      role: admin.role,
     };
 
     const access_token = this.jwtService.sign(payload, {
