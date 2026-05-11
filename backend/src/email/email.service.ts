@@ -26,6 +26,21 @@ export class EmailService {
 		});
 	}
 
+	async adminSendVerificationEmail(to: string, token: string) {
+		const url = `https://grand-pe.onrender.com/admin-set-password?token=${token}`;
+
+		await this.transporter.sendMail({
+			from: `"Grand-PE" <${process.env.EMAIL_USER}>`,
+			to,
+			subject: 'Verify your email',
+			html: `
+				<h3>Verify your email<h3/>
+				<p>Click the link below to verify your email:</P>
+				<a href="${url}">Verify Email</a>
+				`,
+		});
+	}
+
 	async sendResetPasswordEmail(to: string, token: string) {
 		const url = `https://grand-pe.onrender.com/reset-password?token=${token}`;
 
