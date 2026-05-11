@@ -1,6 +1,7 @@
-import { UseGuards, Controller, Post, Body, Delete } from '@nestjs/common';
+import { UseGuards, Controller, Post, Body, Delete, Get } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { AuthGuard } from '@nestjs/passport';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../decorators/roles.decorator';
 import { AdminRegisterDto } from './dto/adminRegister.dto';
@@ -38,5 +39,14 @@ export class AdminController {
 		@Body('password') password: string
 	){
 		return this.adminService.resetPassword(token, password)
+	}
+
+	@UseGuards(JwtAuthGuard, RolesGuard)
+	@Roles('admin')
+	@Get('admin-dashboard')
+	getDashboard() {
+		return {
+			message: 'Welcome admin',
+		};
 	}
 }
