@@ -25,7 +25,7 @@ export class AdminService {
 
   // ================= REGISTER =================
   async register(dto: AdminRegisterDto) {
-    const {firstName, lastName, userName, address, email} = dto;
+    const { firstName, lastName, userName, address, email } = dto;
     const existing = await this.adminModel.findOne({ email });
 
     if (existing && existing.isVerified) {
@@ -39,6 +39,10 @@ export class AdminService {
     const token = randomBytes(32).toString('hex');
 
     await this.adminModel.create({
+      firstName,
+      lastName,
+      userName,
+      address,
       email,
       isVerified: false,
       isApproved: false,
@@ -47,7 +51,7 @@ export class AdminService {
       loginAttempts: 0,
     });
 
-    await this.emailService.sendVerificationEmail(email, token);
+    await this.emailService.adminSendVerificationEmail(email, token);
 
     return { message: 'Verification email sent' };
   }
@@ -125,7 +129,7 @@ export class AdminService {
     const payload = {
       sub: admin._id,
       email: admin.email,
-      role: 'admin',
+      role: admin.role,
     };
 
     const access_token = this.jwtService.sign(payload, {
