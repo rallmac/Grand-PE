@@ -8,6 +8,11 @@ export default function SignInForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [remember, setRemember] = useState(false);
 
+  const [ formData, setFormData ] = useState({
+    email: "",
+    password: "",
+  });
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -19,6 +24,14 @@ export default function SignInForm() {
       navigate('/home');
     }
   }, [navigate]);
+
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -60,21 +73,21 @@ export default function SignInForm() {
     }
 
     // After successful login
-    const res = await axios.post(
+    const response = await axios.post(
       `${process.env.REACT_APP_URL}/auth/login`,
-      { email, password }
+      formData,
       );
 
     const userData = {
-      token: res.data.token,
-      firstName: res.data.user.firstname,
-      username: res.data.user.username,
-      email: res.data.user.email,
-      profilePhoto: res.data.user.profilePhoto,
+      token: response.data.token,
+      firstName: response.data.user.firstname,
+      username: response.data.user.username,
+      email: response.data.user.email,
+      profilePhoto: response.data.user.profilePhoto,
     };
 
-    // Save
-    localStorage.setItem('user', JSON.stringify(userData));
+    // Save user
+    localStorage.setItem("user", JSON.stringify(userData));
   };
 
   return (

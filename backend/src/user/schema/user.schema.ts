@@ -60,6 +60,11 @@ export class User {
     default: Role.USER,
   })
   role: Role;
+
+  @Prop({
+      default: '',
+  })
+  profilePhoto: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

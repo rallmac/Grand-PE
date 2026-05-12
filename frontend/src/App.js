@@ -24,7 +24,8 @@ import AdminRegister from "./pages/AdminRegister";
 import AdminSetPassword from "./pages/AdminSetPassword";
 import AdminResetPassword from "./pages/AdminResetPassword";
 import AdminDashboard from "./pages/AdminDashboard";
-import AdminForgotPassword from "./pages/AdminForgotPassword"
+import AdminForgotPassword from "./pages/AdminForgotPassword";
+import Settings from "./pages/Settings";
 
 
 //This file connects all the pages in the application
@@ -57,6 +58,7 @@ function App() {
         <Route path="/admin-reset-password" element={<AdminResetPassword />} />
         <Route path="/admin-dashboard" element={<AdminProtectedRoute><AdminDashboard /></AdminProtectedRoute>} />
         <Route path="/admin-forgot-password" element={<AdminForgotPassword />} />
+        <Route path="/settings" element={<Settings />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>

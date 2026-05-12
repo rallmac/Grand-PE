@@ -11,9 +11,6 @@ export default function Settings() {
 
   const [loadingPhoto, setLoadingPhoto] = useState(false);
 
-  // BACKEND URL
-  const API_BASE_URL =
-    "https://your-backend-url.com";
 
   // LOAD USER
   useEffect(() => {
