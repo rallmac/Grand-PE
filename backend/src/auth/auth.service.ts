@@ -8,7 +8,6 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { randomBytes } from 'crypto';
 import * as bcrypt from 'bcrypt';
-
 import { EmailService } from '../email/email.service';
 import { Admin } from '../admin/schema/admin.schema';
 import { User } from '../user/schema/user.schema';
@@ -30,75 +29,54 @@ export class AuthService {
 
   // ================= REGISTER =================
   async register(dto: RegisterDto) {
-    const { firstName, lastName, userName, address, email } = dto;
-    const existingUser = await this.userModel.findOne({ email });
+  try {
+      const { firstName, lastName, userName, address, email } = dto;
 
-    if (existingUser && existingUser.isVerified) {
-      throw new BadRequestException({
-        success: false,
-        message: 'User already exists',
+      if (!email) {
+        throw new BadRequestException("Email is required");
+      }
+
+      const existingUser = await this.userModel.findOne({ email });
+
+      if (existingUser && existingUser.isVerified) {
+        throw new BadRequestException("User already exists");
+      }
+
+      if (existingUser && !existingUser.isVerified) {
+        return {
+          success: true,
+          message: "Verification email already sent",
+        };
+      }
+
+      const isAllowedAdmin = await this.adminModel.findOne({ email });
+      const role = isAllowedAdmin ? "admin" : "user";
+
+      const token = randomBytes(32).toString("hex");
+
+      await this.userModel.create({
+        firstName,
+        lastName,
+        userName,
+        address,
+        email,
+        role,
+        isVerified: false,
+        verificationToken: token,
+        verificationTokenExpires: new Date(Date.now() + 1000 * 60 * 60),
       });
-    }
 
-    if (existingUser && !existingUser.isVerified) {
+      await this.emailService.sendVerificationEmail(email, token);
+
       return {
         success: true,
-        message: 'Verification email already sent. Please check your inbox.',
+        message: "Verification email sent",
       };
+
+    } catch (error) {
+      console.error("REGISTER ERROR:", error);
+      throw error;
     }
-
-    // Check admin allowlist
-    const isAllowedAdmin = await this.adminModel.findOne({ email });
-    const role = isAllowedAdmin ? 'admin' : 'user';
-
-    const token = randomBytes(32).toString('hex');
-
-    await this.userModel.create({
-      email,
-      role,
-      isVerified: false,
-      verificationToken: token,
-      verificationTokenExpires: new Date(Date.now() + 1000 * 60 * 60),
-    });
-
-    await this.emailService.sendVerificationEmail(email, token);
-
-    return {
-      success: true,
-      message: 'Verification email sent',
-    };
-  }
-
-  // ================= SET PASSWORD =================
-  async setPassword(token: string, password: string) {
-    const user = await this.userModel.findOne({
-      verificationToken: token,
-    });
-
-    if (!user) {
-      throw new BadRequestException('Verify email first');
-    }
-
-    // Safe expiry check
-    if (
-      !user.verificationTokenExpires ||
-      user.verificationTokenExpires < new Date()
-    ) {
-      throw new BadRequestException('Invalid or expired token');
-    }
-
-    user.password = await bcrypt.hash(password, 10);
-
-    user.isVerified = true;
-
-    user.verificationToken = undefined;
-    user.verificationTokenExpires = undefined;
-
-    await user.save();
-
-    return {
-      message: 'Password set successfully'
-    };
   }
 
   // ================= RESEND VERIFICATION =================
@@ -125,6 +103,36 @@ export class AuthService {
     return { message: 'Verification email resent' };
   }
 
+  // ================= SET PASSWORD =================
+  async setPassword(token: string, password: string) {
+
+    const user = await this.userModel.findOne({
+      verificationToken: token,
+    });
+
+    if (!user) {
+      throw new BadRequestException('Verify email first');
+    }
+
+    if (
+      !user.verificationTokenExpires ||
+      user.verificationTokenExpires < new Date()
+      ) {
+      throw new BadRequestException('Invalid or expired token')
+    }
+
+    user.password = await bcrypt.hash(password, 10);
+
+    user.isVerified = true;
+
+    user.verificationToken = undefined;
+    user.verificationTokenExpires = undefined;
+
+    await user.save();
+
+    return { message: 'Password set successfully' };
+  }
+
   // ================= VALIDATE =================
   async validateUser(email: string, password: string) {
     const user = await this.userModel
@@ -144,29 +152,77 @@ export class AuthService {
     return user;
   }
 
-  // ================= LOGIN =================
-  async login(user: any) {
-    const payload = { sub: user._id, email: user.email };
+ // ================= LOGIN =================
+ async login(user: any) {
 
-    const access_token = this.jwtService.sign(payload, {
-      secret: process.env.JWT_SECRET,
-      expiresIn: '15m',
-    });
+   const payload = {
+     sub: user._id,
+     email: user.email,
+     role: user.role,
+   };
 
-    const refresh_token = this.jwtService.sign(payload, {
-      secret: process.env.JWT_REFRESH_SECRET,
-      expiresIn: '7d',
-    });
+   // ACCESS TOKEN
+   const access_token =
+     this.jwtService.sign(payload, {
+       secret: process.env.JWT_SECRET,
+       expiresIn: '15m',
+     });
 
-    user.refreshToken = await bcrypt.hash(refresh_token, 10);
-    await user.save();
+   // REFRESH TOKEN
+   const refresh_token =
+     this.jwtService.sign(payload, {
+       secret:
+         process.env.JWT_REFRESH_SECRET,
+       expiresIn: '7d',
+     });
 
-    return {
-      access_token,
-      refresh_token,
-      message: 'Login successful',
-    };
-  }
+   // SAVE HASHED REFRESH TOKEN
+   user.refreshToken =
+     await bcrypt.hash(
+       refresh_token,
+       10,
+     );
+
+   await user.save();
+
+   // RETURN USER DATA
+   return {
+
+     access_token,
+
+     refresh_token,
+
+     message:
+       'Login successful',
+
+     user: {
+
+       id:
+         user._id,
+
+       firstName:
+         user.firstName,
+
+       lastName:
+         user.lastName,
+
+       userName:
+         user.userName,
+
+       email:
+         user.email,
+
+       role:
+         user.role,
+
+       profilePhoto:
+         user.profilePhoto || "",
+
+     },
+
+   };
+
+ }
 
   // ================= FORGOT PASSWORD =================
   async forgotPassword(email: string) {
