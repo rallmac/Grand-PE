@@ -27,7 +27,7 @@ export class User {
   @Prop({ default: false })
   isVerified: boolean;
 
-  @Prop({ default: false })
+  @Prop({ default:false })
   isAdmin: boolean;
 
   @Prop()
@@ -60,6 +60,13 @@ export class User {
     default: Role.USER,
   })
   role: Role;
+
+  @Prop({
+      default:
+      "/assets/images/default-avatar.png",
+  })
+  profilePhoto: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
+
