@@ -46,9 +46,13 @@ export class AuthController {
 	}
 
 	@Post('refresh')
-	async refresh(@Body() body: any) {
-		await this.authService.refresh(body.refresh_token);
-	}
+    async refresh(@Body() body: any) {
+
+      return this.authService.refresh(
+        body.refresh_token
+      );
+
+    }
 
 	
 	@UseGuards(JwtAuthGuard)
@@ -59,3 +63,4 @@ export class AuthController {
 		return this.authService.logout(userId);
 	}
 }
+
