@@ -1,100 +1,268 @@
 import React, { useState, useEffect } from "react";
-import { NavLink, Link, useLocation } from "react-router-dom";
+
+import {
+  NavLink,
+  Link,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 
 export function HeaderGrandpe() {
+
   const location = useLocation();
 
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [search, setSearch] = useState("");
+  const navigate = useNavigate();
 
-  // 🔐 USER STATE
-  const [user, setUser] = useState(null);
+  // MOBILE MENU
+  const [
+    isMobileMenuOpen,
+    setIsMobileMenuOpen,
+  ] = useState(false);
 
-  // 🔐 CHECK LOGIN
+  // PROFILE DROPDOWN
+  const [
+    isProfileMenuOpen,
+    setIsProfileMenuOpen,
+  ] = useState(false);
+
+  // SEARCH
+  const [search, setSearch] =
+    useState("");
+
+  // USER STATE
+  const [user, setUser] =
+    useState(null);
+
+  // LOAD USER
   useEffect(() => {
-    const token =
-      localStorage.getItem("token") ||
-      sessionStorage.getItem("token");
 
-    if (token) {
-      const email =
-        localStorage.getItem("email") ||
-        sessionStorage.getItem("email");
+    const loadUser = () => {
 
-      setUser({
-        name: email ? email.split("@")[0] : "User",
-      });
-    }
+      try {
+
+        const storedUser =
+          localStorage.getItem("user");
+
+        if (storedUser) {
+
+          const parsedUser =
+            JSON.parse(storedUser);
+
+          setUser(parsedUser);
+
+        } else {
+
+          setUser(null);
+
+        }
+
+      } catch (error) {
+
+        console.error(
+          "Failed to parse user:",
+          error
+        );
+
+        setUser(null);
+
+      }
+
+    };
+
+    loadUser();
+
+    // LISTEN FOR STORAGE CHANGES
+    window.addEventListener(
+      "storage",
+      loadUser
+    );
+
+    return () => {
+
+      window.removeEventListener(
+        "storage",
+        loadUser
+      );
+
+    };
+
   }, []);
 
-  // 📱 MOBILE MENU
+  // MOBILE MENU TOGGLE
   const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
+
+    setIsMobileMenuOpen(
+      !isMobileMenuOpen
+    );
+
   };
 
   const closeMenu = () => {
+
     setIsMobileMenuOpen(false);
+
   };
 
-  // 🔍 SEARCH
+  // LOGOUT
+  const handleLogout = () => {
+
+    localStorage.removeItem("user");
+
+    sessionStorage.removeItem("user");
+
+    setUser(null);
+
+    setIsProfileMenuOpen(false);
+
+    navigate("/signin");
+
+  };
+
+  // SEARCH
   const handleSearch = (e) => {
+
     e.preventDefault();
 
     if (!search.trim()) return;
 
-    console.log("Search:", search);
+    console.log(
+      "Search:",
+      search
+    );
+
   };
 
   return (
     <>
-      {/* MAIN HEADER */}
+
+      {/* HEADER */}
       <header className="fixed top-0 left-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
 
         {/* TOP NAV */}
         <div className="max-w-7xl mx-auto px-6 lg:px-8 flex items-center justify-between h-16">
 
           {/* LEFT SIDE */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
 
-            {/* 🔐 LOGGED IN */}
-            {user ? (
-              <>
-                {/* PROFILE IMAGE */}
-                <img
-                  src="/assets/images/default-avatar.png"
-                  alt="Profile"
-                  className="w-10 h-10 rounded-full object-cover border border-gray-300 shadow-sm"
-                />
+            {/* LOGO WHEN LOGGED OUT */}
+            {!user && (
 
-                {/* WELCOME */}
-                <div className="hidden sm:flex flex-col leading-tight">
-                  <span className="text-xs text-gray-500">
-                    Welcome back
-                  </span>
+              <Link
+                to="/"
+                className="flex items-center"
+              >
 
-                  <span className="text-sm font-semibold text-gray-800 capitalize">
-                    {user.name}
-                  </span>
-                </div>
-              </>
-            ) : (
-              /* LOGO */
-              <Link to="/" className="flex items-center">
                 <img
                   src={
-                    location.pathname === "/solar"
+                    location.pathname ===
+                    "/solar"
                       ? "/assets/images/GRAND_PE_SOLAR_LOGO.png"
                       : "/assets/images/GRAND_PE_GLOBAL_LIMITED.png"
                   }
                   alt="Logo"
                   className={`object-contain transition-all duration-300 ${
-                    location.pathname === "/solar"
+                    location.pathname ===
+                    "/solar"
                       ? "h-10"
                       : "h-8"
                   }`}
                 />
+
               </Link>
+
             )}
+
+            {/* USER INFO */}
+            {user && (
+
+              <div className="relative">
+
+                {/* USER BUTTON */}
+                <button
+                  onClick={() =>
+                    setIsProfileMenuOpen(
+                      !isProfileMenuOpen
+                    )
+                  }
+                  className="flex items-center gap-3"
+                >
+
+                  {/* PROFILE IMAGE */}
+                  <img
+                    src={
+                      user.profilePhoto
+                        ? user.profilePhoto
+                        : "/assets/images/default-avatar.png"
+                    }
+                    alt="Profile"
+                    className="w-11 h-11 rounded-full object-cover border border-gray-300 shadow-sm"
+                  />
+
+                  {/* GREETING */}
+                  <div className="hidden sm:flex flex-col leading-tight text-left">
+
+                    <span className="text-xs text-gray-500">
+                      Welcome back
+                    </span>
+
+                    <span className="text-sm font-semibold text-gray-800 capitalize">
+
+                      {
+                        user.userName ||
+                        user.firstName ||
+                        "user"
+                      }
+
+                    </span>
+
+                  </div>
+
+                </button>
+
+                {/* PROFILE DROPDOWN */}
+                {isProfileMenuOpen && (
+
+                  <div className="absolute left-0 mt-3 w-56 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden z-50">
+
+                    <Link
+                      to="/profile"
+                      className="block px-4 py-3 hover:bg-gray-100 transition"
+                      onClick={() =>
+                        setIsProfileMenuOpen(
+                          false
+                        )
+                      }
+                    >
+                      My Profile
+                    </Link>
+
+                    <Link
+                      to="/settings"
+                      className="block px-4 py-3 hover:bg-gray-100 transition"
+                      onClick={() =>
+                        setIsProfileMenuOpen(
+                          false
+                        )
+                      }
+                    >
+                      Account Settings
+                    </Link>
+
+                    <button
+                      onClick={handleLogout}
+                      className="w-full text-left px-4 py-3 text-red-600 hover:bg-red-50 transition"
+                    >
+                      Logout
+                    </button>
+
+                  </div>
+
+                )}
+
+              </div>
+
+            )}
+
           </div>
 
           {/* DESKTOP NAV */}
@@ -135,15 +303,18 @@ export function HeaderGrandpe() {
               Plants
             </NavLink>
 
-            {/* 🔐 SIGN IN ONLY IF LOGGED OUT */}
+            {/* SIGN IN BUTTON */}
             {!user && (
+
               <NavLink
                 to="/signin"
                 className="ml-2 px-4 py-2 rounded-md bg-[#265073] text-white hover:bg-[#1f3e59] transition shadow-sm"
               >
                 Sign in
               </NavLink>
+
             )}
+
           </nav>
 
           {/* MOBILE BUTTON */}
@@ -151,12 +322,20 @@ export function HeaderGrandpe() {
             onClick={toggleMobileMenu}
             className="md:hidden text-2xl text-gray-700"
           >
-            {isMobileMenuOpen ? "✕" : "☰"}
+
+            {
+              isMobileMenuOpen
+                ? "✕"
+                : "☰"
+            }
+
           </button>
+
         </div>
 
-        {/* 🔽 MOBILE NAV */}
+        {/* MOBILE NAV */}
         {isMobileMenuOpen && (
+
           <div className="md:hidden bg-white border-t border-gray-200 px-6 py-4 space-y-4 text-gray-700 text-sm font-semibold shadow-sm">
 
             <NavLink
@@ -199,8 +378,22 @@ export function HeaderGrandpe() {
               Plants & Export
             </NavLink>
 
-            {/* 🔐 SIGN IN ONLY IF LOGGED OUT */}
+            {/* SETTINGS */}
+            {user && (
+
+              <Link
+                to="/settings"
+                onClick={closeMenu}
+                className="block hover:text-[#265073]"
+              >
+                Settings
+              </Link>
+
+            )}
+
+            {/* SIGN IN */}
             {!user && (
+
               <NavLink
                 to="/signin"
                 onClick={closeMenu}
@@ -208,22 +401,43 @@ export function HeaderGrandpe() {
               >
                 Sign in
               </NavLink>
+
             )}
+
+            {/* LOGOUT */}
+            {user && (
+
+              <button
+                onClick={handleLogout}
+                className="block w-full mt-2 px-4 py-2 rounded-md bg-red-500 text-white text-center hover:bg-red-600 transition"
+              >
+                Logout
+              </button>
+
+            )}
+
           </div>
+
         )}
 
-        {/* 🔍 SEARCH BAR */}
+        {/* SEARCH BAR */}
         <div className="border-t border-gray-200 bg-white">
+
           <div className="max-w-3xl mx-auto px-6 py-3">
 
             <form
               onSubmit={handleSearch}
               className="relative"
             >
+
               <input
                 type="text"
                 value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={(e) =>
+                  setSearch(
+                    e.target.value
+                  )
+                }
                 placeholder="Search products, tech, solar, plants..."
                 className="w-full rounded-full bg-gray-100 px-5 py-2.5 pr-12 text-sm text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-[#265073] transition"
               />
@@ -234,15 +448,18 @@ export function HeaderGrandpe() {
               >
                 🔍
               </button>
+
             </form>
 
           </div>
+
         </div>
 
       </header>
 
-      {/* SPACER */}
+      {/* HEADER SPACER */}
       <div className="h-[110px]" />
+
     </>
   );
 }
