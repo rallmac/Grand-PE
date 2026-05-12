@@ -96,30 +96,33 @@ export default function SignInForm() {
 
       // USER DATA
       const userData = {
+
         firstName:
-          res.data.user?.firstName || "",
+          res.data?.user?.firstName || "",
 
         lastName:
-          res.data.user?.lastName || "",
+          res.data?.user?.lastName || "",
 
         userName:
-          res.data.user?.userName || "",
+          res.data?.user?.userName || "",
 
         email:
-          res.data.user?.email || "",
+          res.data?.user?.email || "",
 
         profilePhoto:
-          res.data.user?.profilePhoto || "",
+          res.data?.user?.profilePhoto || "",
 
-        token,
+        token:
+          res.data?.access_token || "",
+
       };
 
       // SAVE TOKEN
       if (remember) {
 
         localStorage.setItem(
-          "token",
-          token
+          "user",
+          JSON.stringify(userData)
         );
 
       } else {
