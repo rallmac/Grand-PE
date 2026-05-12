@@ -1,20 +1,31 @@
 import React, { useState, useEffect } from "react";
+
 import {
   NavLink,
   Link,
   useLocation,
+  useNavigate,
 } from "react-router-dom";
 
 export function HeaderGrandpe() {
 
   const location = useLocation();
 
-  const [isMobileMenuOpen, setIsMobileMenuOpen] =
-    useState(false);
+  const navigate = useNavigate();
 
-  const [isProfileMenuOpen, setIsProfileMenuOpen] =
-    useState(false);
+  // MOBILE MENU
+  const [
+    isMobileMenuOpen,
+    setIsMobileMenuOpen,
+  ] = useState(false);
 
+  // PROFILE DROPDOWN
+  const [
+    isProfileMenuOpen,
+    setIsProfileMenuOpen,
+  ] = useState(false);
+
+  // SEARCH
   const [search, setSearch] =
     useState("");
 
@@ -22,29 +33,74 @@ export function HeaderGrandpe() {
   const [user, setUser] =
     useState(null);
 
-  // CHECK LOGIN
+  // LOAD USER
   useEffect(() => {
 
-    const storedUser =
-      localStorage.getItem("user");
+    const loadUser = () => {
 
-    if (storedUser) {
-      setUser(
-        JSON.parse(storedUser)
+      try {
+
+        const storedUser =
+          localStorage.getItem("user");
+
+        if (storedUser) {
+
+          const parsedUser =
+            JSON.parse(storedUser);
+
+          setUser(parsedUser);
+
+        } else {
+
+          setUser(null);
+
+        }
+
+      } catch (error) {
+
+        console.error(
+          "Failed to parse user:",
+          error
+        );
+
+        setUser(null);
+
+      }
+
+    };
+
+    loadUser();
+
+    // LISTEN FOR STORAGE CHANGES
+    window.addEventListener(
+      "storage",
+      loadUser
+    );
+
+    return () => {
+
+      window.removeEventListener(
+        "storage",
+        loadUser
       );
-    }
+
+    };
 
   }, []);
 
-  // MOBILE MENU
+  // MOBILE MENU TOGGLE
   const toggleMobileMenu = () => {
+
     setIsMobileMenuOpen(
       !isMobileMenuOpen
     );
+
   };
 
   const closeMenu = () => {
+
     setIsMobileMenuOpen(false);
+
   };
 
   // LOGOUT
@@ -56,8 +112,10 @@ export function HeaderGrandpe() {
 
     setUser(null);
 
-    window.location.href =
-      "/signin";
+    setIsProfileMenuOpen(false);
+
+    navigate("/signin");
+
   };
 
   // SEARCH
@@ -71,11 +129,13 @@ export function HeaderGrandpe() {
       "Search:",
       search
     );
+
   };
 
   return (
     <>
-      {/* MAIN HEADER */}
+
+      {/* HEADER */}
       <header className="fixed top-0 left-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
 
         {/* TOP NAV */}
@@ -84,28 +144,37 @@ export function HeaderGrandpe() {
           {/* LEFT SIDE */}
           <div className="flex items-center gap-4">
 
-            {/* ALWAYS SHOW LOGO */}
-            <Link
-              to="/"
-              className="flex items-center"
-            >
-              <img
-                src={
-                  location.pathname === "/solar"
-                    ? "/assets/images/GRAND_PE_SOLAR_LOGO.png"
-                    : "/assets/images/GRAND_PE_GLOBAL_LIMITED.png"
-                }
-                alt="Logo"
-                className={`object-contain transition-all duration-300 ${
-                  location.pathname === "/solar"
-                    ? "h-10"
-                    : "h-8"
-                }`}
-              />
-            </Link>
+            {/* LOGO WHEN LOGGED OUT */}
+            {!user && (
+
+              <Link
+                to="/"
+                className="flex items-center"
+              >
+
+                <img
+                  src={
+                    location.pathname ===
+                    "/solar"
+                      ? "/assets/images/GRAND_PE_SOLAR_LOGO.png"
+                      : "/assets/images/GRAND_PE_GLOBAL_LIMITED.png"
+                  }
+                  alt="Logo"
+                  className={`object-contain transition-all duration-300 ${
+                    location.pathname ===
+                    "/solar"
+                      ? "h-10"
+                      : "h-8"
+                  }`}
+                />
+
+              </Link>
+
+            )}
 
             {/* USER INFO */}
             {user && (
+
               <div className="relative">
 
                 {/* USER BUTTON */}
@@ -121,11 +190,12 @@ export function HeaderGrandpe() {
                   {/* PROFILE IMAGE */}
                   <img
                     src={
-                      user.profilePhoto ||
-                      "/assets/images/default-avatar.png"
+                      user.profilePhoto
+                        ? user.profilePhoto
+                        : "/assets/images/default-avatar.png"
                     }
                     alt="Profile"
-                    className="w-10 h-10 rounded-full object-cover border border-gray-300 shadow-sm"
+                    className="w-11 h-11 rounded-full object-cover border border-gray-300 shadow-sm"
                   />
 
                   {/* GREETING */}
@@ -138,7 +208,7 @@ export function HeaderGrandpe() {
                     <span className="text-sm font-semibold text-gray-800 capitalize">
 
                       {
-                        user.username ||
+                        user.userName ||
                         user.firstName ||
                         "User"
                       }
@@ -149,35 +219,48 @@ export function HeaderGrandpe() {
 
                 </button>
 
-                {/* DROPDOWN */}
+                {/* PROFILE DROPDOWN */}
                 {isProfileMenuOpen && (
+
                   <div className="absolute left-0 mt-3 w-56 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden z-50">
 
                     <Link
                       to="/profile"
-                      className="block px-4 py-3 hover:bg-gray-100"
+                      className="block px-4 py-3 hover:bg-gray-100 transition"
+                      onClick={() =>
+                        setIsProfileMenuOpen(
+                          false
+                        )
+                      }
                     >
                       My Profile
                     </Link>
 
                     <Link
                       to="/settings"
-                      className="block px-4 py-3 hover:bg-gray-100"
+                      className="block px-4 py-3 hover:bg-gray-100 transition"
+                      onClick={() =>
+                        setIsProfileMenuOpen(
+                          false
+                        )
+                      }
                     >
                       Account Settings
                     </Link>
 
                     <button
                       onClick={handleLogout}
-                      className="w-full text-left px-4 py-3 text-red-600 hover:bg-red-50"
+                      className="w-full text-left px-4 py-3 text-red-600 hover:bg-red-50 transition"
                     >
                       Logout
                     </button>
 
                   </div>
+
                 )}
 
               </div>
+
             )}
 
           </div>
@@ -220,14 +303,16 @@ export function HeaderGrandpe() {
               Plants
             </NavLink>
 
-            {/* SIGN IN */}
+            {/* SIGN IN BUTTON */}
             {!user && (
+
               <NavLink
                 to="/signin"
                 className="ml-2 px-4 py-2 rounded-md bg-[#265073] text-white hover:bg-[#1f3e59] transition shadow-sm"
               >
                 Sign in
               </NavLink>
+
             )}
 
           </nav>
@@ -237,17 +322,20 @@ export function HeaderGrandpe() {
             onClick={toggleMobileMenu}
             className="md:hidden text-2xl text-gray-700"
           >
+
             {
               isMobileMenuOpen
                 ? "✕"
                 : "☰"
             }
+
           </button>
 
         </div>
 
         {/* MOBILE NAV */}
         {isMobileMenuOpen && (
+
           <div className="md:hidden bg-white border-t border-gray-200 px-6 py-4 space-y-4 text-gray-700 text-sm font-semibold shadow-sm">
 
             <NavLink
@@ -292,6 +380,7 @@ export function HeaderGrandpe() {
 
             {/* SETTINGS */}
             {user && (
+
               <Link
                 to="/settings"
                 onClick={closeMenu}
@@ -299,10 +388,12 @@ export function HeaderGrandpe() {
               >
                 Settings
               </Link>
+
             )}
 
             {/* SIGN IN */}
             {!user && (
+
               <NavLink
                 to="/signin"
                 onClick={closeMenu}
@@ -310,19 +401,23 @@ export function HeaderGrandpe() {
               >
                 Sign in
               </NavLink>
+
             )}
 
             {/* LOGOUT */}
             {user && (
+
               <button
                 onClick={handleLogout}
                 className="block w-full mt-2 px-4 py-2 rounded-md bg-red-500 text-white text-center hover:bg-red-600 transition"
               >
                 Logout
               </button>
+
             )}
 
           </div>
+
         )}
 
         {/* SEARCH BAR */}
@@ -362,7 +457,7 @@ export function HeaderGrandpe() {
 
       </header>
 
-      {/* SPACER */}
+      {/* HEADER SPACER */}
       <div className="h-[110px]" />
 
     </>
