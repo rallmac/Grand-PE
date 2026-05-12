@@ -210,7 +210,7 @@ export function HeaderGrandpe() {
                       {
                         user.userName ||
                         user.firstName ||
-                        "User"
+                        "user"
                       }
 
                     </span>
