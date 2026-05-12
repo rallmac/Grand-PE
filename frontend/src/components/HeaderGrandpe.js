@@ -199,9 +199,9 @@ export function HeaderGrandpe() {
                   />
 
                   {/* GREETING */}
-                  <div className="hidden sm:flex flex-col leading-tight text-left">
+                  <div className="flex flex-col leading-tight text-left max-w-[120px]">
 
-                    <span className="text-xs text-gray-500">
+                    <span className="text-[11px] text-gray-500">
                       Welcome back
                     </span>
 
@@ -210,7 +210,7 @@ export function HeaderGrandpe() {
                       {
                         user.userName ||
                         user.firstName ||
-                        "user"
+                        "User"
                       }
 
                     </span>
