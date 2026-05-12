@@ -5,29 +5,22 @@ export function HeaderGrandpe() {
   const location = useLocation();
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [search, setSearch] = useState("");
 
-  // 🔐 USER STATE
+  // USER STATE
   const [user, setUser] = useState(null);
 
-  // 🔐 CHECK LOGIN
+  // CHECK LOGIN
   useEffect(() => {
-    const token =
-      localStorage.getItem("token") ||
-      sessionStorage.getItem("token");
+    const storedUser = localStorage.getItem("user");
 
-    if (token) {
-      const email =
-        localStorage.getItem("email") ||
-        sessionStorage.getItem("email");
-
-      setUser({
-        name: email ? email.split("@")[0] : "User",
-      });
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
     }
   }, []);
 
-  // 📱 MOBILE MENU
+  // MOBILE MENU
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
@@ -36,7 +29,17 @@ export function HeaderGrandpe() {
     setIsMobileMenuOpen(false);
   };
 
-  // 🔍 SEARCH
+  // LOGOUT
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    sessionStorage.removeItem("user");
+
+    setUser(null);
+
+    window.location.href = "/signin";
+  };
+
+  // SEARCH
   const handleSearch = (e) => {
     e.preventDefault();
 
@@ -56,27 +59,65 @@ export function HeaderGrandpe() {
           {/* LEFT SIDE */}
           <div className="flex items-center gap-3">
 
-            {/* 🔐 LOGGED IN */}
+            {/* LOGGED IN USER */}
             {user ? (
-              <>
-                {/* PROFILE IMAGE */}
-                <img
-                  src="/assets/images/default-avatar.png"
-                  alt="Profile"
-                  className="w-10 h-10 rounded-full object-cover border border-gray-300 shadow-sm"
-                />
+              <div className="relative">
 
-                {/* WELCOME */}
-                <div className="hidden sm:flex flex-col leading-tight">
-                  <span className="text-xs text-gray-500">
-                    Welcome back
-                  </span>
+                {/* USER BUTTON */}
+                <button
+                  onClick={() =>
+                    setIsProfileMenuOpen(!isProfileMenuOpen)
+                  }
+                  className="flex items-center gap-3"
+                >
+                  <img
+                    src={
+                      user.profilePhoto ||
+                      "/assets/images/default-avatar.png"
+                    }
+                    alt="Profile"
+                    className="w-10 h-10 rounded-full object-cover border border-gray-300 shadow-sm"
+                  />
 
-                  <span className="text-sm font-semibold text-gray-800 capitalize">
-                    {user.name}
-                  </span>
-                </div>
-              </>
+                  <div className="hidden sm:flex flex-col leading-tight text-left">
+                    <span className="text-xs text-gray-500">
+                      Welcome back
+                    </span>
+
+                    <span className="text-sm font-semibold text-gray-800 capitalize">
+                      {user.username || user.firstName}
+                    </span>
+                  </div>
+                </button>
+
+                {/* DROPDOWN */}
+                {isProfileMenuOpen && (
+                  <div className="absolute left-0 mt-3 w-56 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden z-50">
+
+                    <Link
+                      to="/profile"
+                      className="block px-4 py-3 hover:bg-gray-100"
+                    >
+                      My Profile
+                    </Link>
+
+                    <Link
+                      to="/settings"
+                      className="block px-4 py-3 hover:bg-gray-100"
+                    >
+                      Account Settings
+                    </Link>
+
+                    <button
+                      onClick={handleLogout}
+                      className="w-full text-left px-4 py-3 text-red-600 hover:bg-red-50"
+                    >
+                      Logout
+                    </button>
+
+                  </div>
+                )}
+              </div>
             ) : (
               /* LOGO */
               <Link to="/" className="flex items-center">
@@ -135,7 +176,7 @@ export function HeaderGrandpe() {
               Plants
             </NavLink>
 
-            {/* 🔐 SIGN IN ONLY IF LOGGED OUT */}
+            {/* SIGN IN */}
             {!user && (
               <NavLink
                 to="/signin"
@@ -155,7 +196,7 @@ export function HeaderGrandpe() {
           </button>
         </div>
 
-        {/* 🔽 MOBILE NAV */}
+        {/* MOBILE NAV */}
         {isMobileMenuOpen && (
           <div className="md:hidden bg-white border-t border-gray-200 px-6 py-4 space-y-4 text-gray-700 text-sm font-semibold shadow-sm">
 
@@ -199,7 +240,6 @@ export function HeaderGrandpe() {
               Plants & Export
             </NavLink>
 
-            {/* 🔐 SIGN IN ONLY IF LOGGED OUT */}
             {!user && (
               <NavLink
                 to="/signin"
@@ -209,10 +249,20 @@ export function HeaderGrandpe() {
                 Sign in
               </NavLink>
             )}
+
+            {/* MOBILE LOGOUT */}
+            {user && (
+              <button
+                onClick={handleLogout}
+                className="block w-full mt-2 px-4 py-2 rounded-md bg-red-500 text-white text-center hover:bg-red-600 transition"
+              >
+                Logout
+              </button>
+            )}
           </div>
         )}
 
-        {/* 🔍 SEARCH BAR */}
+        {/* SEARCH BAR */}
         <div className="border-t border-gray-200 bg-white">
           <div className="max-w-3xl mx-auto px-6 py-3">
 

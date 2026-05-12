@@ -58,6 +58,23 @@ export default function SignInForm() {
     } finally {
       setLoading(false);
     }
+
+    // After successful login
+    const res = await axios.post(
+      `${process.env.REACT_APP_URL}/auth/login`,
+      { email, password }
+      );
+
+    const userData = {
+      token: res.data.token,
+      firstName: res.data.user.firstname,
+      username: res.data.user.username,
+      email: res.data.user.email,
+      profilePhoto: res.data.user.profilePhoto,
+    };
+
+    // Save
+    localStorage.setItem('user', JSON.stringify(userData));
   };
 
   return (
