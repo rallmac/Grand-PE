@@ -106,15 +106,25 @@ export function HeaderGrandpe() {
   // LOGOUT
   const handleLogout = () => {
 
+    // REMOVES USER
     localStorage.removeItem("user");
+    
+    // REMOVES TOKENS
+    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
+    localStorage.removeItem("refresh_token");
+    sessionStorage.removeItem("refresh_token");
 
-    sessionStorage.removeItem("user");
-
+    // CLEARS STATE
     setUser(null);
 
     setIsProfileMenuOpen(false);
 
+    // REDIRECTS
     navigate("/signin");
+
+    // FORCE CLEAN REFRESH
+    window.location.reload();
 
   };
 
