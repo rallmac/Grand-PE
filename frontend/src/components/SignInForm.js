@@ -80,7 +80,7 @@ export default function SignInForm() {
 
     const userData = {
       token: response.data.token,
-      firstName: response.data.user.firstname,
+      firstName: response.data.user.firstName,
       username: response.data.user.username,
       email: response.data.user.email,
       profilePhoto: response.data.user.profilePhoto,
