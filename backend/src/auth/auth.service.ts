@@ -152,29 +152,77 @@ export class AuthService {
     return user;
   }
 
-  // ================= LOGIN =================
-  async login(user: any) {
-    const payload = { sub: user._id, email: user.email, role: user.role };
+ // ================= LOGIN =================
+ async login(user: any) {
 
-    const access_token = this.jwtService.sign(payload, {
-      secret: process.env.JWT_SECRET,
-      expiresIn: '15m',
-    });
+   const payload = {
+     sub: user._id,
+     email: user.email,
+     role: user.role,
+   };
 
-    const refresh_token = this.jwtService.sign(payload, {
-      secret: process.env.JWT_REFRESH_SECRET,
-      expiresIn: '7d',
-    });
+   // ACCESS TOKEN
+   const access_token =
+     this.jwtService.sign(payload, {
+       secret: process.env.JWT_SECRET,
+       expiresIn: '15m',
+     });
 
-    user.refreshToken = await bcrypt.hash(refresh_token, 10);
-    await user.save();
+   // REFRESH TOKEN
+   const refresh_token =
+     this.jwtService.sign(payload, {
+       secret:
+         process.env.JWT_REFRESH_SECRET,
+       expiresIn: '7d',
+     });
 
-    return {
-      access_token,
-      refresh_token,
-      message: 'Login successful',
-    };
-  }
+   // SAVE HASHED REFRESH TOKEN
+   user.refreshToken =
+     await bcrypt.hash(
+       refresh_token,
+       10,
+     );
+
+   await user.save();
+
+   // RETURN USER DATA
+   return {
+
+     access_token,
+
+     refresh_token,
+
+     message:
+       'Login successful',
+
+     user: {
+
+       id:
+         user._id,
+
+       firstName:
+         user.firstName,
+
+       lastName:
+         user.lastName,
+
+       userName:
+         user.userName,
+
+       email:
+         user.email,
+
+       role:
+         user.role,
+
+       profilePhoto:
+         user.profilePhoto || "",
+
+     },
+
+   };
+
+ }
 
   // ================= FORGOT PASSWORD =================
   async forgotPassword(email: string) {

@@ -62,7 +62,8 @@ export class User {
   role: Role;
 
   @Prop({
-      default: '',
+      default:
+      "/assets/images/default-avatar.png",
   })
   profilePhoto: string;
 }
