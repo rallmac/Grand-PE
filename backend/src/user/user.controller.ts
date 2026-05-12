@@ -33,10 +33,36 @@ export class UserController {
     return this.userService.remove('+id');
   }
 
-
   @UseGuards(JwtAuthGuard)
   @Get('profile')
   getProfile(@Req() req) {
     return req.user;
+  }
+
+
+  @Put('update-username')
+  @UseGuards(JwtAuthGuard)
+  updateUsername(
+    @Req() req,
+    @Body('username') username: string,
+    ) {
+    return this.userService.updateUsername(
+      req.user.userId,
+      username,
+      );
+  }
+
+
+  @Put('update-photo')
+  @UseGuards(JwtAuthGuard)
+  @UseInterceptors(FileInterceptor('profilePhoto'))
+  updatePhoto(
+    @Req() req,
+    @UploadedFile() file: Express.Multer.File,
+    ) {
+    return this.userService.updatePhoto(
+      req.user.userId,
+      file,
+      );
   }
 }
