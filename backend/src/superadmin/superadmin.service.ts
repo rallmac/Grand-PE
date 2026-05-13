@@ -88,9 +88,13 @@ export class SuperadminService {
     admin.isApproved = true;
     await admin.save();
 
-    await this.emailService.approveAsAdmin(email);
+    // Notify admin
+    await this.emailService.approvedAsAdmin(admin.email);
 
-    return { message: 'Admin approved successfully' };
+    return {
+        success: true,
+        message: 'Admin approved successfully',
+    };
   }
 
   // ================= REMOVE ADMIN =================

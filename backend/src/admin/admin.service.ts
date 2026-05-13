@@ -62,7 +62,9 @@ export class AdminService {
       verificationToken: token,
     });
 
-    if (!admin) throw new BadRequestException('Invalid token');
+    if (!admin) {
+        throw new BadRequestException('Invalid token');
+    }
 
     if (
       !admin.verificationTokenExpires ||
@@ -71,18 +73,29 @@ export class AdminService {
       throw new BadRequestException('Token expired');
     }
 
+    // Hash password
     admin.password = await bcrypt.hash(password, 10);
+    
+    // Email/password completed
     admin.isVerified = true;
 
+    // Still awaiting approval
+    admin.isApproved = false;
+
+    // Clear verification token
     admin.verificationToken = undefined;
     admin.verificationTokenExpires = undefined;
 
     await admin.save();
 
-    // Notify superadmin
-    await this.emailService.approvedAsAdmin(admin.email);
+    // Notify super admin automatically
+    await this.emailService.approveAsAdmin(admin.email);
 
-    return { message: 'Account verified. Await approval.' };
+    return {
+        success: true,
+        message:
+            'Account verified. Approval notification has been sent to the super admin.',
+    };
   }
 
   // ================= LOGIN =================

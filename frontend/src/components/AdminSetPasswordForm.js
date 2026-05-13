@@ -53,7 +53,7 @@ export default function SetPasswordForm() {
       );
 
       setTimeout(() => {
-        navigate('/signin');
+        navigate('/admin-signin');
       }, 2500);
 
     } catch (err) {
