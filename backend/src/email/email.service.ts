@@ -60,7 +60,7 @@ export class EmailService {
 
 		await this.transporter.sendMail({
 			from: `"Grand-PE" <${process.env.EMAIL_USER}>`,
-			to: 'superadmin',
+			to: process.env.SUPERADMIN_EMAIL,
 			subject: 'Approve as admin',
 			html: `
 				<h3>Approve as admin</h3>
