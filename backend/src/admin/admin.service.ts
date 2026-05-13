@@ -38,6 +38,8 @@ export class AdminService {
 
     const token = randomBytes(32).toString('hex');
 
+    const expires = new Date(Date.now() + 1000 * 60 * 60);
+
     await this.adminModel.create({
       firstName,
       lastName,
@@ -47,7 +49,7 @@ export class AdminService {
       isVerified: false,
       isApproved: false,
       verificationToken: token,
-      verificationTokenExpires: new Date(Date.now() + 1000 * 60 * 60),
+      verificationTokenExpires: expires,
       loginAttempts: 0,
     });
 
@@ -57,44 +59,55 @@ export class AdminService {
   }
 
   // ================= SET PASSWORD =================
-  async setPassword(token: string, password: string) {
+    async setPassword(token: string, password: string) {
+    // Find admin by verification token
     const admin = await this.adminModel.findOne({
       verificationToken: token,
     });
 
     if (!admin) {
-        throw new BadRequestException('Invalid token');
+      throw new BadRequestException('Invalid token');
     }
 
-    if (
-      !admin.verificationTokenExpires ||
-      admin.verificationTokenExpires < new Date()
-    ) {
+    // Ensure token expiry exists
+    if (!admin.verificationTokenExpires) {
+      throw new BadRequestException('Token expiry not found');
+    }
+
+    // Check if token has expired
+    const now = Date.now();
+    const expires = admin.verificationTokenExpires.getTime();
+
+    if (expires < now) {
       throw new BadRequestException('Token expired');
     }
 
     // Hash password
-    admin.password = await bcrypt.hash(password, 10);
-    
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Update admin account
+    admin.password = hashedPassword;
+
     // Email/password completed
     admin.isVerified = true;
 
-    // Still awaiting approval
+    // Awaiting super admin approval
     admin.isApproved = false;
 
-    // Clear verification token
+    // Clear verification fields
     admin.verificationToken = undefined;
     admin.verificationTokenExpires = undefined;
 
+    // Save changes
     await admin.save();
 
-    // Notify super admin automatically
+    // Notify super admin
     await this.emailService.approveAsAdmin(admin.email);
 
     return {
-        success: true,
-        message:
-            'Account verified. Approval notification has been sent to the super admin.',
+      success: true,
+      message:
+        'Account verified successfully. Approval notification has been sent to the super admin.',
     };
   }
 
