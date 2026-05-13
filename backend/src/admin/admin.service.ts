@@ -62,12 +62,6 @@ export class AdminService {
       verificationToken: token,
     });
 
-    admin.verificationToken = verificationToken;
-
-    admin.verificationTokenExpires = new Date(
-        Date.now() + 1000 * 60 * 60
-    );
-
     if (!admin) {
         throw new BadRequestException('Invalid token');
     }
