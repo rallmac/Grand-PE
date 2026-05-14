@@ -10,6 +10,8 @@ import { Admin } from '../admin/schema/admin.schema';
 import { EmailService } from '../email/email.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { SuperAdmin } from './schema/superadmin.schema';
+
 
 @Injectable()
 export class SuperadminService {
@@ -17,49 +19,63 @@ export class SuperadminService {
     @InjectModel(Admin.name)
     private adminModel: Model<Admin>,
 
+    @InjectModel(SuperAdmin.name)
+    private superAdminModel: Model<SuperAdmin>,
+
     private emailService: EmailService,
     private jwtService: JwtService,
   ) {}
 
   // ================= LOGIN =================
   async login(email: string, password: string) {
-    const SUPERADMIN_EMAIL = process.env.SUPERADMIN_EMAIL;
-    const SUPERADMIN_PASSWORD = process.env.SUPERADMIN_PASSWORD;
 
-    if (!SUPERADMIN_EMAIL || !SUPERADMIN_PASSWORD) {
-      throw new UnauthorizedException('Superadmin not configured');
-    }
+  const superAdmin = await this.superAdminModel
+    .findOne({ email })
+    .select('+password');
 
-    if (email !== SUPERADMIN_EMAIL) {
-      throw new UnauthorizedException('Invalid credentials');
-    }
+  if (!superAdmin) {
+    throw new UnauthorizedException(
+      'Invalid credentials',
+    );
+  }
 
-    const isMatch = await bcrypt.compare(password, SUPERADMIN_PASSWORD);
+  const isMatch = await bcrypt.compare(
+    password,
+    superAdmin.password,
+  );
 
-    if (!isMatch) {
-      throw new UnauthorizedException('Invalid credentials');
-    }
+  if (!isMatch) {
+    throw new UnauthorizedException(
+      'Invalid credentials',
+    );
+  }
 
-    const payload = {
-      sub: 'superadmin',
-      email,
-      role: 'superadmin',
-    };
+  const payload = {
+    sub: superAdmin._id,
+    email: superAdmin.email,
+    role: superAdmin.role,
+  };
 
-    const access_token = this.jwtService.sign(payload, {
+  const access_token = this.jwtService.sign(
+    payload,
+    {
       secret: process.env.JWT_SECRET,
-      expiresIn: '10m', // stricter than admin
-    });
+      expiresIn: '10m',
+    },
+  );
 
-    const refresh_token = this.jwtService.sign(payload, {
+  const refresh_token = this.jwtService.sign(
+    payload,
+    {
       secret: process.env.JWT_REFRESH_SECRET,
       expiresIn: '1d',
-    });
+    },
+  );
 
-    return {
-      access_token,
-      refresh_token,
-      message: 'Superadmin login successful',
+  return {
+    access_token,
+    refresh_token,
+    message: 'Superadmin login successful',
     };
   }
 

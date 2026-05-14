@@ -5,11 +5,13 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Admin, AdminSchema } from '../admin/schema/admin.schema';
 import { EmailModule } from '../email/email.module';
 import { JwtModule } from '@nestjs/jwt';
+import { SuperAdmin, SuperAdminSchema } from './schema/superadmin.schema';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
-      { name: Admin.name, schema: AdminSchema },
+      { name: Admin.name, schema: AdminSchema, },
+      { name: SuperAdmin.name, schema: SuperAdminSchema, },
     ]),
     EmailModule,
     JwtModule.register({}),
