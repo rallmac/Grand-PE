@@ -25,6 +25,8 @@ import AdminSetPassword from "./pages/AdminSetPassword";
 import AdminResetPassword from "./pages/AdminResetPassword";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminForgotPassword from "./pages/AdminForgotPassword";
+import SuperAdminDashboard from "./pages/SuperAdminDashboard";
+import SuperAdminSignIn from "./pages/SuperAdminSignIn";
 import Settings from "./pages/Settings";
 
 
@@ -58,6 +60,8 @@ function App() {
         <Route path="/admin-reset-password" element={<AdminResetPassword />} />
         <Route path="/admin-dashboard" element={<AdminProtectedRoute><AdminDashboard /></AdminProtectedRoute>} />
         <Route path="/admin-forgot-password" element={<AdminForgotPassword />} />
+        <Route path="/super-admin-signin" element={<SuperAdminSignIn />} />
+        <Route path="/super-admin-dashboard" element={<SuperAdminDashboard />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
