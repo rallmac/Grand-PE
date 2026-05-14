@@ -39,7 +39,7 @@ export class Admin {
   @Prop({ select: false })
   verificationToken?: string;
 
-  @Prop({ select: false })
+  @Prop({ type: Date })
   verificationTokenExpires?: Date;
 
   @Prop({ select: false })
