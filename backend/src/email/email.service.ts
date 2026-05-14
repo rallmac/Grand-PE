@@ -58,16 +58,40 @@ export class EmailService {
 
 	async approveAsAdmin(to: string) {
 
-		await this.transporter.sendMail({
-			from: `"Grand-PE" <${process.env.EMAIL_USER}>`,
-			to: 'superadmin',
-			subject: 'Approve as admin',
-			html: `
-				<h3>Approve as admin</h3>
-				<p>This user is requesting admin access, click the link below to approve</p>
-				<p>If user is not needed as admin kindly ignore this message</p>
-				<a><h4>Approve</h4></a>
-				`,
+	const approveUrl = `https://grand-pe.onrender.com/super-admin-login`;
+
+	await this.transporter.sendMail({
+		from: `"Grand-PE" <${process.env.EMAIL_USER}>`,
+
+		to: process.env.SUPERADMIN_EMAIL,
+
+		subject: 'Admin Approval Request',
+
+		html: `
+			<h3>New Admin Approval Request</h3>
+
+			<p>
+				The following user has completed account verification
+				and is requesting admin approval:
+			</p>
+
+			<p>
+				<strong>${to}</strong>
+			</p>
+
+			<p>
+				Click the link below to login and approve this admin:
+			</p>
+
+			<a href="${approveUrl}">
+				Approve Admin
+			</a>
+
+			<p>
+				If this request is unauthorized,
+				please ignore this email.
+			</p>
+			`,
 		});
 	}
 
