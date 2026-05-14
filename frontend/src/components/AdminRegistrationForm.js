@@ -28,7 +28,7 @@ export default function RegistrationForm() {
 
     try {
       const res = await axios.post(
-        `${process.env.REACT_APP_API_URL}/auth/register`,
+        `${process.env.REACT_APP_API_URL}/admin/register`,
         {
           email: normalizedEmail,
           firstName: firstName.trim(),

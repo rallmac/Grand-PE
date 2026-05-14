@@ -108,7 +108,7 @@ export function HeaderGrandpe() {
 
     // REMOVES USER
     localStorage.removeItem("user");
-
+    
     // REMOVES TOKENS
     localStorage.removeItem("token");
     sessionStorage.removeItem("token");
@@ -215,7 +215,7 @@ export function HeaderGrandpe() {
                       Welcome back
                     </span>
 
-                    <span className="text-sm font-semibold text-gray-800 capitalize">
+                    <span className="text-sm font-semibold text-gray-800 capitalize truncate">
 
                       {
                         user.userName ||
@@ -473,3 +473,4 @@ export function HeaderGrandpe() {
     </>
   );
 }
+
