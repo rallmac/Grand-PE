@@ -7,7 +7,13 @@ import {
 import { SuperadminService } from './superadmin.service';
 import { AuthGuard } from '@nestjs/passport';
 import { SuperAdminGuard } from '../auth/guards/superadmin.guard';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
+
+@UseGuards(
+  JwtAuthGuard,
+  SuperAdminGuard,
+)
 @Controller('superadmin')
 export class SuperadminController {
   constructor(
@@ -15,7 +21,6 @@ export class SuperadminController {
   ) {}
 
   // ================= LOGIN =================
- @UseGuards(AuthGuard('jwt'), SuperAdminGuard)
   @Post('login')
   login(
     @Body('email') email: string,
