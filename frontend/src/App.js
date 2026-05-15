@@ -12,9 +12,10 @@ import SignIn from "./pages/SignIn";
 import SetPassword from "./pages/SetPassword";
 import ResetPassword from "./pages/ResetPassword";
 import ForgotPassword from "./pages/ForgotPassword";
-import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PublicRoute from "./components/PublicRoute";
+import AdminPublicRoute from "./components/AdminPublicRoute";
+import AdminProtectedRoute from "./components/AdminProtectedRoute";
 import Cart from "./pages/Cart";
 import NewSignup from "./pages/NewSignup";
 import IdePage from "./pages/IdePage";
@@ -23,7 +24,10 @@ import AdminRegister from "./pages/AdminRegister";
 import AdminSetPassword from "./pages/AdminSetPassword";
 import AdminResetPassword from "./pages/AdminResetPassword";
 import AdminDashboard from "./pages/AdminDashboard";
-import AdminForgotPassword from "./pages/AdminForgotPassword"
+import AdminForgotPassword from "./pages/AdminForgotPassword";
+import SuperAdminDashboard from "./pages/SuperAdminDashboard";
+import SuperAdminSignIn from "./pages/SuperAdminSignIn";
+import Settings from "./pages/Settings";
 
 
 //This file connects all the pages in the application
@@ -47,16 +51,18 @@ function App() {
         <Route path="/set-password" element={<SetPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/new-signup" element={<NewSignup />} />
         <Route path="/ide-page" element={<IdePage />} />
-        <Route path="/admin-signin" element={<AdminSignIn />} />
+        <Route path="/admin-signin" element={<AdminPublicRoute><AdminSignIn /></AdminPublicRoute>} />
         <Route path="/admin-register" element={<AdminRegister />} />
         <Route path="/admin-set-password" element={<AdminSetPassword />} />
         <Route path="/admin-reset-password" element={<AdminResetPassword />} />
-        <Route path="/admin-dashboard" element={<AdminDashboard />} />
+        <Route path="/admin-dashboard" element={<AdminProtectedRoute><AdminDashboard /></AdminProtectedRoute>} />
         <Route path="/admin-forgot-password" element={<AdminForgotPassword />} />
+        <Route path="/super-admin-signin" element={<SuperAdminSignIn />} />
+        <Route path="/super-admin-dashboard" element={<SuperAdminDashboard />} />
+        <Route path="/settings" element={<Settings />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
