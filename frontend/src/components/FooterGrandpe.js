@@ -7,6 +7,7 @@ export function FooterGrandpe() {
   const [formData, setFormData] = useState({ email: "" });
   const [formStatus, setFormStatus] = useState("");
 
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -61,16 +62,16 @@ export function FooterGrandpe() {
           <div className="space-y-4">
             <h4 className="text-white font-semibold text-lg">Explore</h4>
             <ul className="space-y-2 text-sm">
-              <li><Link to="/" className="hover:text-white">Home</Link></li>
-              <li><Link to="/about" className="hover:text-white">About Us</Link></li>
-              <li><Link to="/solar" className="hover:text-white">Grand-PE Solar</Link></li>
-              <li><Link to="/tech" className="hover:text-white">Grand-PE Tech</Link></li>
-              <li><Link to="/translate" className="hover:text-white">Grand-PE Translate</Link></li>
-              <li><Link to="/plants" className="hover:text-white">Grand-PE Plants & Export</Link></li>
-              <li><button className="hover:text-white">Blog</button></li>
-              <li><button className="hover:text-white">Privacy Policy</button></li>
-              <li><button className="hover:text-white">Terms of Service</button></li>
-              <li><Link to="/admin-signin" className="hover:text-white">Admin</Link></li>
+              <li><Link to="/" className="hover:text-white text-white">Home</Link></li>
+              <li><Link to="/about" className="hover:text-white text-white">About Us</Link></li>
+              <li><Link to="/solar" className="hover:text-white text-white">Grand-PE Solar</Link></li>
+              <li><Link to="/tech" className="hover:text-white text-white">Grand-PE Tech</Link></li>
+              <li><Link to="/translate" className="hover:text-white text-white">Grand-PE Translate</Link></li>
+              <li><Link to="/plants" className="hover:text-white text-white">Grand-PE Plants & Export</Link></li>
+              <li><button className="hover:text-white text-white">Blog</button></li>
+              <li><button className="hover:text-white text-white">Privacy Policy</button></li>
+              <li><button className="hover:text-white text-white">Terms of Service</button></li>
+              <li><Link to="/admin-signin" className="hover:text-white text-white">Admin</Link></li>
             </ul>
           </div>
 
@@ -151,7 +152,7 @@ export function FooterGrandpe() {
         {/* BOTTOM */}
         <div className="border-t border-gray-700 mt-10 pt-6 text-sm text-gray-400 flex flex-col md:flex-row justify-between items-center gap-3 text-center md:text-left">
           <p>© {year} Grand-PE Global Limited. All Rights Reserved.</p>
-          <p>Website by Grand-PE Tech</p>
+          <p><Link to="/super-admin-signin" className="hover:text-gray-300 text-gray-300">Website by Grand-PE Tech</Link></p>
         </div>
 
       </div>
