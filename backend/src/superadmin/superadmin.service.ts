@@ -75,6 +75,10 @@ export class SuperadminService {
   return {
     access_token,
     refresh_token,
+    superadmin: {
+        email: superAdmin.email,
+        role: superAdmin.role,
+    },
     message: 'Superadmin login successful',
     };
   }

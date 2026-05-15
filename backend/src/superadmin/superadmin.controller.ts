@@ -15,6 +15,7 @@ export class SuperadminController {
   ) {}
 
   // ================= LOGIN =================
+ @UseGuards(AuthGuard('jwt'), SuperAdminGuard)
   @Post('login')
   login(
     @Body('email') email: string,
