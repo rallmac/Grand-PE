@@ -44,3 +44,4 @@ export class SuperadminController {
     return this.superAdminService.removeAdmin(email);
   }
 }
+
