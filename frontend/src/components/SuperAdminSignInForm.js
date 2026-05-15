@@ -15,7 +15,10 @@ export default function SignInForm() {
 
   useEffect(() => {
     const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-    if (token) {
+
+    const role = localStorage.getItem('role');
+
+    if (token && role === 'superadmin') {
       navigate('/super-admin-dashboard');
     }
   }, [navigate]);
@@ -35,6 +38,14 @@ export default function SignInForm() {
         `${process.env.REACT_APP_API_URL}/superadmin/login`,
         { email, password }
       );
+
+      const role = res.data.superadmin.role;
+
+      if (role !== 'superadmin') {
+          return navigate('/');
+      }
+
+      localStorage.setItem('role', role);
 
       const token = res.data.access_token;
 
@@ -153,3 +164,4 @@ export default function SignInForm() {
     </div>
   );
 }
+
