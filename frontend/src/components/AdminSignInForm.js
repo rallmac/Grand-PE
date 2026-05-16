@@ -16,7 +16,7 @@ export default function SignInForm() {
   useEffect(() => {
     const token = localStorage.getItem('token') || sessionStorage.getItem('token');
     if (token) {
-      navigate('/dashboard');
+      navigate('/admin-dashboard');
     }
   }, [navigate]);
 
@@ -46,7 +46,7 @@ export default function SignInForm() {
         }
       }
 
-      navigate('/dashboard');
+      navigate('/admin-dashboard');
 
     } catch (err) {
       const message =
