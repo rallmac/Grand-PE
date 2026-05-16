@@ -78,10 +78,6 @@ export class SuperadminController {
   }
 
   // ================= FETCH ALL PENDING ADMINS ============
-  @UseGuards(
-    JwtAuthGuard,
-    SuperAdminGuard,
-  )
   @Get('pending-admins')
   getPendingAdmins() {
     return this.superAdminService.getPendingAdmins();
