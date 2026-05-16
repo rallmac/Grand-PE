@@ -27,6 +27,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import AdminForgotPassword from "./pages/AdminForgotPassword";
 import SuperAdminDashboard from "./pages/SuperAdminDashboard";
 import SuperAdminSignIn from "./pages/SuperAdminSignIn";
+import SuperAdminProtectedRoute from "./components/SuperAdminProtectedRoute";
 import Settings from "./pages/Settings";
 
 
@@ -61,7 +62,7 @@ function App() {
         <Route path="/admin-dashboard" element={<AdminProtectedRoute><AdminDashboard /></AdminProtectedRoute>} />
         <Route path="/admin-forgot-password" element={<AdminForgotPassword />} />
         <Route path="/super-admin-signin" element={<SuperAdminSignIn />} />
-        <Route path="/super-admin-dashboard" element={<SuperAdminDashboard />} />
+        <Route path="/super-admin-dashboard" element={<SuperAdminProtectedRoute><SuperAdminDashboard /></SuperAdminProtectedRoute>} />
         <Route path="/settings" element={<Settings />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
