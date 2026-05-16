@@ -27,59 +27,102 @@ export class SuperadminService {
   ) {}
 
   // ================= LOGIN =================
-  async login(email: string, password: string) {
+  async login(
+    email: string,
+    password: string,
+  ) {
 
-  const superAdmin = await this.superAdminModel
-    .findOne({ email })
-    .select('+password');
+    const superAdmin =
+      await this.superAdminModel
+        .findOne({ email })
+        .select('+password');
 
-  if (!superAdmin) {
-    throw new UnauthorizedException(
-      'Invalid credentials',
-    );
-  }
+    if (!superAdmin) {
 
-  const isMatch = await bcrypt.compare(
-    password,
-    superAdmin.password,
-  );
+      throw new UnauthorizedException(
+        'Invalid email or password',
+      );
+    }
 
-  if (!isMatch) {
-    throw new UnauthorizedException(
-      'Invalid credentials',
-    );
-  }
+    // Ensure password exists
+    if (!superAdmin.password) {
 
-  const payload = {
-    sub: superAdmin._id,
-    email: superAdmin.email,
-    role: superAdmin.role,
-  };
+      throw new UnauthorizedException(
+        'Password not set',
+      );
+    }
 
-  const access_token = this.jwtService.sign(
-    payload,
-    {
-      secret: process.env.JWT_SECRET,
-      expiresIn: '10m',
-    },
-  );
+    // Compare passwords
+    const isMatch =
+      await bcrypt.compare(
+        password,
+        superAdmin.password,
+      );
 
-  const refresh_token = this.jwtService.sign(
-    payload,
-    {
-      secret: process.env.JWT_REFRESH_SECRET,
-      expiresIn: '1d',
-    },
-  );
+    if (!isMatch) {
 
-  return {
-    access_token,
-    refresh_token,
-    superadmin:{
-        email: superAdmin.email,
-        role: superAdmin.role,
-    },
-    message: 'Superadmin login successful',
+      throw new UnauthorizedException(
+        'Invalid email or password',
+      );
+    }
+
+    // Ensure role
+    if (
+      superAdmin.role !==
+      'superadmin'
+    ) {
+
+      throw new UnauthorizedException(
+        'Access denied',
+      );
+    }
+
+    const payload = {
+
+      sub: superAdmin._id,
+
+      email: superAdmin.email,
+
+      role: superAdmin.role,
+    };
+
+    const access_token =
+      this.jwtService.sign(
+        payload,
+        {
+          secret:
+            process.env.JWT_SECRET,
+          expiresIn: '10m',
+        },
+      );
+
+    const refresh_token =
+      this.jwtService.sign(
+        payload,
+        {
+          secret:
+            process.env.JWT_REFRESH_SECRET,
+          expiresIn: '1d',
+        },
+      );
+
+    return {
+
+      access_token,
+
+      refresh_token,
+
+      superadmin: {
+
+        email:
+          superAdmin.email,
+
+        role:
+          superAdmin.role,
+      },
+
+      message:
+        'Superadmin login successful',
     };
   }
 
