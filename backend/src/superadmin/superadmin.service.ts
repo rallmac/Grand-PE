@@ -188,5 +188,13 @@ export class SuperadminService {
 
     return { message: 'Admin removed successfully' };
   }
+
+  // ============ GET ALL PENDING ADMINS ============
+  async getPendingAdmins() {
+      return this.adminModel.find({
+          isVerified: true,
+          isApproved: false,
+      });
+  }
 }
 
