@@ -22,7 +22,6 @@ export class SuperadminController {
   ) {}
 
   // ================= LOGIN =================
-  // NO GUARDS HERE
   @Post('login')
   login(
     @Body('email') email: string,
@@ -37,10 +36,6 @@ export class SuperadminController {
   }
 
   // ================= LOGOUT =================
-  @UseGuards(
-    JwtAuthGuard,
-    SuperAdminGuard,
-  )
   @Post('logout')
   logout() {
 
@@ -48,10 +43,6 @@ export class SuperadminController {
   }
 
   // ================= APPROVE ADMIN =================
-  @UseGuards(
-    JwtAuthGuard,
-    SuperAdminGuard,
-  )
   @Post('approve-admin')
   approveAdmin(
     @Body('email') email: string,
@@ -63,10 +54,6 @@ export class SuperadminController {
   }
 
   // ================= REMOVE ADMIN =================
-  @UseGuards(
-    JwtAuthGuard,
-    SuperAdminGuard,
-  )
   @Post('remove-admin')
   removeAdmin(
     @Body('email') email: string,
@@ -78,10 +65,6 @@ export class SuperadminController {
   }
 
   // ================ FETCH PENDING ADMINS ===========
-  @UseGuards(
-      JwtAuthGuard,
-      SuperAdminGuard,
-  )
   @Get('pending-admins')
   getPendingAdmins() {
       return this.superAdminService.getPendingAdmins();
