@@ -2,6 +2,7 @@ import {
   Controller,
   Post,
   Body,
+  Get,
   UseGuards,
 } from '@nestjs/common';
 
@@ -74,5 +75,15 @@ export class SuperadminController {
     return this.superAdminService.removeAdmin(
       email,
     );
+  }
+
+  // ================= FETCH ALL PENDING ADMINS ============
+  @UseGuards(
+    JwtAuthGuard,
+    SuperAdminGuard,
+  )
+  @Get('pending-admins')
+  getPendingAdmins() {
+    return this.superAdminService.getPendingAdmins();
   }
 }
