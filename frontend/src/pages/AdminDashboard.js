@@ -77,7 +77,7 @@ export default function AdminDashboard() {
           Welcome to your admin dashboard
         </h3>
         <p className="mt-2 text-gray-400">
-          Here you can add various items of your choice.
+          Here you can add various products of your choice.
         </p>
       </div>
     </div>
