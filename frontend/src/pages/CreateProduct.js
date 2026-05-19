@@ -1,4 +1,4 @@
-import CreateProductForm from '../component/CreateProductForm';
+import CreateProductForm from '../components/CreateProductForm';
 
 
 export default function CreateProduct() {
