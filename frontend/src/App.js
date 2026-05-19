@@ -65,7 +65,7 @@ function App() {
         <Route path="/super-admin-signin" element={<SuperAdminSignIn />} />
         <Route path="/super-admin-dashboard" element={<SuperAdminProtectedRoute><SuperAdminDashboard /></SuperAdminProtectedRoute>} />
         <Route path="/settings" element={<Settings />} />
-        <Route path="/create-product" element={<CreateProduct />} />
+        <Route path="/create-product" element={<AdminProtectedRoute><CreateProduct /></AdminProtectedRoute>} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
