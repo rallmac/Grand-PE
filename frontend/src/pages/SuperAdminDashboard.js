@@ -1,48 +1,46 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import axios from 'axios';
+
+import {
+  LayoutDashboard,
+  ShieldCheck,
+  Users,
+  UserCheck,
+  Bell,
+  Search,
+  LogOut,
+  Menu,
+  X,
+  Loader2,
+  CheckCircle2,
+  Clock3,
+} from 'lucide-react';
 
 import IdleLogout from '../hooks/IdleTimerHook';
 
 export default function SuperAdminDashboard() {
 
-  const [collapsed, setCollapsed] =
-    useState(() => {
+  const [sidebarOpen, setSidebarOpen] =
+    useState(false);
 
-      const saved =
-        localStorage.getItem(
-          'sidebarCollapsed'
-        );
-
-      return saved
-        ? JSON.parse(saved)
-        : true;
-    });
-
-  const [admins, setAdmins] =
+  const [pendingAdmins, setPendingAdmins] =
     useState([]);
 
-  const [loading, setLoading] =
+  const [approvedAdmins, setApprovedAdmins] =
+    useState([]);
+
+  const [loadingPending, setLoadingPending] =
+    useState(false);
+
+  const [loadingApproved, setLoadingApproved] =
     useState(false);
 
   const [error, setError] =
     useState('');
 
   const navigate = useNavigate();
-
-  // ================= SIDEBAR =================
-  const toggleSidebar = () => {
-
-    setCollapsed((prev) => {
-
-      localStorage.setItem(
-        'sidebarCollapsed',
-        JSON.stringify(!prev)
-      );
-
-      return !prev;
-    });
-  };
 
   // ================= LOGOUT =================
   const handleLogout = () => {
@@ -62,18 +60,21 @@ export default function SuperAdminDashboard() {
     2 * 60 * 60 * 1000
   );
 
-  // ================= FETCH ADMINS =================
+  // ================= FETCH =================
   useEffect(() => {
 
     fetchPendingAdmins();
 
+    fetchApprovedAdmins();
+
   }, []);
 
+  // ================= FETCH PENDING =================
   const fetchPendingAdmins = async () => {
 
     try {
 
-      setLoading(true);
+      setLoadingPending(true);
 
       const token =
         localStorage.getItem('token') ||
@@ -88,7 +89,7 @@ export default function SuperAdminDashboard() {
         }
       );
 
-      setAdmins(res.data);
+      setPendingAdmins(res.data);
 
     } catch (err) {
 
@@ -100,7 +101,43 @@ export default function SuperAdminDashboard() {
 
     } finally {
 
-      setLoading(false);
+      setLoadingPending(false);
+    }
+  };
+
+  // ================= FETCH APPROVED =================
+  const fetchApprovedAdmins = async () => {
+
+    try {
+
+      setLoadingApproved(true);
+
+      const token =
+        localStorage.getItem('token') ||
+        sessionStorage.getItem('token');
+
+      const res = await axios.get(
+        `${process.env.REACT_APP_API_URL}/superadmin/approved-admins`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setApprovedAdmins(res.data);
+
+    } catch (err) {
+
+      const message =
+        err.response?.data?.message ||
+        err.message;
+
+      setError(message);
+
+    } finally {
+
+      setLoadingApproved(false);
     }
   };
 
@@ -125,12 +162,27 @@ export default function SuperAdminDashboard() {
         }
       );
 
-      // Remove approved admin from UI
-      setAdmins((prev) =>
+      // REMOVE FROM PENDING
+      const approvedAdmin =
+        pendingAdmins.find(
+          (admin) => admin.email === email
+        );
+
+      setPendingAdmins((prev) =>
         prev.filter(
-          (admin) => admin.email !== email
+          (admin) =>
+            admin.email !== email
         )
       );
+
+      // ADD TO APPROVED
+      if (approvedAdmin) {
+
+        setApprovedAdmins((prev) => [
+          approvedAdmin,
+          ...prev,
+        ]);
+      }
 
     } catch (err) {
 
@@ -142,132 +194,656 @@ export default function SuperAdminDashboard() {
     }
   };
 
+  const stats = [
+    {
+      title: 'Pending Admins',
+      value: pendingAdmins.length,
+      icon: Clock3,
+    },
+
+    {
+      title: 'Approved Admins',
+      value: approvedAdmins.length,
+      icon: CheckCircle2,
+    },
+
+    {
+      title: 'Total Admins',
+      value:
+        pendingAdmins.length +
+        approvedAdmins.length,
+      icon: Users,
+    },
+  ];
+
   return (
-    <div className="flex min-h-screen bg-gray-900 text-white">
+    <div className="min-h-screen bg-gray-900 text-white">
+
+      {/* OVERLAY */}
+      {sidebarOpen && (
+
+        <div
+          onClick={() =>
+            setSidebarOpen(false)
+          }
+          className="
+            fixed inset-0 z-40
+            bg-black/60 backdrop-blur-sm
+          "
+        />
+      )}
 
       {/* SIDEBAR */}
-      <div
+      <aside
         className={`
-          fixed top-0 left-0 h-full z-50
-          ${collapsed ? 'w-16' : 'w-64'}
-          bg-gray-800 transition-all duration-300 flex flex-col
+          fixed top-0 left-0 z-50
+          h-screen w-72
+          bg-gray-900
+          border-r border-white/10
+          backdrop-blur-xl
+          transition-transform duration-300
+          flex flex-col
+          ${
+            sidebarOpen
+              ? 'translate-x-0'
+              : '-translate-x-full'
+          }
         `}
       >
 
-        {/* TOGGLE */}
-        <button
-          onClick={toggleSidebar}
-          className="p-4 text-gray-400 hover:text-white"
+        {/* TOP */}
+        <div
+          className="
+            h-20 px-5
+            border-b border-white/10
+            flex items-center justify-between
+          "
         >
-          {collapsed ? '➡️' : '⬅️'}
-        </button>
 
-        {/* NAV */}
-        <div className="flex flex-col gap-2 px-2">
+          <div>
+
+            <h1 className="text-2xl font-bold text-white">
+              GrandPE
+            </h1>
+
+            <p className="text-xs text-gray-400">
+              Super Admin
+            </p>
+
+          </div>
 
           <button
-            onClick={() => navigate('/home')}
-            className="flex items-center gap-3 p-2 rounded hover:bg-gray-700"
+            onClick={() =>
+              setSidebarOpen(false)
+            }
+            className="
+              w-10 h-10 rounded-full
+              bg-white/10 hover:bg-white/20
+              transition
+              flex items-center justify-center
+            "
           >
-            🏠 {!collapsed && <span>Home</span>}
+
+            <X
+              size={18}
+              className="text-white"
+            />
+
+          </button>
+
+        </div>
+
+        {/* NAVIGATION */}
+        <div className="flex-1 p-4 flex flex-col gap-2">
+
+          <button
+            className="
+              flex items-center gap-4
+              px-4 py-4 rounded-2xl
+              bg-[#265073]
+              text-white shadow-lg
+            "
+          >
+
+            <LayoutDashboard size={22} />
+
+            <span className="text-sm font-medium">
+              Dashboard
+            </span>
+
+          </button>
+
+          <button
+            onClick={() =>
+              navigate('/home')
+            }
+            className="
+              flex items-center gap-4
+              px-4 py-4 rounded-2xl
+              text-gray-300
+              hover:bg-white/10
+              hover:text-white
+              transition
+            "
+          >
+
+            <ShieldCheck size={22} />
+
+            <span className="text-sm font-medium">
+              Home
+            </span>
+
           </button>
 
         </div>
 
         {/* LOGOUT */}
-        <div className="mt-auto p-2">
+        <div className="p-4 border-t border-white/10">
 
           <button
             onClick={handleLogout}
-            className="flex items-center gap-3 w-full p-2 rounded hover:bg-red-600"
+            className="
+              w-full flex items-center gap-4
+              px-4 py-4 rounded-2xl
+              bg-red-500/10
+              hover:bg-red-500/20
+              text-red-400
+              transition
+            "
           >
-            🚪 {!collapsed && <span>Logout</span>}
+
+            <LogOut size={22} />
+
+            <span className="text-sm font-medium">
+              Logout
+            </span>
+
           </button>
 
         </div>
 
-      </div>
+      </aside>
 
       {/* MAIN */}
-      <div
-        className={`
-          flex-1 p-6 transition-all duration-300
-          ${collapsed ? 'ml-16' : 'ml-64'}
-        `}
-      >
+      <main className="min-h-screen">
 
-        <h1 className="text-3xl font-bold">
-          Super Admin Dashboard
-        </h1>
+        {/* HEADER */}
+        <header
+          className="
+            sticky top-0 z-30
+            bg-gray-900/80
+            backdrop-blur-xl
+            border-b border-white/10
+          "
+        >
 
-        <p className="mt-2 text-gray-400">
-          Approve pending admin accounts
-        </p>
+          <div
+            className="
+              px-4 md:px-6 py-4
+              flex items-center justify-between
+            "
+          >
 
-        {/* ERROR */}
-        {error && (
+            {/* LEFT */}
+            <div className="flex items-center gap-3">
 
-          <div className="mt-4 bg-red-500/10 text-red-400 p-3 rounded">
+              <button
+                onClick={() =>
+                  setSidebarOpen(true)
+                }
+                className="
+                  w-11 h-11 rounded-full
+                  bg-white/10
+                  hover:bg-white/20
+                  transition
+                  flex items-center justify-center
+                "
+              >
 
-            {error}
+                <Menu
+                  size={20}
+                  className="text-white"
+                />
 
-          </div>
-        )}
-
-        {/* LOADING */}
-        {loading && (
-
-          <p className="mt-6">
-            Loading admins...
-          </p>
-        )}
-
-        {/* ADMIN LIST */}
-        <div className="mt-8 grid gap-4">
-
-          {admins.length === 0 && !loading && (
-
-            <div className="bg-gray-800 p-4 rounded">
-
-              No pending admins found
-
-            </div>
-          )}
-
-          {admins.map((admin) => (
-
-            <div
-              key={admin._id}
-              className="bg-gray-800 p-4 rounded flex items-center justify-between"
-            >
+              </button>
 
               <div>
 
-                <h3 className="font-semibold">
-                  {admin.firstName} {admin.lastName}
-                </h3>
+                <h2
+                  className="
+                    text-xl md:text-2xl
+                    font-bold text-white
+                  "
+                >
+                  Super Admin Dashboard 👑
+                </h2>
 
-                <p className="text-sm text-gray-400">
-                  {admin.email}
+                <p className="text-xs md:text-sm text-gray-400 mt-1">
+                  Manage and approve admin accounts
                 </p>
 
               </div>
 
-              <button
-                onClick={() =>
-                  approveAdmin(admin.email)
-                }
-                className="bg-green-600 hover:bg-green-700 px-4 py-2 rounded"
+            </div>
+
+            {/* RIGHT */}
+            <div className="flex items-center gap-3">
+
+              {/* SEARCH */}
+              <div
+                className="
+                  hidden md:flex
+                  items-center
+                  bg-white/5
+                  border border-white/10
+                  rounded-full
+                  px-4 py-2
+                  w-[260px]
+                "
               >
-                Approve
+
+                <Search
+                  size={16}
+                  className="text-gray-400"
+                />
+
+                <input
+                  type="text"
+                  placeholder="Search admins..."
+                  className="
+                    bg-transparent outline-none
+                    ml-2 text-sm w-full
+                    text-white
+                    placeholder-gray-500
+                  "
+                />
+
+              </div>
+
+              {/* NOTIFICATION */}
+              <button
+                className="
+                  w-11 h-11 rounded-full
+                  bg-white/10
+                  hover:bg-white/20
+                  transition
+                  flex items-center justify-center
+                "
+              >
+
+                <Bell
+                  size={18}
+                  className="text-white"
+                />
+
               </button>
 
+              {/* AVATAR */}
+              <img
+                src="https://i.pravatar.cc/100"
+                alt="admin"
+                className="
+                  w-11 h-11 rounded-full
+                  object-cover
+                  border-2 border-[#265073]
+                "
+              />
+
             </div>
-          ))}
+
+          </div>
+
+        </header>
+
+        {/* CONTENT */}
+        <div className="p-4 md:p-6">
+
+          {/* ERROR */}
+          {error && (
+
+            <div
+              className="
+                mb-6
+                bg-red-500/10
+                border border-red-500/20
+                text-red-400
+                p-4 rounded-2xl
+              "
+            >
+
+              {error}
+
+            </div>
+          )}
+
+          {/* STATS */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+
+            {stats.map((item, index) => {
+
+              const Icon = item.icon;
+
+              return (
+
+                <div
+                  key={index}
+                  className="
+                    bg-white/5
+                    backdrop-blur-xl
+                    border border-white/10
+                    rounded-3xl
+                    p-5
+                    hover:border-[#265073]
+                    transition
+                  "
+                >
+
+                  <div className="flex items-center justify-between">
+
+                    <div>
+
+                      <p className="text-sm text-gray-400">
+                        {item.title}
+                      </p>
+
+                      <h3 className="text-3xl font-bold text-white mt-2">
+                        {item.value}
+                      </h3>
+
+                    </div>
+
+                    <div
+                      className="
+                        w-14 h-14 rounded-2xl
+                        bg-[#265073]/20
+                        flex items-center justify-center
+                      "
+                    >
+
+                      <Icon
+                        size={24}
+                        className="text-[#4f8bb8]"
+                      />
+
+                    </div>
+
+                  </div>
+
+                </div>
+              );
+            })}
+
+          </div>
+
+          {/* TABLES */}
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 mt-8">
+
+            {/* PENDING ADMINS */}
+            <div
+              className="
+                bg-white/5
+                backdrop-blur-xl
+                border border-white/10
+                rounded-3xl
+                p-6
+              "
+            >
+
+              <div className="flex items-center justify-between mb-6">
+
+                <div>
+
+                  <h3 className="text-xl font-semibold text-white">
+                    Pending Admins
+                  </h3>
+
+                  <p className="text-sm text-gray-400 mt-1">
+                    Admins awaiting approval
+                  </p>
+
+                </div>
+
+              </div>
+
+              {/* LOADING */}
+              {loadingPending && (
+
+                <div className="flex items-center gap-2 text-gray-400">
+
+                  <Loader2
+                    size={18}
+                    className="animate-spin"
+                  />
+
+                  Loading pending admins...
+
+                </div>
+              )}
+
+              {/* EMPTY */}
+              {!loadingPending &&
+                pendingAdmins.length === 0 && (
+
+                <div
+                  className="
+                    bg-white/5
+                    border border-white/10
+                    rounded-2xl
+                    p-5 text-center
+                    text-gray-400
+                  "
+                >
+
+                  No pending admins found
+
+                </div>
+              )}
+
+              {/* LIST */}
+              <div className="space-y-4">
+
+                {pendingAdmins.map((admin) => (
+
+                  <div
+                    key={admin._id}
+                    className="
+                      bg-white/5
+                      border border-white/10
+                      rounded-2xl
+                      p-4
+                      flex items-center justify-between
+                    "
+                  >
+
+                    <div className="flex items-center gap-4">
+
+                      <div
+                        className="
+                          w-12 h-12 rounded-full
+                          bg-[#265073]/20
+                          flex items-center justify-center
+                        "
+                      >
+
+                        <UserCheck
+                          size={20}
+                          className="text-[#4f8bb8]"
+                        />
+
+                      </div>
+
+                      <div>
+
+                        <h4 className="font-semibold text-white">
+                          {admin.firstName}{' '}
+                          {admin.lastName}
+                        </h4>
+
+                        <p className="text-sm text-gray-400">
+                          {admin.email}
+                        </p>
+
+                      </div>
+
+                    </div>
+
+                    <button
+                      onClick={() =>
+                        approveAdmin(
+                          admin.email
+                        )
+                      }
+                      className="
+                        px-4 py-2 rounded-xl
+                        bg-[#265073]
+                        hover:bg-[#1f3e59]
+                        transition
+                        text-white text-sm
+                      "
+                    >
+
+                      Approve
+
+                    </button>
+
+                  </div>
+                ))}
+
+              </div>
+
+            </div>
+
+            {/* APPROVED ADMINS */}
+            <div
+              className="
+                bg-white/5
+                backdrop-blur-xl
+                border border-white/10
+                rounded-3xl
+                p-6
+              "
+            >
+
+              <div className="mb-6">
+
+                <h3 className="text-xl font-semibold text-white">
+                  Approved Admins
+                </h3>
+
+                <p className="text-sm text-gray-400 mt-1">
+                  Active approved admin accounts
+                </p>
+
+              </div>
+
+              {/* LOADING */}
+              {loadingApproved && (
+
+                <div className="flex items-center gap-2 text-gray-400">
+
+                  <Loader2
+                    size={18}
+                    className="animate-spin"
+                  />
+
+                  Loading approved admins...
+
+                </div>
+              )}
+
+              {/* EMPTY */}
+              {!loadingApproved &&
+                approvedAdmins.length === 0 && (
+
+                <div
+                  className="
+                    bg-white/5
+                    border border-white/10
+                    rounded-2xl
+                    p-5 text-center
+                    text-gray-400
+                  "
+                >
+
+                  No approved admins found
+
+                </div>
+              )}
+
+              {/* LIST */}
+              <div className="space-y-4">
+
+                {approvedAdmins.map((admin) => (
+
+                  <div
+                    key={admin._id}
+                    className="
+                      bg-white/5
+                      border border-white/10
+                      rounded-2xl
+                      p-4
+                      flex items-center justify-between
+                    "
+                  >
+
+                    <div className="flex items-center gap-4">
+
+                      <div
+                        className="
+                          w-12 h-12 rounded-full
+                          bg-green-500/10
+                          flex items-center justify-center
+                        "
+                      >
+
+                        <CheckCircle2
+                          size={20}
+                          className="text-green-400"
+                        />
+
+                      </div>
+
+                      <div>
+
+                        <h4 className="font-semibold text-white">
+                          {admin.firstName}{' '}
+                          {admin.lastName}
+                        </h4>
+
+                        <p className="text-sm text-gray-400">
+                          {admin.email}
+                        </p>
+
+                      </div>
+
+                    </div>
+
+                    <span
+                      className="
+                        px-3 py-1 rounded-full
+                        bg-green-500/10
+                        text-green-400
+                        text-xs font-medium
+                      "
+                    >
+
+                      Approved
+
+                    </span>
+
+                  </div>
+                ))}
+
+              </div>
+
+            </div>
+
+          </div>
 
         </div>
 
-      </div>
+      </main>
+
     </div>
   );
 }
