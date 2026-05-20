@@ -70,4 +70,10 @@ export class SuperadminController {
   getPendingAdmins() {
     return this.superAdminService.getPendingAdmins();
   }
+
+  // ================ FETCH ALL APPROVED ADMINS =============
+  @Get('approved-admins')
+  getApprovedAdmins() {
+    return this.superAdminService.approvedAdmins();
+  }
 }

@@ -195,5 +195,12 @@ export class SuperadminService {
       isVerified: true,
       isApproved: false,
     });
+  }
+
+  // ================ GET ALL APPROVED ADMINS ==============
+  async approvedAdmins() {
+    return this.adminModel.find({
+      isApproved: true,
+    });
   } 
 }
