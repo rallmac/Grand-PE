@@ -51,10 +51,12 @@ export function FooterGrandpe() {
             </p>
 
             <div className="flex items-start gap-2 text-sm text-gray-400">
-              <MapPin className="w-4 h-4 mt-1" />
-              <span>
-                Suit A14, 36 Old Aba Road, Port Harcourt, Nigeria.
-              </span>
+              <a href="https://maps.app.goo.gl/bNZU5AaESDYNyLA18">
+                <MapPin className="w-4 h-4 mt-1" />
+                <span>
+                  Suit A14, 36 Old Aba Road, Port Harcourt, Nigeria.
+                </span>
+              </a>
             </div>
           </div>
 
@@ -62,16 +64,16 @@ export function FooterGrandpe() {
           <div className="space-y-4">
             <h4 className="text-white font-semibold text-lg">Explore</h4>
             <ul className="space-y-2 text-sm">
-              <li><Link to="/" className="hover:text-white text-white">Home</Link></li>
-              <li><Link to="/about" className="hover:text-white text-white">About Us</Link></li>
-              <li><Link to="/solar" className="hover:text-white text-white">Grand-PE Solar</Link></li>
-              <li><Link to="/tech" className="hover:text-white text-white">Grand-PE Tech</Link></li>
-              <li><Link to="/translate" className="hover:text-white text-white">Grand-PE Translate</Link></li>
-              <li><Link to="/plants" className="hover:text-white text-white">Grand-PE Plants & Export</Link></li>
-              <li><button className="hover:text-white text-white">Blog</button></li>
-              <li><button className="hover:text-white text-white">Privacy Policy</button></li>
-              <li><button className="hover:text-white text-white">Terms of Service</button></li>
-              <li><Link to="/admin-signin" className="hover:text-white text-white">Admin</Link></li>
+              <li><Link to="/" className="hover:text-orange-500 text-indogo-500">Home</Link></li>
+              <li><Link to="/about" className="hover:text-orange-500 text-indogo-500">About Us</Link></li>
+              <li><Link to="/solar" className="hover:text-orange-500 text-indogo-500">Grand-PE Solar</Link></li>
+              <li><Link to="/tech" className="hover:text-orange-500 text-indogo-500">Grand-PE Tech</Link></li>
+              <li><Link to="/translate" className="hover:text-orange-500 text-indogo-500">Grand-PE Translate</Link></li>
+              <li><Link to="/plants" className="hover:text-orange-500 text-indogo-500">Grand-PE Plants & Export</Link></li>
+              <li><Link to="/home" className="hover:text-orange-500 text-indogo-500">Blog</Link></li>
+              <li><Link to="/home" className="hover:text-orange-500 text-indogo-500">Privacy Policy</Link></li>
+              <li><Link to="/home" className="hover:text-orange-500 text-indogo-500">Terms of Service</Link></li>
+              <li><Link to="/admin-signin" className="hover:text-orange-500 text-indogo-500">Admin</Link></li>
             </ul>
           </div>
 
@@ -125,11 +127,11 @@ export function FooterGrandpe() {
             </h4>
 
             <div className="flex gap-4">
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="p-2 rounded-md bg-gray-800 hover:bg-[#265073] transition">
+              <a href="https://facebook.com/share/1Yr3kRXZ97/" target="_blank" rel="noopener noreferrer" className="p-2 rounded-md bg-gray-800 hover:bg-[#265073] transition">
                 <Facebook className="w-5 h-5" />
               </a>
 
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="p-2 rounded-md bg-gray-800 hover:bg-[#265073] transition">
+              <a href="https://instagram.com/grandpe_solar?utm_source=qr&igsh=ZDJ4eGh4cDU5ZWhr" target="_blank" rel="noopener noreferrer" className="p-2 rounded-md bg-gray-800 hover:bg-[#265073] transition">
                 <Instagram className="w-5 h-5" />
               </a>
 
