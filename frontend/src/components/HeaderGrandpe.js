@@ -310,7 +310,7 @@ export function HeaderGrandpe() {
               to="/plants"
               className="hover:text-[#265073] transition"
             >
-              Plants
+              Plants & Exports
             </NavLink>
 
             {/* SIGN IN BUTTON */}
