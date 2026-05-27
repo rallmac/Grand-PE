@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "../css/style.css";
 import { FooterGrandpe } from "../components/FooterGrandpe";
 import { HeaderGrandpe } from "../components/HeaderGrandpe";
+import { Testimonials } from "../components/Testimonials";
 import Hero from "./Hero"
 
 function LandingPage() {
@@ -58,7 +59,7 @@ function LandingPage() {
     },
     {
       image: '/assets/images/plants1.png',
-      title: 'Grand-PE Plants & Export',
+      title: 'Grand-PE Plants & Exports',
       description: 'From Native Soil to Global Shelves — Premium Agricultural Exports.',
       link: '/plants',
       buttonText: 'View Products'
@@ -317,7 +318,7 @@ function LandingPage() {
                     height="120"
                     style={{ display: "block", margin: "0 auto" }}
                 />
-                <h3>Grand-PE Plants & Export</h3>
+                <h3>Grand-PE Plants & Exports</h3>
                 <p>
                   Quality herbal, pharmaceutical, and agricultural product sourcing and
                   exports to global markets.
@@ -456,30 +457,7 @@ function LandingPage() {
         </section>
 
         {/* Testimonials Preview Section */}
-        <section className="testimonial-preview section-padding">
-          <div className="container">
-            <h2 className="text-center reveal-on-scroll">What Our Clients Say</h2>
-            <div className="testimonial reveal-on-scroll">
-              <p>
-                "Grand-PE Solar's installation was seamless, and their team was incredibly
-                professional. We're already seeing significant savings on our energy bills!"
-              </p>
-              <p>Aisha B., Homeowner</p>
-            </div>
-            <div className="testimonial reveal-on-scroll" style={{ transitionDelay: "0.1s" }}>
-              <p>
-                "The custom software developed by Grand-PE Tech has streamlined our
-                operations and improved efficiency. A game-changer for our business."
-              </p>
-              <p>John K., CEO of Innovate Solutions</p>
-            </div>
-            <div className="text-center reveal-on-scroll" style={{ marginTop: 30 }}>
-              <Link to="/about#testimonials" className="btn btn-primary">
-                Read More Testimonials
-              </Link>
-            </div>
-          </div>
-        </section>
+        <Testimonials />
       </main>
 
       {/* Footer Section */}
