@@ -73,7 +73,6 @@ export function FooterGrandpe() {
               <li><Link to="/home" className="hover:text-orange-500 text-indogo-500">Blog</Link></li>
               <li><Link to="/home" className="hover:text-orange-500 text-indogo-500">Privacy Policy</Link></li>
               <li><Link to="/home" className="hover:text-orange-500 text-indogo-500">Terms of Service</Link></li>
-              <li><Link to="/admin-signin" className="hover:text-orange-500 text-indogo-500">Admin</Link></li>
             </ul>
           </div>
 
