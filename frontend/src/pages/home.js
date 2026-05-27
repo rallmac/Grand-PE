@@ -196,17 +196,25 @@ function HomePage() {
             <h2 className="text-center reveal-on-scroll">What Our Clients Say</h2>
             <div className="testimonial reveal-on-scroll">
               <p>
-                "Grand-PE Solar's installation was seamless, and their team was incredibly
-                professional. We're already seeing significant savings on our energy bills!"
+                Their customer relationship is top notch ,they see that their customers are satisfied 👍🏾👍🏾 
               </p>
-              <p>Aisha B., Homeowner</p>
+              <p>Achimaco Multiple Links</p>
             </div>
             <div className="testimonial reveal-on-scroll" style={{ transitionDelay: "0.1s" }}>
               <p>
-                "The custom software developed by Grand-PE Tech has streamlined our
-                operations and improved efficiency. A game-changer for our business."
+                Authentic Jinko panels. Good customer service, I recommend 👍 …
               </p>
-              <p>John K., CEO of Innovate Solutions</p>
+              <p>JOSHUA MBAKARA</p>
+            </div>
+            <div className="text-center reveal-on-scroll" style={{ marginTop: 30 }}>
+              <Link to="/about#testimonials" className="btn btn-primary">
+                Read More Testimonials
+              </Link>
+            </div>
+            <div className="text-center reveal-on-scroll" style={{ marginTop: 30 }}>
+              <Link to="/about#testimonials" className="btn btn-primary">
+                Read More Testimonials
+              </Link>
             </div>
             <div className="text-center reveal-on-scroll" style={{ marginTop: 30 }}>
               <Link to="/about#testimonials" className="btn btn-primary">
