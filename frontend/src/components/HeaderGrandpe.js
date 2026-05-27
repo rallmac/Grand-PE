@@ -385,7 +385,7 @@ export function HeaderGrandpe() {
               onClick={closeMenu}
               className="block hover:text-[#265073]"
             >
-              Plants & Export
+              Plants & Exports
             </NavLink>
 
             {/* SETTINGS */}

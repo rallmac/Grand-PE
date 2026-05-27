@@ -58,7 +58,7 @@ function LandingPage() {
     },
     {
       image: '/assets/images/plants1.png',
-      title: 'Grand-PE Plants & Export',
+      title: 'Grand-PE Plants & Exports',
       description: 'From Native Soil to Global Shelves — Premium Agricultural Exports.',
       link: '/plants',
       buttonText: 'View Products'
@@ -317,7 +317,7 @@ function LandingPage() {
                     height="120"
                     style={{ display: "block", margin: "0 auto" }}
                 />
-                <h3>Grand-PE Plants & Export</h3>
+                <h3>Grand-PE Plants & Exports</h3>
                 <p>
                   Quality herbal, pharmaceutical, and agricultural product sourcing and
                   exports to global markets.
