@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "../css/style.css";
 import { FooterGrandpe } from "../components/FooterGrandpe";
 import { HeaderGrandpe } from "../components/HeaderGrandpe";
+import { Testimonials } from "../components/Testimonials";
 
 function AboutPage() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -219,39 +220,7 @@ function AboutPage() {
         </section>
 
         {/* Testimonials Section */}
-        <section id="testimonials" className="testimonial-preview section-padding">
-          <div className="container">
-            <h2 className="text-center reveal-on-scroll">Client Testimonials</h2>
-            <div className="testimonial reveal-on-scroll">
-              <p>
-                "Grand-PE Solar provided an outstanding service, from consultation to
-                installation. Our energy bills have significantly reduced!"
-              </p>
-              <p>- Happy Homeowner</p>
-            </div>
-            <div className="testimonial reveal-on-scroll" style={{ transitionDelay: "0.1s" }}>
-              <p>
-                "The tech team at Grand-PE developed a fantastic app for our business.
-                Highly recommend their expertise."
-              </p>
-              <p>- Startup CEO</p>
-            </div>
-            <div className="testimonial reveal-on-scroll" style={{ transitionDelay: "0.2s" }}>
-              <p>
-                "The ASL interpretation services for our international conference were
-                professional and seamless. Thank you Grand-PE Translate!"
-              </p>
-              <p>- Event Organizer Pro</p>
-            </div>
-            <div className="testimonial reveal-on-scroll" style={{ transitionDelay: "0.3s" }}>
-              <p>
-                "We've been sourcing agricultural products through Grand-PE Plants & Export
-                for years. Their quality and reliability are unmatched."
-              </p>
-              <p>- International Buyer Foods Inc.</p>
-            </div>
-          </div>
-        </section>
+        <Testimonials />
       </main>
 
       {/*Footer*/}
