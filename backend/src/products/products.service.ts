@@ -2,21 +2,24 @@ import { Injectable, NotFoundException, BadRequestException } from '@nestjs/comm
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { Product } from './schema/product.schema';
+import { Model, Types } from 'mongoose';
+import { Product, ProductSchema, ProductDocument } from './schema/product.schema';
 
 
 @Injectable()
 export class ProductsService {
   constructor(
     @InjectModel(Product.name)
-    private productModel: Model<Product>,
+    private readonly productModel: Model<Product>,
   ) {}
 
   async create(createProductDto: CreateProductDto) {
-    const product = await this.productModel.create(createProductDto);
+    const product = await this.productModel.create({
+      ...createProductDto,
+      category: new Types.ObjectId(createProductDto.category),
+    });
 
-    product.isOutOfStock = product.quantityAvailable <= 0;
+    product.isOutOfStock = (product.quantityAvailable ?? 0) <= 0;
 
     return product.save();
     return 'This action adds a new product';
