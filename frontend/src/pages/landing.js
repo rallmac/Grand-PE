@@ -218,7 +218,7 @@ function LandingPage() {
           </div>
         </section>
 
-        {/* Company Statistics Section */}
+        {/* Company Statistics Section 
         <section className="stats-section section-padding bg-light reveal-on-scroll">
           <div className="container">
             <h2 className="text-center">Our Impact in Numbers</h2>
@@ -242,6 +242,7 @@ function LandingPage() {
             </div>
           </div>
         </section>
+        */}
 
         {/* Links to Business Tabs Section */}
         <section className="business-tabs-links section-padding">
