@@ -9,7 +9,7 @@ import LGACPromo from '../components/LGACPromo'
 import PromoSection from '../components/PromoSection'
 import PromotionalCards from '../components/PromotionalCards'
 import BrandsSection from '../components/Brands'
-import SolarSmallAppliances from '../components/SolarSmallAppliances'
+import OptimalUseOfAppliances from '../components/OptimalUseOfAppliances'
 import ExploreSolarPowerSolutions from '../components/ExploreSolarPowerSolutions'
 import { HeaderGrandpe } from '../components/HeaderGrandpe';
 import { RequestForQuote } from '../components/requestForQuote';
@@ -20,7 +20,7 @@ export default function SolarPage() {
 		id: 'featured-1',
 		name: 'LG TV StanbyME 27 Inch Lifestyle Display Touch Screen (27ART10AK)',
 		price: 1250000,
-		image: '/assets/images/lg-tv-advert.png',
+		image: '/images/itel5.png',
 		description: 'Stanby ME 27"',
 		specs: [
 			'Stanby ME 27"',
@@ -52,7 +52,7 @@ export default function SolarPage() {
 					<section className="mx-auto max-w-[1600px] px-4 sm:px-6">
 						<div className="relative overflow-hidden rounded-xl bg-neutral-900">
 							<img
-								src="/assets/images/cover-video-visual.png"
+								src="/images/itel36.png"
 								alt="Holiday video preview"
 								className="w-full h-auto object-cover"
 							/>
@@ -68,13 +68,13 @@ export default function SolarPage() {
 					<section className="mx-auto max-w-[1440px] px-4 sm:px-6">
 						<div className="relative overflow-hidden rounded-lg transition-transform duration-300 hover:scale-[1.02] cursor-pointer">
 							<img
-								src="/assets/images/lg-tv-decor.png"
+								src="/images/itel34.png"
 								alt="LG TV Decor"
 								className="w-full h-auto object-cover"
 							/>
 						</div>
 					</section>
-					<SolarSmallAppliances />
+					<OptimalUseOfAppliances />
 					<PromoSection />
 				</div>
 			</main>

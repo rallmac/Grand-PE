@@ -7,7 +7,7 @@ export default function PublicRoute({ children }) {
 	  sessionStorage.getItem('token');
 
 	if (isTokenValid(token)) {
-		return <Navigate to='/dashboard' replace />;
+		return <Navigate to='/home' replace />;
 	}
 
 	return children;

@@ -1,7 +1,10 @@
+import { Eye, EyeOff, User, Mail, Lock } from "lucide-react";
 import { useState } from "react";
-import { Eye, EyeOff } from "lucide-react";
 
-export default function UpgradeSignup() {
+export default function RegisterPage() {
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const [form, setForm] = useState({
     firstName: "",
     lastName: "",
@@ -10,169 +13,165 @@ export default function UpgradeSignup() {
     confirmPassword: "",
   });
 
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirm, setShowConfirm] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState({});
-
-  const validate = () => {
-    const newErrors = {};
-
-    if (!form.firstName) newErrors.firstName = "First name required";
-    if (!form.lastName) newErrors.lastName = "Last name required";
-
-    if (!form.email) newErrors.email = "Email required";
-    else if (!/\S+@\S+\.\S+/.test(form.email))
-      newErrors.email = "Invalid email";
-
-    if (!form.password) newErrors.password = "Password required";
-    else if (form.password.length < 6)
-      newErrors.password = "Min 6 characters";
-
-    if (form.confirmPassword !== form.password)
-      newErrors.confirmPassword = "Passwords do not match";
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+  const isValid =
+    form.firstName &&
+    form.lastName &&
+    form.email.includes("@") &&
+    form.password.length >= 6 &&
+    form.password === form.confirmPassword;
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if (!validate()) return;
+    if (!isValid) return;
 
     setLoading(true);
 
     setTimeout(() => {
       setLoading(false);
-      alert("Submitted");
-    }, 2000);
+      alert("Registered successfully 🚀");
+    }, 1500);
   };
 
-  const isValid =
-    form.firstName &&
-    form.lastName &&
-    form.email &&
-    form.password &&
-    form.confirmPassword &&
-    form.password === form.confirmPassword;
-
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-6 space-y-6">
-        {/* Logo */}
-        <div className="flex justify-center">
-          <div className="w-16 h-16 rounded-full bg-black text-white flex items-center justify-center text-xl font-bold">
-            L
-          </div>
-        </div>
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      
+      {/* CONTAINER */}
+      <div className="w-full max-w-6xl bg-white rounded-3xl shadow-sm overflow-hidden grid grid-cols-1 md:grid-cols-2">
 
-        {/* Social Buttons */}
-        <div className="space-y-2">
-          <button className="w-full border rounded-lg py-2">Continue with Google</button>
-          <button className="w-full border rounded-lg py-2">Continue with X</button>
-          <button className="w-full border rounded-lg py-2">Continue with Facebook</button>
-        </div>
+        {/* LEFT - FORM */}
+        <div className="p-6 md:p-10 flex items-center justify-center">
+          <div className="w-full max-w-md">
 
-        <div className="text-center text-gray-400 text-sm">OR</div>
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <input
-              name="firstName"
-              placeholder="First Name"
-              className="w-full border p-2 rounded-lg"
-              onChange={handleChange}
-            />
-            {errors.firstName && (
-              <p className="text-red-500 text-sm">{errors.firstName}</p>
-            )}
-          </div>
-
-          <div>
-            <input
-              name="lastName"
-              placeholder="Last Name"
-              className="w-full border p-2 rounded-lg"
-              onChange={handleChange}
-            />
-            {errors.lastName && (
-              <p className="text-red-500 text-sm">{errors.lastName}</p>
-            )}
-          </div>
-
-          <div>
-            <input
-              name="email"
-              placeholder="Email"
-              className="w-full border p-2 rounded-lg"
-              onChange={handleChange}
-            />
-            {errors.email && (
-              <p className="text-red-500 text-sm">{errors.email}</p>
-            )}
-          </div>
-
-          <div className="relative">
-            <input
-              type={showPassword ? "text" : "password"}
-              name="password"
-              placeholder="Password"
-              className="w-full border p-2 rounded-lg pr-10"
-              onChange={handleChange}
-            />
-            <span
-              className="absolute right-3 top-2 cursor-pointer"
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-            </span>
-            {errors.password && (
-              <p className="text-red-500 text-sm">{errors.password}</p>
-            )}
-          </div>
-
-          <div className="relative">
-            <input
-              type={showConfirm ? "text" : "password"}
-              name="confirmPassword"
-              placeholder="Confirm Password"
-              className="w-full border p-2 rounded-lg pr-10"
-              onChange={handleChange}
-            />
-            <span
-              className="absolute right-3 top-2 cursor-pointer"
-              onClick={() => setShowConfirm(!showConfirm)}
-            >
-              {showConfirm ? <EyeOff size={18} /> : <Eye size={18} />}
-            </span>
-            {errors.confirmPassword && (
-              <p className="text-red-500 text-sm">
-                {errors.confirmPassword}
+            {/* Header */}
+            <div className="mb-6">
+              <h1 className="text-2xl font-semibold">Create Account</h1>
+              <p className="text-sm text-gray-400">
+                Join furnixa and start shopping
               </p>
-            )}
+            </div>
+
+            {/* FORM */}
+            <form onSubmit={handleSubmit} className="space-y-4">
+
+              {/* Names */}
+              <div className="grid grid-cols-2 gap-3">
+                <div className="flex items-center bg-gray-100 rounded-xl px-3 py-2">
+                  <User size={16} className="text-gray-400" />
+                  <input
+                    name="firstName"
+                    placeholder="First name"
+                    className="bg-transparent outline-none text-sm ml-2 w-full"
+                    onChange={handleChange}
+                  />
+                </div>
+
+                <div className="flex items-center bg-gray-100 rounded-xl px-3 py-2">
+                  <User size={16} className="text-gray-400" />
+                  <input
+                    name="lastName"
+                    placeholder="Last name"
+                    className="bg-transparent outline-none text-sm ml-2 w-full"
+                    onChange={handleChange}
+                  />
+                </div>
+              </div>
+
+              {/* Email */}
+              <div className="flex items-center bg-gray-100 rounded-xl px-3 py-2">
+                <Mail size={16} className="text-gray-400" />
+                <input
+                  name="email"
+                  placeholder="Email"
+                  className="bg-transparent outline-none text-sm ml-2 w-full"
+                  onChange={handleChange}
+                />
+              </div>
+
+              {/* Password */}
+              <div className="flex items-center bg-gray-100 rounded-xl px-3 py-2">
+                <Lock size={16} className="text-gray-400" />
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  placeholder="Password"
+                  className="bg-transparent outline-none text-sm ml-2 w-full"
+                  onChange={handleChange}
+                />
+                <button type="button" onClick={() => setShowPassword(!showPassword)}>
+                  {showPassword ? (
+                    <EyeOff size={16} className="text-gray-400" />
+                  ) : (
+                    <Eye size={16} className="text-gray-400" />
+                  )}
+                </button>
+              </div>
+
+              {/* Confirm Password */}
+              <div className="flex items-center bg-gray-100 rounded-xl px-3 py-2">
+                <Lock size={16} className="text-gray-400" />
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="confirmPassword"
+                  placeholder="Confirm password"
+                  className="bg-transparent outline-none text-sm ml-2 w-full"
+                  onChange={handleChange}
+                />
+              </div>
+
+              {/* Error */}
+              {form.password &&
+                form.confirmPassword &&
+                form.password !== form.confirmPassword && (
+                  <p className="text-xs text-red-500">
+                    Passwords do not match
+                  </p>
+                )}
+
+              {/* Submit */}
+              <button
+                disabled={!isValid || loading}
+                className={`w-full py-3 rounded-xl text-sm font-medium transition ${
+                  isValid
+                    ? "bg-black text-white hover:opacity-90"
+                    : "bg-gray-200 text-gray-400 cursor-not-allowed"
+                }`}
+              >
+                {loading ? "Creating account..." : "Sign Up"}
+              </button>
+
+              {/* Footer */}
+              <p className="text-sm text-gray-400 text-center">
+                Already have an account?{" "}
+                <span className="text-black font-medium cursor-pointer">
+                  Log in
+                </span>
+              </p>
+            </form>
           </div>
+        </div>
 
-          <button
-            type="submit"
-            disabled={!isValid || loading}
-            className={`w-full py-2 rounded-lg text-white ${
-              !isValid || loading
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-black"
-            }`}
-          >
-            {loading ? "Loading..." : "Sign Up"}
-          </button>
-        </form>
+        {/* RIGHT - IMAGE (Tablet & Desktop only) */}
+        <div className="hidden md:block relative">
+          <img
+            src="https://images.unsplash.com/photo-1615874959474-d609969a20ed"
+            className="w-full h-full object-cover"
+          />
 
-        <p className="text-center text-sm">
-          Already have an account?{" "}
-          <span className="text-blue-600 cursor-pointer">Log in</span>
-        </p>
+          {/* Optional overlay */}
+          <div className="absolute inset-0 bg-black/30 flex flex-col justify-end p-8 text-white">
+            <h2 className="text-xl font-semibold">
+              Discover Comfort & Style
+            </h2>
+            <p className="text-sm opacity-80">
+              Furnish your home with elegance and simplicity
+            </p>
+          </div>
+        </div>
+
       </div>
     </div>
   );

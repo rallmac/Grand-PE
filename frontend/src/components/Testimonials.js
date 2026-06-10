@@ -30,7 +30,7 @@ export function Testimonials() {
               <p>Sola Olatinwo</p>
             </div>
             <div className="text-center reveal-on-scroll" style={{ marginTop: 30 }}>
-              <Link to="/about#testimonials" className="btn btn-primary">
+              <Link to="https://maps.app.goo.gl/5p7xEE6cmMRvU6vx5" className="btn btn-primary">
                 Read More Testimonials
               </Link>
             </div>
