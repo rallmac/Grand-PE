@@ -8,42 +8,42 @@ import useEmblaCarousel from 'embla-carousel-react'
 const lgAcPromotions = [
   {
     id: 1,
-    image: '/images/lg-ac-1.png',
+    image: '/images/itel37.png',
     href: 'https://grandpestore.com/product/494',
   },
   {
     id: 2,
-    image: '/images/lg-ac-2.png',
+    image: '/images/itel43.png',
     href: 'https://grandpestore.com/product/493',
   },
   {
     id: 3,
-    image: '/images/lg-ac-3.png',
+    image: '/images/itel41.png',
     href: 'https://grandpestore.com/product/492',
   },
   {
     id: 4,
-    image: '/images/lg-ac-4.png',
+    image: '/images/itel25.png',
     href: 'https://grandpestore.com/product/491',
   },
   {
     id: 5,
-    image: '/images/lg-ac-1.png',
+    image: '/images/itel58.png',
     href: 'https://grandpestore.com/product/494',
   },
   {
     id: 6,
-    image: '/images/lg-ac-2.png',
+    image: '/images/itel63.png',
     href: 'https://grandpestore.com/product/493',
   },
   {
     id: 7,
-    image: '/images/lg-ac-3.png',
+    image: '/images/itel14.png',
     href: 'https://grandpestore.com/product/492',
   },
   {
     id: 8,
-    image: '/images/lg-ac-4.png',
+    image: '/images/itel65.png',
     href: 'https://grandpestore.com/product/491',
   }
 ]

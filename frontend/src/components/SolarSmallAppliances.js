@@ -12,7 +12,7 @@ const kitchenItems = [
     nameLine1: 'Maxi Standing Fan 16',
     nameLine2: 'inch Black (40-…',
     price: 37000,
-    image: '/images/maxi2.png',
+    image: '/images/itel1.png',
     href: 'https://grandpestore.com/product/258',
   },
   {
@@ -20,7 +20,7 @@ const kitchenItems = [
     nameLine1: 'Hisense Ice Maker',
     nameLine2: '12KG/24h 1000mL…',
     price: 91900,
-    image: '/images/hisense1.png',
+    image: '/images/itel2.png',
     href: 'https://grandpestore.com/product/330',
   },
   {
@@ -28,7 +28,7 @@ const kitchenItems = [
     nameLine1: 'Hisense Air Fryer 8L',
     nameLine2: '2700W Dual Basket',
     price: 119000,
-    image: '/images/hisense13.png',
+    image: '/images/itel3.png',
     href: 'https://grandpestore.com/product/671',
     outOfStock: true,
   },
@@ -37,7 +37,7 @@ const kitchenItems = [
     nameLine1: 'Maxi Water Dispenser',
     nameLine2: 'Hot & Cold Cabinet…',
     price: 154000,
-    image: '/images/maxi4.png',
+    image: '/images/itel4.png',
     href: 'https://grandpestore.com/product/259',
   },
   {
@@ -45,7 +45,7 @@ const kitchenItems = [
     nameLine1: 'Hisense Blender',
     nameLine2: 'With Grinder 1.5L…',
     price: 48900,
-    image: '/images/hisense3.png',
+    image: '/images/itel5.png',
     href: 'https://grandpestore.com/product/331',
   },
   {
@@ -53,7 +53,7 @@ const kitchenItems = [
     nameLine1: 'Maxi Electric Kettle',
     nameLine2: '1.7L Stainless…',
     price: 26900,
-    image: '/images/maxi6.png',
+    image: '/images/itel6.png',
     href: 'https://grandpestore.com/product/260',
   },
   {
@@ -61,7 +61,7 @@ const kitchenItems = [
     nameLine1: 'Hisense Microwave',
     nameLine2: '20L Digital Panel…',
     price: 97000,
-    image: '/images/hisense6.png',
+    image: '/images/itel7.png',
     href: 'https://grandpestore.com/product/332',
   },
   {
@@ -69,7 +69,7 @@ const kitchenItems = [
     nameLine1: 'Maxi Standing Fan 18',
     nameLine2: 'inch Silent Motor…',
     price: 42900,
-    image: '/images/maxi3.png',
+    image: '/images/itel8.png',
     href: 'https://grandpestore.com/product/261',
   },
   {
@@ -77,7 +77,7 @@ const kitchenItems = [
     nameLine1: 'Hisense Rice Cooker',
     nameLine2: '1.8L Keep Warm…',
     price: 35900,
-    image: '/images/hisense4.png',
+    image: '/images/itel9.png',
     href: 'https://grandpestore.com/product/333',
   },
 ]

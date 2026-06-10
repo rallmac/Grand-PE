@@ -1,10 +1,10 @@
 export const categories = [
-  { name: 'Power Solution', slug: 'power-solutions', image: '/assets/images/power-solutions.png', filterKey: 'appliances' },
-  { name: 'Audio', slug: 'audio', image: '/assets/images/audio.png', filterKey: 'audio' },
-  { name: 'Refrigerator', slug: 'refrigerator', image: '/assets/images/refrigerator.png', filterKey: 'appliances' },
-  { name: 'Washing Machines', slug: 'washing-machines', image: '/assets/images/washing-mashines.png', filterKey: 'appliances' },
-  { name: 'TVs', slug: 'tvs', image: '/assets/images/TVs.png', filterKey: 'tvs' },
-  { name: 'ACs', slug: 'acs', image: '/assets/images/ACs.png', filterKey: 'appliances' },
-  { name: 'Small Appliances/Fans', slug: 'small-appliances-fans', image: '/assets/images/small-appliances-and-fans.png', filterKey: 'appliances' },
-  { name: 'Furnitures', slug: 'furnitures', image: '/assets/images/furnitures.png', filterKey: 'appliances' },
+  { name: 'Power Solution', slug: 'power-solutions', image: '/images/itel1.png', filterKey: 'appliances' },
+  { name: 'Installation', slug: 'installation', image: '/images/itel47.png', filterKey: 'appliances' },
+  { name: 'Clean Energy', slug: 'clean-energy', image: '/images/itel3.png', filterKey: 'appliances' },
+  { name: 'Constant power', slug: 'constant-power', image: '/images/itel24.png', filterKey: 'appliances' },
+  { name: 'Power Storage', slug: 'power-storage', image: '/images/itel38.png', filterKey: 'tvs' },
+  { name: 'Sustainable', slug: 'sustainable', image: '/images/itel5.png', filterKey: 'appliances' },
+  { name: 'Renewable', slug: 'renewable', image: '/images/itel15.png', filterKey: 'appliances' },
+  { name: 'Accessible', slug: 'accessible', image: '/images/itel54.png', filterKey: 'appliances' },
 ]

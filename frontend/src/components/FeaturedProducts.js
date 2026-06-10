@@ -12,7 +12,7 @@ const featuredItems = [
     nameLine1: 'Hisense Split AC 1.5',
     nameLine2: 'HP Inverter',
     price: 418900,
-    image: '/images/hisense14.png',
+    image: '/images/itel37.png',
     href: 'https://grandpestore.com/product/373',
   },
   {
@@ -20,7 +20,7 @@ const featuredItems = [
     nameLine1: 'Hisense Chest',
     nameLine2: 'Freezer 198L (FC260)',
     price: 308000,
-    image: '/images/hisense7.png',
+    image: '/images/itel25.png',
     href: 'https://grandpestore.com/product/202',
   },
   {
@@ -28,7 +28,7 @@ const featuredItems = [
     nameLine1: 'Hisense TV UHD 50',
     nameLine2: 'Inch A6N 4K Smart',
     price: 446800,
-    image: '/images/hisense8.png',
+    image: '/images/itel38.png',
     href: 'https://grandpestore.com/product/617',
   },
   {
@@ -36,7 +36,7 @@ const featuredItems = [
     nameLine1: 'LG Home Theater',
     nameLine2: 'System 1000W 4.2C…',
     price: 374000,
-    image: '/images/promotion-product-4.png',
+    image: '/images/itel51.png',
     href: 'https://grandpestore.com/product/341',
   },
   {
@@ -44,7 +44,7 @@ const featuredItems = [
     nameLine1: 'LG TV UHD 50 Inch',
     nameLine2: 'UT73 4K Smart TV A…',
     price: 539000,
-    image: '/images/promotion-product-5.png',
+    image: '/images/itel53.png',
     href: 'https://grandpestore.com/product/676',
     outOfStock: true,
   },
@@ -53,7 +53,7 @@ const featuredItems = [
     nameLine1: 'Maxi Gas Cooker',
     nameLine2: '50x50 CM (4)…',
     price: 166800,
-    image: '/images/promotion-product-1.png',
+    image: '/images/itel17.png',
     href: 'https://grandpestore.com/product/124',
   },
   {
@@ -61,7 +61,7 @@ const featuredItems = [
     nameLine1: 'LG Split AC 1.5 HP',
     nameLine2: 'Dual Inverter with…',
     price: 519600,
-    image: '/images/promotion-product-2.png',
+    image: '/images/itel35.png',
     href: 'https://grandpestore.com/product/493',
   },
   {
@@ -69,7 +69,7 @@ const featuredItems = [
     nameLine1: 'LG TV FHD 43 Inch',
     nameLine2: 'LR600 Smart',
     price: 375000,
-    image: '/images/promotion-product-3.png',
+    image: '/images/itel21.png',
     href: 'https://grandpestore.com/product/690',
   },
 ]
