@@ -59,7 +59,7 @@ const solarItems = [
   {
     id: 'itel-super-power-bank',
     name: 'itel Super Power Bank',
-    price: 920000,
+    price: 50000,
     image: '/images/itel32.png',
     href: 'https://grandpestore.com/product/598',
   },
