@@ -57,10 +57,10 @@ const solarItems = [
     href: 'https://grandpestore.com/product/597',
   },
   {
-    id: 'solar-huawei-smart-energy-controller',
-    name: 'itel Smart Energy Controller…',
+    id: 'itel-super-power-bank',
+    name: 'itel Super Power Bank',
     price: 920000,
-    image: '/images/huawei4.png',
+    image: '/images/itel32.png',
     href: 'https://grandpestore.com/product/598',
   },
 ]
