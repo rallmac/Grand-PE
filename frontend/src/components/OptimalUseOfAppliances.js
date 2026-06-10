@@ -8,75 +8,75 @@ import { useCart } from '../lib/cart'
 
 const kitchenItems = [
   {
-    id: 'kitchen-maxi-standing-fan-16-inch-black',
-    nameLine1: 'Maxi Standing Fan 16',
+    id: 'hybrid-inverter-for-big-homes',
+    nameLine1: 'Complete Lighting of A Big Home',
     nameLine2: 'inch Black (40-…',
-    price: 37000,
+    price: 37000000,
     image: '/images/itel1.png',
     href: 'https://grandpestore.com/product/258',
   },
   {
-    id: 'kitchen-hisense-ice-maker-12kg',
-    nameLine1: 'Hisense Ice Maker',
+    id: 'full-power-for-high-rise-buildings',
+    nameLine1: 'Full Power for High Rese Buildings',
     nameLine2: '12KG/24h 1000mL…',
-    price: 91900,
+    price: 201000000,
     image: '/images/itel2.png',
     href: 'https://grandpestore.com/product/330',
   },
   {
-    id: 'kitchen-hisense-air-fryer-8l',
-    nameLine1: 'Hisense Air Fryer 8L',
-    nameLine2: '2700W Dual Basket',
+    id: 'durable-solar-panels',
+    nameLine1: 'Durable panels for renewable energy',
+    nameLine2: 'itel soalr panels',
     price: 119000,
     image: '/images/itel3.png',
     href: 'https://grandpestore.com/product/671',
     outOfStock: true,
   },
   {
-    id: 'kitchen-maxi-water-dispenser-hot-cold',
-    nameLine1: 'Maxi Water Dispenser',
-    nameLine2: 'Hot & Cold Cabinet…',
-    price: 154000,
+    id: 'suitable-installation-for-homes',
+    nameLine1: 'Suitable Installation for homes',
+    nameLine2: 'Best choice for your home…',
+    price: 1540000,
     image: '/images/itel4.png',
     href: 'https://grandpestore.com/product/259',
   },
   {
-    id: 'kitchen-hisense-blender-grinder',
-    nameLine1: 'Hisense Blender',
-    nameLine2: 'With Grinder 1.5L…',
-    price: 48900,
+    id: 'solar-power-for-factory-use',
+    nameLine1: 'Power Suply for Factories',
+    nameLine2: 'Discounted Installations',
+    price: 489000000,
     image: '/images/itel5.png',
     href: 'https://grandpestore.com/product/331',
   },
   {
-    id: 'kitchen-maxi-electric-kettle',
-    nameLine1: 'Maxi Electric Kettle',
-    nameLine2: '1.7L Stainless…',
-    price: 26900,
+    id: 'Zero-noise-power-option',
+    nameLine1: 'Zero Noise Power Option',
+    nameLine2: 'Suitable for Learning Sessions…',
+    price: 2690000,
     image: '/images/itel6.png',
     href: 'https://grandpestore.com/product/260',
   },
   {
-    id: 'kitchen-hisense-microwave-20l',
-    nameLine1: 'Hisense Microwave',
-    nameLine2: '20L Digital Panel…',
-    price: 97000,
+    id: 'Uninterruptible-fun-time',
+    nameLine1: 'Uninterruptible Fun Time',
+    nameLine2: 'so much fun…',
+    price: 970000,
     image: '/images/itel7.png',
     href: 'https://grandpestore.com/product/332',
   },
   {
-    id: 'kitchen-maxi-standing-fan-18-inch',
-    nameLine1: 'Maxi Standing Fan 18',
-    nameLine2: 'inch Silent Motor…',
-    price: 42900,
+    id: 'enough-power-to-connect',
+    nameLine1: 'Enough Power to Connect',
+    nameLine2: 'built more connections…',
+    price: 429000,
     image: '/images/itel8.png',
     href: 'https://grandpestore.com/product/261',
   },
   {
-    id: 'kitchen-hisense-rice-cooker-1-8l',
-    nameLine1: 'Hisense Rice Cooker',
-    nameLine2: '1.8L Keep Warm…',
-    price: 35900,
+    id: 'simple-and-easy-to-use',
+    nameLine1: 'Simple and Easy to Use',
+    nameLine2: 'Itel Power Tank…',
+    price: 359000,
     image: '/images/itel9.png',
     href: 'https://grandpestore.com/product/333',
   },
@@ -86,7 +86,7 @@ function formatNGN(price) {
   return `NGN ${price.toLocaleString('en-NG')}`
 }
 
-export default function SolarSmallAppliances() {
+export default function OptimalUseOfAppliances() {
   const { addItem } = useCart()
   const [emblaRef, emblaApi] = useEmblaCarousel({ align: 'start', loop: false, containScroll: 'trimSnaps' })
   const [canPrev, setCanPrev] = useState(false)
@@ -111,7 +111,7 @@ export default function SolarSmallAppliances() {
 
   return (
     <section className="mx-auto max-w-[1440px] px-4 sm:px-6 py-8">
-      <h2 className="font-display text-xl text-[#1b1b1b]">Solar Small Appliances</h2>
+      <h2 className="font-display text-xl text-[#1b1b1b]">Optimal Use Of Appliances</h2>
       <div className="relative mt-4 h-[295.23px] w-full overflow-clip">
         <div className="h-full overflow-hidden" ref={emblaRef}>
           <div className="flex h-full items-start">
