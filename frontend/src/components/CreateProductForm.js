@@ -82,6 +82,8 @@ export default function CreateProductForm() {
         localStorage.getItem('token') ||
         sessionStorage.getItem('token');
 
+      console.log('TOKEN:', token);
+
       const payload = {
         id: crypto.randomUUID(),
 
