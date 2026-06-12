@@ -107,8 +107,9 @@ export default function CreateProductForm() {
         createdAt: new Date(),
       };
 
+
       const res = await axios.post(
-        `${process.env.REACT_APP_API_URL}/products/create`,
+        `${process.env.REACT_APP_API_URL}/products`,
         payload,
         {
           headers: {
@@ -138,6 +139,9 @@ export default function CreateProductForm() {
 
     } catch (err) {
       console.error(err);
+
+      console.log('Status:', err.response?.status);
+      console.log('Response:', err.response?.data);
 
       const message =
         err.response?.data?.message ||
