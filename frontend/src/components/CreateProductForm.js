@@ -111,7 +111,7 @@ export default function CreateProductForm() {
 
 
       const res = await axios.post(
-        `${process.env.REACT_APP_API_URL}/admin/create-product`,
+        `${process.env.REACT_APP_API_URL}/admin`,
         payload,
         {
           headers: {
