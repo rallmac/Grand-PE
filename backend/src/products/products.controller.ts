@@ -28,10 +28,10 @@ export class ProductsController {
   // Admin only
   //@UseGuards(JwtAuthGuard, RolesGuard)
   //@Roles('admin')
-  @Post()
-  create(@Body() createProductDto: CreateProductDto) {
-    return this.productsService.create(createProductDto);
-  }
+  //@Post()
+  //create(@Body() createProductDto: CreateProductDto) {
+  //  return this.productsService.create(createProductDto);
+  //}
 
   // Public
   @Get()
