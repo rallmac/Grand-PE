@@ -28,6 +28,9 @@ PassportStrategy(Strategy) {
 	}
 
 	async validate(payload: any) {
+		console.log('JWT VALIDATE HIT');
+		console.log(payload);
+		
 		let account;
 
 		switch (payload.type) {
