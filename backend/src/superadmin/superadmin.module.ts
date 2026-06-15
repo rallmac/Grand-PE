@@ -18,5 +18,6 @@ import { SuperAdmin, SuperAdminSchema } from './schema/superadmin.schema';
   ],
   providers: [SuperadminService],
   controllers: [SuperadminController],
+  exports: [MongooseModule],
 })
-export class SuperadminModule {}
+export class SuperAdminModule {}

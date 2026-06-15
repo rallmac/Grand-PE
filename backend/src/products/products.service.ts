@@ -22,7 +22,6 @@ export class ProductsService {
     product.isOutOfStock = (product.quantityAvailable ?? 0) <= 0;
 
     return product.save();
-    return 'This action adds a new product';
   }
 
   findAll() {

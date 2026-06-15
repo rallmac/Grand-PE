@@ -12,7 +12,8 @@ import { StringValue } from 'ms';
 import { Admin, AdminSchema } from '../admin/schema/admin.schema';
 import { UserModule } from '../user/user.module';
 import { AdminModule } from '../admin/admin.module';
-
+import { SuperAdminModule } from '../superadmin/superadmin.module';
+ 
 @Module({
   imports: [
     MongooseModule.forFeature([
@@ -21,6 +22,7 @@ import { AdminModule } from '../admin/admin.module';
   
     ConfigModule,
     PassportModule,
+    SuperAdminModule,
 
     JwtModule.registerAsync({
       inject: [ConfigService],
