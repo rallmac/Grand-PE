@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 import {
@@ -44,6 +44,9 @@ export default function CreateProductForm() {
     createdAt: '',
   });
 
+  const [categories, setCategories] = useState([]);
+  const [customCategory, setCustomCategory] = useState('');
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
 
@@ -75,6 +78,15 @@ export default function CreateProductForm() {
       );
     }
 
+    if (
+      formData.category === 'other' &&
+      !customCategory.trim()
+    ) {
+      return setError(
+        'Please enter a category name'
+      );
+    }
+
     try {
       setLoading(true);
 
@@ -89,7 +101,7 @@ export default function CreateProductForm() {
 
         description: formData.description,
 
-        category: formData.category,
+        category: categoryId,
 
         image: formData.image,
 
@@ -107,6 +119,23 @@ export default function CreateProductForm() {
         createdAt: new Date(),
       };
 
+      let categoryId = formData.category;
+
+      if (formData.category === 'other') {
+        const categoryRes = await axios.post(
+          `${process.env.REACT_APP_API_URL}/categories`,
+          {
+            name: customCategory.trim(),
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        categoryId = categoryRes.data._id;
+      }
 
       const res = await axios.post(
         `${process.env.REACT_APP_API_URL}/admin/create-product`,
@@ -137,6 +166,9 @@ export default function CreateProductForm() {
         createdAt: '',
       });
 
+      setCustomCategory('');
+      await fetchCategories();
+
     } catch (err) {
       console.error(err);
 
@@ -154,6 +186,31 @@ export default function CreateProductForm() {
       setLoading(false);
     }
   };
+
+  const fetchCategories = async () => {
+  try {
+    const token =
+      localStorage.getItem('token') ||
+      sessionStorage.getItem('token');
+
+    const res = await axios.get(
+      `${process.env.REACT_APP_API_URL}/categories`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    setCategories(res.data);
+    } catch (err) {
+    console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
@@ -346,28 +403,58 @@ export default function CreateProductForm() {
                   </div>
 
                   {/* CATEGORY + IMAGE */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
                       <label className="text-sm font-medium text-gray-300">
-                        Category ID
+                        Category
                       </label>
 
-                      <input
-                        type="text"
+                      <select
                         name="category"
                         value={formData.category}
                         onChange={handleChange}
-                        placeholder="Category ObjectId"
                         className="
                           mt-2 w-full rounded-2xl
                           bg-white/5
                           border border-white/10
                           px-4 py-3
-                          text-white placeholder-gray-500
+                          text-white
                           outline-none
                           focus:ring-2 focus:ring-[#265073]
                         "
-                      />
+                      >
+                        <option value="">Select Category</option>
+
+                        {categories.map((category) => (
+                          <option
+                            key={category._id}
+                            value={category._id}
+                          >
+                            {category.name}
+                          </option>
+                        ))}
+
+                        <option value="other">Other</option>
+                      </select>
+
+                      {formData.category === 'other' && (
+                        <input
+                          type="text"
+                          value={customCategory}
+                          onChange={(e) =>
+                            setCustomCategory(e.target.value)
+                          }
+                          placeholder="Enter new category"
+                          className="
+                            mt-3 w-full rounded-2xl
+                            bg-white/5
+                            border border-white/10
+                            px-4 py-3
+                            text-white placeholder-gray-500
+                            outline-none
+                            focus:ring-2 focus:ring-[#265073]
+                          "
+                          />
+                        )}
                     </div>
 
                     <div>
@@ -628,7 +715,7 @@ export default function CreateProductForm() {
                 </button>
               </div>
             </div>
-          </div>
+
         </form>
       </main>
     </div>

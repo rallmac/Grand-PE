@@ -7,7 +7,10 @@ export class Category {
 	@Prop()
 	id: string;
 
-	@Prop({ required: true })
+	@Prop({
+		required: true,
+		unique: true
+	})
 	name: string;
 }
 

@@ -16,6 +16,18 @@ export class CategoriesService {
   async create(createCategoryDto: CreateCategoryDto) {
     const category = await this.categoryModel.create(createCategoryDto);
 
+    const existing = await this.categoryModel.findOne({
+          name: createCategoryDto.name.trim(),
+        });
+
+      if (existing) {
+        return existing;
+      }
+
+      return this.categoryModel.create({
+        name: createCategoryDto.name.trim(),
+      });
+
     return category;
   }
 
