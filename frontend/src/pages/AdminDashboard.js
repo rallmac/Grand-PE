@@ -65,7 +65,7 @@ export default function AdminDashboard() {
     {
       title: 'Add Product',
       icon: Plus,
-      action: () => navigate('/admin-add-product'),
+      action: () => navigate('/create-product'),
     },
     {
       title: 'Products',
