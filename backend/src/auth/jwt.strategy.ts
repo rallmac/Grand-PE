@@ -8,58 +8,47 @@ import { Admin } from '../admin/schema/admin.schema';
 import { SuperAdmin } from '../superadmin/schema/superadmin.schema';
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(
-  Strategy,
-) {
+export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     @InjectModel(User.name)
-    private userModel: Model<User>,
+    private readonly userModel: Model<User>,
 
     @InjectModel(Admin.name)
-    private adminModel: Model<Admin>,
+    private readonly adminModel: Model<Admin>,
 
     @InjectModel(SuperAdmin.name)
-    private superAdminModel: Model<SuperAdmin>,
+    private readonly superAdminModel: Model<SuperAdmin>,
   ) {
     super({
-      jwtFromRequest:
-        ExtractJwt.fromAuthHeaderAsBearerToken(),
-
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       secretOrKey: process.env.JWT_SECRET,
     });
+
+    console.log('JWT STRATEGY LOADED');
   }
 
   async validate(payload: any) {
     console.log('JWT VALIDATE HIT');
     console.log('PAYLOAD:', payload);
 
-    let account = null;
+    let account: any = null;
 
     switch (payload.type) {
       case 'user':
-        account =
-          await this.userModel.findById(
-            payload.sub,
-          );
+        account = await this.userModel.findById(payload.sub);
         break;
 
       case 'admin':
-        account =
-          await this.adminModel.findById(
-            payload.sub,
-          );
+        account = await this.adminModel.findById(payload.sub);
         break;
 
       case 'superadmin':
-        account =
-          await this.superAdminModel.findById(
-            payload.sub,
-          );
+        account = await this.superAdminModel.findById(payload.sub);
         break;
 
       default:
         throw new UnauthorizedException(
-          'Invalid role',
+          `Unknown account type: ${payload.type}`,
         );
     }
 
@@ -70,9 +59,10 @@ export class JwtStrategy extends PassportStrategy(
     }
 
     return {
-      userId: payload.sub,
-      email: payload.email,
-      role: payload.role,
+      userId: account._id,
+      email: account.email,
+      role: account.role,
+      type: payload.type,
     };
   }
 }
