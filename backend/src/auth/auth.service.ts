@@ -159,6 +159,7 @@ export class AuthService {
      sub: user._id,
      email: user.email,
      role: user.role,
+     type: 'user',
    };
 
    // ACCESS TOKEN

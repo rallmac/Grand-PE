@@ -267,7 +267,7 @@ export class AdminService {
       sub: admin._id,
       email: admin.email,
       role: admin.role,
-      //accountType: 'admin',
+      type: 'admin',
     };
 
     // Access token

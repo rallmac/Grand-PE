@@ -78,12 +78,10 @@ export class SuperadminService {
     }
 
     const payload = {
-
       sub: superAdmin._id,
-
       email: superAdmin.email,
-
       role: superAdmin.role,
+      type: 'superadmin',
     };
 
     const access_token =
