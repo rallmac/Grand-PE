@@ -28,8 +28,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: any) {
-    console.log('JWT VALIDATE HIT');
-    console.log('PAYLOAD:', payload);
 
     let account: any = null;
 
