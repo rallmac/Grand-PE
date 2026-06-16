@@ -12,7 +12,7 @@ export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
   
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  @UseGuards(JwtAuthGuard)
   @Roles('admin')
   @Post('create')
   async create(@Body() createCategoryDto: CreateCategoryDto) {
