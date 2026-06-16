@@ -94,48 +94,38 @@ export default function CreateProductForm() {
         localStorage.getItem('token') ||
         sessionStorage.getItem('token');
 
+        if (formData.category === 'other') {
+          await axios.post(
+            `${process.env.REACT_APP_API_URL}/categories/create`,
+            {
+              name: customCategory.trim(),
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+        }
+        
       const payload = {
         id: crypto.randomUUID(),
-
         name: formData.name,
-
         description: formData.description,
-
-        category: categoryId,
-
+        category:
+          formData.category === 'other'
+            ? customCategory.trim()
+            : formData.category,
         image: formData.image,
-
         price: Number(formData.price),
-
         quantityAvailable: Number(
           formData.quantityAvailable || 0
         ),
-
         quantityOrdered: 0,
-
         isOutOfStock:
           Number(formData.quantityAvailable || 0) <= 0,
-
         createdAt: new Date(),
       };
-
-      let categoryId = formData.category;
-
-      if (formData.category === 'other') {
-        const categoryRes = await axios.post(
-          `${process.env.REACT_APP_API_URL}/categories/create`,
-          {
-            name: customCategory.trim(),
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        categoryId = categoryRes.data._id;
-      }
 
       const res = await axios.post(
         `${process.env.REACT_APP_API_URL}/admin/create-product`,
@@ -201,9 +191,6 @@ export default function CreateProductForm() {
         },
       }
     );
-
-    console.log(res.data);
-    console.log(Array.isArray(res.data));
 
     setCategories(res.data);
     } catch (err) {
@@ -430,7 +417,7 @@ export default function CreateProductForm() {
                         {categories.map((category) => (
                           <option
                             key={category._id}
-                            value={category._id}
+                            value={category.name}
                           >
                             {category.name}
                           </option>
@@ -572,42 +559,23 @@ export default function CreateProductForm() {
                 "
               >
                 <div className="flex items-center gap-2 mb-5">
-                  <ImagePlus
-                    size={18}
-                    className="text-[#4f8bb8]"
-                  />
+                  <ImagePlus size={18} className="text-[#4f8bb8]" />
 
                   <h2 className="font-semibold text-lg text-white">
                     Product Preview
                   </h2>
                 </div>
 
-                <div
-                  className="
-                    border border-white/10
-                    rounded-3xl overflow-hidden
-                    bg-white/5
-                  "
-                >
+                <div className="border border-white/10 rounded-3xl overflow-hidden bg-white/5">
                   {formData.image ? (
                     <img
                       src={formData.image}
                       alt="preview"
-                      className="
-                        w-full h-72 object-cover
-                      "
+                      className="w-full h-72 object-cover"
                     />
                   ) : (
-                    <div
-                      className="
-                        h-72 flex flex-col
-                        items-center justify-center
-                      "
-                    >
-                      <ImagePlus
-                        size={40}
-                        className="text-gray-500"
-                      />
+                    <div className="h-72 flex flex-col items-center justify-center">
+                      <ImagePlus size={40} className="text-gray-500" />
 
                       <p className="mt-3 text-sm text-gray-500">
                         Product image preview
@@ -628,53 +596,32 @@ export default function CreateProductForm() {
                 "
               >
                 <div className="flex items-center gap-2 mb-5">
-                  <FileText
-                    size={18}
-                    className="text-[#4f8bb8]"
-                  />
+                  <FileText size={18} className="text-[#4f8bb8]" />
 
                   <h2 className="font-semibold text-lg text-white">
                     Product Status
                   </h2>
                 </div>
 
-                <div
-                  className="
-                    bg-white/5
-                    border border-white/10
-                    rounded-2xl
-                    p-4
-                  "
-                >
+                <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
                   <div className="flex justify-between mb-3">
-                    <span className="text-gray-400 text-sm">
-                      Stock Status
-                    </span>
+                    <span className="text-gray-400 text-sm">Stock Status</span>
 
                     <span
-                      className={`
-                        text-sm font-medium
-                        ${
-                          Number(
-                            formData.quantityAvailable
-                          ) > 0
-                            ? 'text-green-400'
-                            : 'text-red-400'
-                        }
-                      `}
+                      className={
+                        Number(formData.quantityAvailable) > 0
+                          ? 'text-sm font-medium text-green-400'
+                          : 'text-sm font-medium text-red-400'
+                      }
                     >
-                      {Number(
-                        formData.quantityAvailable
-                      ) > 0
+                      {Number(formData.quantityAvailable) > 0
                         ? 'In Stock'
                         : 'Out Of Stock'}
                     </span>
                   </div>
 
                   <div className="flex justify-between">
-                    <span className="text-gray-400 text-sm">
-                      Quantity
-                    </span>
+                    <span className="text-gray-400 text-sm">Quantity</span>
 
                     <span className="text-white text-sm">
                       {formData.quantityAvailable || 0}
@@ -702,10 +649,7 @@ export default function CreateProductForm() {
                 >
                   {loading ? (
                     <>
-                      <Loader2
-                        size={18}
-                        className="animate-spin"
-                      />
+                      <Loader2 size={18} className="animate-spin" />
 
                       Creating Product...
                     </>
@@ -718,7 +662,6 @@ export default function CreateProductForm() {
                 </button>
               </div>
             </div>
-
         </form>
       </main>
     </div>
