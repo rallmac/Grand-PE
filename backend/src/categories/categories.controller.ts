@@ -19,9 +19,9 @@ export class CategoriesController {
     return this.categoriesService.create(createCategoryDto);
   }
 
-  @Get()
-  findAll() {
-    return this.categoriesService.findAll();
+  @Get('all')
+  async findAll(name: string) {
+    return this.categoriesService.findAll(name);
   }
 
   @Get(':id')

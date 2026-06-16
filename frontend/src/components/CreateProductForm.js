@@ -123,7 +123,7 @@ export default function CreateProductForm() {
 
       if (formData.category === 'other') {
         const categoryRes = await axios.post(
-          `${process.env.REACT_APP_API_URL}/categories`,
+          `${process.env.REACT_APP_API_URL}/categories/create`,
           {
             name: customCategory.trim(),
           },
@@ -194,13 +194,16 @@ export default function CreateProductForm() {
       sessionStorage.getItem('token');
 
     const res = await axios.get(
-      `${process.env.REACT_APP_API_URL}/categories`,
+      `${process.env.REACT_APP_API_URL}/categories/all`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }
     );
+
+    console.log(res.data);
+    console.log(Array.isArray(res.data));
 
     setCategories(res.data);
     } catch (err) {

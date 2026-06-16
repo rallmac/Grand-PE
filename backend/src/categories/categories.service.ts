@@ -31,8 +31,8 @@ export class CategoriesService {
     return category;
   }
 
-  findAll() {
-    return `This action returns all categories`;
+  async findAll(name: string) {
+    return await this.categoryModel.find();
   }
 
   findOne(id: number) {
