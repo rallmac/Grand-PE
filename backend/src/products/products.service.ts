@@ -15,14 +15,12 @@ export class ProductsService {
 
   async create(createProductDto: CreateProductDto) {
     const product = await this.productModel.create({
-        ...createProductDto,
-        category: new Types.ObjectId(createProductDto.category),
+      ...createProductDto,
     });
 
     product.isOutOfStock = (product.quantityAvailable ?? 0) <= 0;
 
     return product.save();
-    return 'This action adds a new product';
   }
 
   findAll() {
@@ -36,18 +34,18 @@ export class ProductsService {
   async update(id: string, updateProductDto: UpdateProductDto) {
     const product = await this.productModel.findById(id);
 
+    // FIRST: handle null
     if (!product) {
-        throw new NotFoundException('Product not found');
+      throw new NotFoundException('Product not found');
     }
 
+    // THEN: assign correctly
     Object.assign(product, updateProductDto);
 
+    // Optional: recompute stock
     product.isOutOfStock = product.quantityAvailable <= 0;
 
     return product.save();
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} product`;
-  }
 }
