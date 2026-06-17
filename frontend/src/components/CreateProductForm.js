@@ -185,6 +185,8 @@ export default function CreateProductForm() {
       localStorage.getItem('token') ||
       sessionStorage.getItem('token');
 
+      console.log('TOKEN:', token);
+
     const res = await axios.get(
       `${process.env.REACT_APP_API_URL}/categories/all`,
       {
