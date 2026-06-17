@@ -94,8 +94,6 @@ export default function CreateProductForm() {
         localStorage.getItem('token') ||
         sessionStorage.getItem('token');
 
-        console.log('TOKEN:', token);
-
         if (formData.category === 'other') {
           await axios.post(
             `${process.env.REACT_APP_API_URL}/categories/create`,
@@ -126,7 +124,7 @@ export default function CreateProductForm() {
         quantityOrdered: 0,
         isOutOfStock:
           Number(formData.quantityAvailable || 0) <= 0,
-        createdAt: new Date(),
+        createdAt: new Date().toISOString(),
       };
 
       const res = await axios.post(
@@ -187,8 +185,6 @@ export default function CreateProductForm() {
     const token =
       localStorage.getItem('token') ||
       sessionStorage.getItem('token');
-
-      console.log('TOKEN:', token);
 
     const res = await axios.get(
       `${process.env.REACT_APP_API_URL}/categories/all`,

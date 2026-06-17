@@ -16,7 +16,6 @@ export class ProductsService {
   async create(createProductDto: CreateProductDto) {
     const product = await this.productModel.create({
       ...createProductDto,
-      category: new Types.ObjectId(createProductDto.category),
     });
 
     product.isOutOfStock = (product.quantityAvailable ?? 0) <= 0;
