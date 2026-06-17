@@ -94,6 +94,8 @@ export default function CreateProductForm() {
         localStorage.getItem('token') ||
         sessionStorage.getItem('token');
 
+        console.log('TOKEN:', token);
+
         if (formData.category === 'other') {
           await axios.post(
             `${process.env.REACT_APP_API_URL}/categories/create`,
