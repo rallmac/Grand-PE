@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import  IdleLogout  from "../hooks/IdleTimerHook";
 
 import {
   Bell,
@@ -17,6 +18,15 @@ import {
 } from 'lucide-react';
 
 export default function CreateProductForm() {
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
+    navigate('/admin-signin');
+  }
+
+  IdleLogout(handleLogout, 2 * 60 * 60 * 1000);
+
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
@@ -60,6 +70,15 @@ export default function CreateProductForm() {
         type === 'checkbox'
           ? checked
           : value,
+    }));
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+
+    setFormData((prev) => ({
+      ...prev,
+      image: file,
     }));
   };
 
@@ -460,11 +479,12 @@ export default function CreateProductForm() {
                       </label>
 
                       <input
-                        type="text"
+                        type="file"
                         name="image"
-                        value={formData.image}
-                        onChange={handleChange}
-                        placeholder="https://..."
+                        accept="image/*"
+                        value={formData.image} // I think I should remove this
+                        onChange={handleChange} // and this too
+                        onChange={handleImageChange}
                         className="
                           mt-2 w-full rounded-2xl
                           bg-white/5
