@@ -213,6 +213,7 @@ export default function CreateProductForm() {
           {/* LEFT */}
           <div className="flex items-center gap-3">
             <button
+              onClick = {() => navigate('/admin-dashboard')}
               className="
                 w-10 h-10 rounded-full
                 bg-white/10 hover:bg-white/20
