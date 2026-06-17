@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 import {
   Bell,
@@ -16,6 +17,8 @@ import {
 } from 'lucide-react';
 
 export default function CreateProductForm() {
+  const navigate = useNavigate();
+
   const [loading, setLoading] = useState(false);
 
   const [success, setSuccess] = useState('');
