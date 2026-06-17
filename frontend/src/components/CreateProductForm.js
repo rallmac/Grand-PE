@@ -475,7 +475,7 @@ export default function CreateProductForm() {
 
                     <div>
                       <label className="text-sm font-medium text-gray-300">
-                        Image URL
+                        Product Image
                       </label>
 
                       <input

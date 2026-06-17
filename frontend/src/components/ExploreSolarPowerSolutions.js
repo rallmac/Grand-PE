@@ -6,6 +6,7 @@ import { useCallback, useEffect, useState } from 'react'
 import useEmblaCarousel from 'embla-carousel-react'
 import { useCart } from '../lib/cart'
 
+
 const solarItems = [
   {
     id: 'solar-growatt-hybrid-inverter-spf-es',
@@ -70,6 +71,31 @@ function formatNGN(price) {
 }
 
 export default function ExploreSolarPowerSolutions() {
+
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try{
+        const res = await fetch(
+          `${process.env.REACT_APP_API_URL}/products?category=Solar Small Equipment`
+        );
+
+        const data = await res.json();
+
+        setProducts(data);
+      } catch (error){
+        console.error("Failed to fetch products:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []); 
+
   const { addItem } = useCart()
   const [emblaRef, emblaApi] = useEmblaCarousel({ align: 'start', loop: false, containScroll: 'trimSnaps' })
   const [canPrev, setCanPrev] = useState(false)
@@ -98,6 +124,45 @@ export default function ExploreSolarPowerSolutions() {
       <div className="relative mt-4 h-[295.23px] w-full overflow-clip">
         <div className="h-full overflow-hidden" ref={emblaRef}>
           <div className="flex h-full items-start">
+
+            {products.map((item) => (
+              <div key={item.id} className="h-full w-[161.73px] shrink-0 pr-[10px]">
+                <div className="relative h-full w-[151.73px]">
+                    <a href={item.href} className="absolute left-0 top-0 block h-[151.74px] w-[151.73px] overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-md">
+                    <img
+                      src={`${process.env.REACT_APP_API_URL}/products/${item.image}`}
+                      alt={item.name}
+                      className="object-cover w-full h-full"
+                    />
+                  </a>
+
+                  <div className="absolute left-0 right-0 top-[151.74px] min-h-[46px] overflow-hidden pt-[7px]">
+                    <p className="text-[14px] leading-[20px] tracking-[0.102px] text-[#1b1b1b]">{item.name}</p>
+                  </div>
+
+                  <div className="absolute left-0 right-0 top-[198.74px] flex min-h-[43px] items-end pt-[16px]">
+                    <p className="pb-[7px] text-[14px] leading-[20px] tracking-[0.102px] text-[#1b1b1b]">{formatNGN(item.price)}</p>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      addItem({
+                        productId: item.id,
+                        name: item.name,
+                        price: item.price,
+                        image: item.image,
+                        qty: 1,
+                      })
+                    }
+                    className="absolute left-0 right-0 top-[248.74px] flex items-center justify-center rounded-full border border-[#1b1b1b] py-[9.75px] text-center text-[14px] leading-[20px] tracking-[0.102px] text-[#1b1b1b]"
+                  >
+                    Add To Cart
+                  </button>
+                </div>
+              </div>
+            ))}
+
             {solarItems.map((item) => (
               <div key={item.id} className="h-full w-[161.73px] shrink-0 pr-[10px]">
                 <div className="relative h-full w-[151.73px]">
@@ -131,6 +196,7 @@ export default function ExploreSolarPowerSolutions() {
                 </div>
               </div>
             ))}
+
           </div>
         </div>
 
