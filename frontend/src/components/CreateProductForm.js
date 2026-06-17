@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
+import  IdleLogout  from "../hooks/IdleTimerHook";
 
 import {
   Bell,
@@ -16,6 +18,17 @@ import {
 } from 'lucide-react';
 
 export default function CreateProductForm() {
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
+    navigate('/admin-signin');
+  }
+
+  IdleLogout(handleLogout, 2 * 60 * 60 * 1000);
+
+  const navigate = useNavigate();
+
   const [loading, setLoading] = useState(false);
 
   const [success, setSuccess] = useState('');
@@ -44,6 +57,9 @@ export default function CreateProductForm() {
     createdAt: '',
   });
 
+  const [categories, setCategories] = useState([]);
+  const [customCategory, setCustomCategory] = useState('');
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
 
@@ -54,6 +70,15 @@ export default function CreateProductForm() {
         type === 'checkbox'
           ? checked
           : value,
+    }));
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+
+    setFormData((prev) => ({
+      ...prev,
+      image: file,
     }));
   };
 
@@ -75,6 +100,15 @@ export default function CreateProductForm() {
       );
     }
 
+    if (
+      formData.category === 'other' &&
+      !customCategory.trim()
+    ) {
+      return setError(
+        'Please enter a category name'
+      );
+    }
+
     try {
       setLoading(true);
 
@@ -82,33 +116,41 @@ export default function CreateProductForm() {
         localStorage.getItem('token') ||
         sessionStorage.getItem('token');
 
+        if (formData.category === 'other') {
+          await axios.post(
+            `${process.env.REACT_APP_API_URL}/categories/create`,
+            {
+              name: customCategory.trim(),
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+        }
+        
       const payload = {
         id: crypto.randomUUID(),
-
         name: formData.name,
-
         description: formData.description,
-
-        category: formData.category,
-
+        category:
+          formData.category === 'other'
+            ? customCategory.trim()
+            : formData.category,
         image: formData.image,
-
         price: Number(formData.price),
-
         quantityAvailable: Number(
           formData.quantityAvailable || 0
         ),
-
         quantityOrdered: 0,
-
         isOutOfStock:
           Number(formData.quantityAvailable || 0) <= 0,
-
-        createdAt: new Date(),
+        createdAt: new Date().toISOString(),
       };
 
       const res = await axios.post(
-        `${process.env.REACT_APP_API_URL}/products`,
+        `${process.env.REACT_APP_API_URL}/admin/create-product`,
         payload,
         {
           headers: {
@@ -136,8 +178,17 @@ export default function CreateProductForm() {
         createdAt: '',
       });
 
+      setCustomCategory('');
+      await fetchCategories();
+
     } catch (err) {
       console.error(err);
+
+      console.log('Status:', err.response?.status);
+      console.log(
+        'Validation Errors:',
+        err.response?.data.message
+      );
 
       const message =
         err.response?.data?.message ||
@@ -151,6 +202,31 @@ export default function CreateProductForm() {
     }
   };
 
+  const fetchCategories = async () => {
+  try {
+    const token =
+      localStorage.getItem('token') ||
+      sessionStorage.getItem('token');
+
+    const res = await axios.get(
+      `${process.env.REACT_APP_API_URL}/categories/all`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    setCategories(res.data);
+    } catch (err) {
+    console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       {/* HEADER */}
@@ -159,6 +235,7 @@ export default function CreateProductForm() {
           {/* LEFT */}
           <div className="flex items-center gap-3">
             <button
+              onClick = {() => navigate('/admin-dashboard')}
               className="
                 w-10 h-10 rounded-full
                 bg-white/10 hover:bg-white/20
@@ -342,41 +419,72 @@ export default function CreateProductForm() {
                   </div>
 
                   {/* CATEGORY + IMAGE */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
                       <label className="text-sm font-medium text-gray-300">
-                        Category ID
+                        Category
                       </label>
 
-                      <input
-                        type="text"
+                      <select
                         name="category"
                         value={formData.category}
                         onChange={handleChange}
-                        placeholder="Category ObjectId"
                         className="
                           mt-2 w-full rounded-2xl
                           bg-white/5
                           border border-white/10
                           px-4 py-3
-                          text-white placeholder-gray-500
+                          text-white
                           outline-none
                           focus:ring-2 focus:ring-[#265073]
                         "
-                      />
+                      >
+                        <option value="">Select Category</option>
+
+                        {categories.map((category) => (
+                          <option
+                            key={category._id}
+                            value={category.name}
+                          >
+                            {category.name}
+                          </option>
+                        ))}
+
+                        <option value="other">Other</option>
+                      </select>
+
+                      {formData.category === 'other' && (
+                        <input
+                          type="text"
+                          value={customCategory}
+                          onChange={(e) =>
+                            setCustomCategory(e.target.value)
+                          }
+                          placeholder="Enter new category"
+                          className="
+                            mt-3 w-full rounded-2xl
+                            bg-white/5
+                            border border-white/10
+                            px-4 py-3
+                            text-white placeholder-gray-500
+                            outline-none
+                            focus:ring-2 focus:ring-[#265073]
+                          "
+                          />
+                        )}
                     </div>
 
                     <div>
                       <label className="text-sm font-medium text-gray-300">
-                        Image URL
+                        Product Image
                       </label>
 
                       <input
-                        type="text"
+                        type="file"
                         name="image"
-                        value={formData.image}
-                        onChange={handleChange}
-                        placeholder="https://..."
+                        accept="image/*"
+                        value={formData.image} // I think I should remove this
+                        onChange={handleChange} // and this too
+                        onChange={handleImageChange}
                         className="
                           mt-2 w-full rounded-2xl
                           bg-white/5
@@ -478,42 +586,23 @@ export default function CreateProductForm() {
                 "
               >
                 <div className="flex items-center gap-2 mb-5">
-                  <ImagePlus
-                    size={18}
-                    className="text-[#4f8bb8]"
-                  />
+                  <ImagePlus size={18} className="text-[#4f8bb8]" />
 
                   <h2 className="font-semibold text-lg text-white">
                     Product Preview
                   </h2>
                 </div>
 
-                <div
-                  className="
-                    border border-white/10
-                    rounded-3xl overflow-hidden
-                    bg-white/5
-                  "
-                >
+                <div className="border border-white/10 rounded-3xl overflow-hidden bg-white/5">
                   {formData.image ? (
                     <img
                       src={formData.image}
                       alt="preview"
-                      className="
-                        w-full h-72 object-cover
-                      "
+                      className="w-full h-72 object-cover"
                     />
                   ) : (
-                    <div
-                      className="
-                        h-72 flex flex-col
-                        items-center justify-center
-                      "
-                    >
-                      <ImagePlus
-                        size={40}
-                        className="text-gray-500"
-                      />
+                    <div className="h-72 flex flex-col items-center justify-center">
+                      <ImagePlus size={40} className="text-gray-500" />
 
                       <p className="mt-3 text-sm text-gray-500">
                         Product image preview
@@ -534,53 +623,32 @@ export default function CreateProductForm() {
                 "
               >
                 <div className="flex items-center gap-2 mb-5">
-                  <FileText
-                    size={18}
-                    className="text-[#4f8bb8]"
-                  />
+                  <FileText size={18} className="text-[#4f8bb8]" />
 
                   <h2 className="font-semibold text-lg text-white">
                     Product Status
                   </h2>
                 </div>
 
-                <div
-                  className="
-                    bg-white/5
-                    border border-white/10
-                    rounded-2xl
-                    p-4
-                  "
-                >
+                <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
                   <div className="flex justify-between mb-3">
-                    <span className="text-gray-400 text-sm">
-                      Stock Status
-                    </span>
+                    <span className="text-gray-400 text-sm">Stock Status</span>
 
                     <span
-                      className={`
-                        text-sm font-medium
-                        ${
-                          Number(
-                            formData.quantityAvailable
-                          ) > 0
-                            ? 'text-green-400'
-                            : 'text-red-400'
-                        }
-                      `}
+                      className={
+                        Number(formData.quantityAvailable) > 0
+                          ? 'text-sm font-medium text-green-400'
+                          : 'text-sm font-medium text-red-400'
+                      }
                     >
-                      {Number(
-                        formData.quantityAvailable
-                      ) > 0
+                      {Number(formData.quantityAvailable) > 0
                         ? 'In Stock'
                         : 'Out Of Stock'}
                     </span>
                   </div>
 
                   <div className="flex justify-between">
-                    <span className="text-gray-400 text-sm">
-                      Quantity
-                    </span>
+                    <span className="text-gray-400 text-sm">Quantity</span>
 
                     <span className="text-white text-sm">
                       {formData.quantityAvailable || 0}
@@ -608,10 +676,7 @@ export default function CreateProductForm() {
                 >
                   {loading ? (
                     <>
-                      <Loader2
-                        size={18}
-                        className="animate-spin"
-                      />
+                      <Loader2 size={18} className="animate-spin" />
 
                       Creating Product...
                     </>
@@ -624,9 +689,9 @@ export default function CreateProductForm() {
                 </button>
               </div>
             </div>
-          </div>
         </form>
       </main>
     </div>
   );
 }
+
