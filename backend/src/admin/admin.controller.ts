@@ -1,15 +1,29 @@
-import { UseGuards, Controller, Post, Body, Delete, Get } from '@nestjs/common';
+import {
+	UseGuards,
+	Controller,
+	Post,
+	Body,
+	Delete,
+	Get,
+	UseInterceptors,
+	UploadedFile,
+} from '@nestjs/common';
 import { AdminService } from './admin.service';
-import { AuthGuard } from '@nestjs/passport';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../decorators/roles.decorator';
 import { AdminRegisterDto } from './dto/adminRegister.dto';
+import { CreateProductDto } from '../products/dto/create-product.dto';
+import { UpdateProductDto } from '../products/dto/update-product.dto';
+import { ProductsService } from '../products/products.service';
+import { FileInterceptor } from '@nestjs/platform-express';
+
 
 @Controller('admin')
 export class AdminController {
 	constructor(
-		private readonly adminService: AdminService
+		private readonly adminService: AdminService,
+		private readonly productsService: ProductsService,
 	) {}
 
 	@Post('register')
@@ -48,5 +62,16 @@ export class AdminController {
 		return {
 			message: 'Welcome admin',
 		};
+	}
+
+	@UseGuards(JwtAuthGuard, RolesGuard)
+	@Roles('admin')
+	@Post('create-product')
+	@UseInterceptors(FileInterceptor('image'))
+	create(
+		@UploadedFile() image: Express.Multer.File,
+		@Body() createProductDto: CreateProductDto,
+	){
+		return this.productsService.create(createProductDto);
 	}
 }
