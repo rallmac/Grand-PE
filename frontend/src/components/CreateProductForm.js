@@ -165,7 +165,10 @@ export default function CreateProductForm() {
       console.error(err);
 
       console.log('Status:', err.response?.status);
-      console.log('Response:', err.response?.data);
+      console.log(
+        'Validation Errors:',
+        err.response?.data.message
+      );
 
       const message =
         err.response?.data?.message ||
