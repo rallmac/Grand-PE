@@ -24,7 +24,8 @@ export class CreateProductDto {
   @IsNotEmpty()
   description: string;
 
-  @IsMongoId()
+  @IsString()
+  @IsNotEmpty()
   category: string;
 
   @IsString()
