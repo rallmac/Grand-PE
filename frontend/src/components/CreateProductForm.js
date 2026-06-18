@@ -482,8 +482,6 @@ export default function CreateProductForm() {
                         type="file"
                         name="image"
                         accept="image/*"
-                        value={formData.image} // I think I should remove this
-                        onChange={handleChange} // and this too
                         onChange={handleImageChange}
                         className="
                           mt-2 w-full rounded-2xl
