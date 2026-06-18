@@ -28,10 +28,6 @@ export class CreateProductDto {
   @IsNotEmpty()
   category: string;
 
-  @IsString()
-  @IsNotEmpty()
-  image: string;
-
   @IsNumber()
   @Min(0)
   price: number;

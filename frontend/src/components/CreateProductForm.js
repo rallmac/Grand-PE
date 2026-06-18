@@ -130,26 +130,34 @@ export default function CreateProductForm() {
           );
         }
         
-      const payload = {
-        id: crypto.randomUUID(),
-        name: formData.name,
-        description: formData.description,
-        category:
-          formData.category === 'other'
-            ? customCategory.trim()
-            : formData.category,
-        image: formData.image,
-        price: Number(formData.price),
-        quantityAvailable: Number(
-          formData.quantityAvailable || 0
-        ),
-        quantityOrdered: 0,
-        isOutOfStock:
-          Number(formData.quantityAvailable || 0) <= 0,
-        createdAt: new Date().toISOString(),
-      };
+      const payload = new FormData();
 
-      const res = await axios.post(
+      payload.append("id", crypto.randomUUID());
+      payload.append("name", formData.name);
+      payload.append("description", formData.description);
+      payload.append(
+        "category",
+        formData.category === "other"
+          ? customCategory.trim()
+          : formData.category
+      );
+      payload.append("image", formData.image);
+      payload.append("price", Number(formData.price));
+      payload.append(
+        "quantityAvailable",
+        Number(formData.quantityAvailable || 0)
+      );
+      payload.append("quantityOrdered", 0);
+      payload.append(
+        "isOutOfStock",
+        Number(formData.quantityAvailable || 0) <= 0
+      );
+      payload.append(
+        "createdAt",
+        new Date().toISOString()
+      );
+
+      await axios.post(
         `${process.env.REACT_APP_API_URL}/admin/create-product`,
         payload,
         {
@@ -158,8 +166,6 @@ export default function CreateProductForm() {
           },
         }
       );
-
-      console.log(res.data);
 
       setSuccess(
         'Product created successfully'
@@ -509,10 +515,16 @@ export default function CreateProductForm() {
                 "
               >
                 <div className="flex items-center gap-2 mb-6">
-                  <DollarSign
+                  {/*<DollarSign
                     size={18}
                     className="text-[#4f8bb8]"
-                  />
+                  />*/}
+
+                  <div className="flex items-center gap-2 mb-6">
+                    <span className="text-[#4f8bb8] text-lg font-semibold">
+                      ₦
+                    </span>
+                  </div>
 
                   <h2 className="font-semibold text-lg text-white">
                     Pricing & Inventory

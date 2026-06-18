@@ -72,6 +72,7 @@ export class AdminController {
 		@UploadedFile() image: Express.Multer.File,
 		@Body() createProductDto: CreateProductDto,
 	){
-		return this.productsService.create(createProductDto);
+		console.log(image);
+		return this.productsService.create(createProductDto, image);
 	}
 }

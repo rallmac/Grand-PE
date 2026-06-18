@@ -13,9 +13,13 @@ export class ProductsService {
     private readonly productModel: Model<Product>,
   ) {}
 
-  async create(createProductDto: CreateProductDto) {
+  async create(
+    createProductDto: CreateProductDto,
+    image: Express.Multer.File,
+    ) {
     const product = await this.productModel.create({
       ...createProductDto,
+      image: image?.filename,
     });
 
     product.isOutOfStock = (product.quantityAvailable ?? 0) <= 0;
