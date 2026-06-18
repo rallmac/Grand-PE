@@ -35,6 +35,8 @@ export default function CreateProductForm() {
 
   const [error, setError] = useState('');
 
+  const [preview, setPreview] = useState(null);
+
   const [formData, setFormData] = useState({
     id: '',
 
@@ -76,10 +78,14 @@ export default function CreateProductForm() {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
 
+    if (!file) return;
+
     setFormData((prev) => ({
       ...prev,
       image: file,
     }));
+
+    setPreview(URL.createObjectURL(file));
   };
 
   const handleSubmit = async (e) => {
@@ -585,6 +591,7 @@ export default function CreateProductForm() {
 
             {/* RIGHT */}
             <div className="space-y-6">
+              
               {/* IMAGE PREVIEW */}
               <div
                 className="
@@ -604,9 +611,9 @@ export default function CreateProductForm() {
                 </div>
 
                 <div className="border border-white/10 rounded-3xl overflow-hidden bg-white/5">
-                  {formData.image ? (
+                  {preview ? (
                     <img
-                      src={formData.image}
+                      src={preview}
                       alt="preview"
                       className="w-full h-72 object-cover"
                     />
