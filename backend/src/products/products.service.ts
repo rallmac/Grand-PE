@@ -23,8 +23,12 @@ export class ProductsService {
     return product.save();
   }
 
-  findAll() {
-    return `This action returns all products`;
+  async findAll(category?: string) {
+    if (category){
+      return this.productModel.find({ category });
+    }
+
+    return this.productModel.find();
   }
 
   findOne(id: number) {

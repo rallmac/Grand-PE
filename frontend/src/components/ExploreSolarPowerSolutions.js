@@ -78,9 +78,12 @@ export default function ExploreSolarPowerSolutions() {
 
   useEffect(() => {
     const fetchProducts = async () => {
+
+      const category = "Solar Small Equipment";
+
       try{
         const res = await fetch(
-          `${process.env.REACT_APP_API_URL}/products?category=Solar Small Equipment`
+          `${process.env.REACT_APP_API_URL}/products?category=${encodeURIComponent(category)}`
         );
 
         const data = await res.json();

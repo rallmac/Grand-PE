@@ -8,6 +8,7 @@ import {
   Delete,
   UseGuards,
   Req,
+  Query,
 } from '@nestjs/common';
 
 import { OrdersService } from '../orders/orders.service';
@@ -35,8 +36,8 @@ export class ProductsController {
 
   // Public
   @Get()
-  findAll() {
-    return this.productsService.findAll();
+  findAll(@Query('category') category?: string) {
+    return this.productsService.findAll(category);
   }
 
   // Public
