@@ -133,7 +133,7 @@ export default function ExploreSolarPowerSolutions() {
                 <div className="relative h-full w-[151.73px]">
                     <a href={item.href} className="absolute left-0 top-0 block h-[151.74px] w-[151.73px] overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-md">
                     <img
-                      src={`${process.env.REACT_APP_API_URL}/products/${item.image}`}
+                      src={item.image}
                       alt={item.name}
                       className="object-cover w-full h-full"
                     />

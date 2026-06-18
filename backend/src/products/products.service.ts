@@ -4,6 +4,7 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { Product, ProductSchema, ProductDocument } from './schema/product.schema';
+import cloudinary from '../cloudinary/cloudinary.config';
 
 
 @Injectable()
@@ -20,9 +21,21 @@ export class ProductsService {
     try {
       console.log('SERVICE IMAGE:', image);
 
+      const result = await new Promise<any>((resolve, reject) => {
+        cloudinary.uploader
+        .upload_stream( { folder: 'products', },
+          (error, result) => {
+            if (error) reject(error);
+            else resolve(result);
+          },
+        )
+
+        .end(image.buffer);
+      });
+
       const product = await this.productModel.create({
         ...createProductDto,
-        image: image?.originalname,
+        image: result.secure_url,
       });
 
       product.isOutOfStock =
@@ -43,8 +56,14 @@ export class ProductsService {
     return this.productModel.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
+  async findOne(id: string) {
+    const product = await this.productModel.findOne({ id });
+
+    if (!product) {
+      throw new NotFoundException('Product not found');
+    }
+
+    return product;
   }
 
   async update(id: string, updateProductDto: UpdateProductDto) {

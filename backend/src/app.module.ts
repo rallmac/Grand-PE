@@ -15,6 +15,8 @@ import { PaymentModule } from './payment/payment.module';
 import { OrdersModule } from './orders/orders.module';
 import { EmailModule } from './email/email.module';
 import { SuperAdminModule } from './superadmin/superadmin.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -26,6 +28,10 @@ import { SuperAdminModule } from './superadmin/superadmin.module';
       useFactory: (configService: ConfigService) => ({
         uri: configService.getOrThrow<string>('MONGODB_URI'),
       }),
+    }),
+    ServeStaticModule.forRoot({
+      rootPath:join(__dirname, '..', 'uploads'),
+      serveRoot: '/uploads',
     }),
     ScheduleModule.forRoot(),
     UserModule,

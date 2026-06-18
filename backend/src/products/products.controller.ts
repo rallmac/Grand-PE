@@ -26,15 +26,6 @@ export class ProductsController {
     private readonly productsService: ProductsService
     ) {}
 
-  // Admin only
-  //@UseGuards(JwtAuthGuard, RolesGuard)
-  //@Roles('admin')
-  //@Post()
-  //create(@Body() createProductDto: CreateProductDto) {
-  //  return this.productsService.create(createProductDto);
-  //}
-
-  // Public
   @Get()
   findAll(@Query('category') category?: string) {
     return this.productsService.findAll(category);
@@ -43,7 +34,7 @@ export class ProductsController {
   // Public
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.productsService.findOne(+id);
+    return this.productsService.findOne(id);
   }
 
   // Admin only
