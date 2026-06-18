@@ -16,15 +16,23 @@ export class ProductsService {
   async create(
     createProductDto: CreateProductDto,
     image: Express.Multer.File,
-    ) {
-    const product = await this.productModel.create({
-      ...createProductDto,
-      image: image?.filename,
-    });
+  ) {
+    try {
+      console.log('SERVICE IMAGE:', image);
 
-    product.isOutOfStock = (product.quantityAvailable ?? 0) <= 0;
+      const product = await this.productModel.create({
+        ...createProductDto,
+        image: image?.originalname,
+      });
 
-    return product.save();
+      product.isOutOfStock =
+        (product.quantityAvailable ?? 0) <= 0;
+
+      return product.save();
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   }
 
   async findAll(category?: string) {

@@ -69,10 +69,12 @@ export class AdminController {
 	@Post('create-product')
 	@UseInterceptors(FileInterceptor('image'))
 	create(
-		@UploadedFile() image: Express.Multer.File,
-		@Body() createProductDto: CreateProductDto,
-	){
-		console.log(image);
-		return this.productsService.create(createProductDto, image);
+	  @UploadedFile() image: Express.Multer.File,
+	  @Body() createProductDto: CreateProductDto,
+	) {
+	  console.log('IMAGE:', image);
+	  console.log('DTO:', createProductDto);
+
+	  return this.productsService.create(createProductDto, image);
 	}
 }
