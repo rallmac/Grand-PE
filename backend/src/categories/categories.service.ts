@@ -1,15 +1,38 @@
 import { Injectable } from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
+import { Category, CategoryDocument } from './schema/category.schema';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
+
 
 @Injectable()
 export class CategoriesService {
-  create(createCategoryDto: CreateCategoryDto) {
-    return 'This action adds a new category';
+  constructor(
+    @InjectModel(Category.name)
+    private categoryModel: Model<CategoryDocument>,
+  ) {}
+
+  async create(createCategoryDto: CreateCategoryDto) {
+    const category = await this.categoryModel.create(createCategoryDto);
+
+    const existing = await this.categoryModel.findOne({
+          name: createCategoryDto.name.trim(),
+        });
+
+      if (existing) {
+        return existing;
+      }
+
+      return this.categoryModel.create({
+        name: createCategoryDto.name.trim(),
+      });
+
+    return category;
   }
 
-  findAll() {
-    return `This action returns all categories`;
+  async findAll(name: string) {
+    return await this.categoryModel.find();
   }
 
   findOne(id: number) {
@@ -24,3 +47,4 @@ export class CategoriesService {
     return `This action removes a #${id} category`;
   }
 }
+
