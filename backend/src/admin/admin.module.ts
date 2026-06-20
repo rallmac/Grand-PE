@@ -8,6 +8,7 @@ import {
 import { MongooseModule } from '@nestjs/mongoose';
 import { EmailModule } from '../email/email.module';
 import { JwtModule } from '@nestjs/jwt';
+import { ProductsModule } from '../products/products.module';
 
 
 @Module({
@@ -16,6 +17,7 @@ import { JwtModule } from '@nestjs/jwt';
       { name: Admin.name, schema: AdminSchema },
     ]),
     EmailModule,
+    ProductsModule,
 
     JwtModule.register({
       secret: process.env.JWT_SECRET,
@@ -27,3 +29,4 @@ import { JwtModule } from '@nestjs/jwt';
   exports: [MongooseModule],
 })
 export class AdminModule {};
+
