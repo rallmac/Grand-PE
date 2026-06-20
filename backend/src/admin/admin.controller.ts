@@ -17,6 +17,7 @@ import { CreateProductDto } from '../products/dto/create-product.dto';
 import { UpdateProductDto } from '../products/dto/update-product.dto';
 import { ProductsService } from '../products/products.service';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
 
 
 @Controller('admin')
@@ -69,9 +70,12 @@ export class AdminController {
 	@Post('create-product')
 	@UseInterceptors(FileInterceptor('image'))
 	create(
-		@UploadedFile() image: Express.Multer.File,
-		@Body() createProductDto: CreateProductDto,
-	){
-		return this.productsService.create(createProductDto);
+	  @UploadedFile() image: Express.Multer.File,
+	  @Body() createProductDto: CreateProductDto,
+	) {
+	  console.log('IMAGE:', image);
+	  console.log('DTO:', createProductDto);
+
+	  return this.productsService.create(createProductDto, image);
 	}
 }
