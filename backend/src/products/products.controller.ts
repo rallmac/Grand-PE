@@ -8,6 +8,7 @@ import {
   Delete,
   UseGuards,
   Req,
+  Query,
 } from '@nestjs/common';
 
 import { OrdersService } from '../orders/orders.service';
@@ -25,24 +26,15 @@ export class ProductsController {
     private readonly productsService: ProductsService
     ) {}
 
-  // Admin only
-  //@UseGuards(JwtAuthGuard, RolesGuard)
-  //@Roles('admin')
-  //@Post()
-  //create(@Body() createProductDto: CreateProductDto) {
-  //  return this.productsService.create(createProductDto);
-  //}
-
-  // Public
   @Get()
-  findAll() {
-    return this.productsService.findAll();
+  findAll(@Query('category') category?: string) {
+    return this.productsService.findAll(category);
   }
 
   // Public
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.productsService.findOne(+id);
+    return this.productsService.findOne(id);
   }
 
   // Admin only
