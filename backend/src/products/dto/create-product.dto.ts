@@ -4,14 +4,13 @@ import {
   IsNumber,
   IsOptional,
   IsBoolean,
-  IsMongoId,
   IsDateString,
   Min,
 } from 'class-validator';
 
+import { Type, Transform } from 'class-transformer';
 
 export class CreateProductDto {
-
   @IsString()
   @IsNotEmpty()
   id: string;
@@ -28,25 +27,28 @@ export class CreateProductDto {
   @IsNotEmpty()
   category: string;
 
-  @IsString()
-  @IsNotEmpty()
-  image: string;
-
+  @Type(() => Number)
   @IsNumber()
   @Min(0)
   price: number;
 
   @IsOptional()
+  @Type(() => Number)
   @IsNumber()
   @Min(0)
   quantityAvailable?: number;
 
   @IsOptional()
+  @Type(() => Number)
   @IsNumber()
   @Min(0)
   quantityOrdered?: number;
 
   @IsOptional()
+  @Transform(({ value }) => {
+    if (typeof value === 'boolean') return value;
+    return value === 'true';
+  })
   @IsBoolean()
   isOutOfStock?: boolean;
 
@@ -54,4 +56,3 @@ export class CreateProductDto {
   @IsDateString()
   createdAt?: Date;
 }
-
