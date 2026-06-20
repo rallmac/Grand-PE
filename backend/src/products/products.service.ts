@@ -4,6 +4,7 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { Product, ProductSchema, ProductDocument } from './schema/product.schema';
+import cloudinary from '../cloudinary/cloudinary.config';
 
 
 @Injectable()
@@ -13,22 +14,56 @@ export class ProductsService {
     private readonly productModel: Model<Product>,
   ) {}
 
-  async create(createProductDto: CreateProductDto) {
-    const product = await this.productModel.create({
-      ...createProductDto,
-    });
+  async create(
+    createProductDto: CreateProductDto,
+    image: Express.Multer.File,
+  ) {
+    try {
+      console.log('SERVICE IMAGE:', image);
 
-    product.isOutOfStock = (product.quantityAvailable ?? 0) <= 0;
+      const result = await new Promise<any>((resolve, reject) => {
+        cloudinary.uploader
+        .upload_stream( { folder: 'products', },
+          (error, result) => {
+            if (error) reject(error);
+            else resolve(result);
+          },
+        )
 
-    return product.save();
+        .end(image.buffer);
+      });
+
+      const product = await this.productModel.create({
+        ...createProductDto,
+        image: result.secure_url,
+      });
+
+      product.isOutOfStock =
+        (product.quantityAvailable ?? 0) <= 0;
+
+      return product.save();
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   }
 
-  findAll() {
-    return `This action returns all products`;
+  async findAll(category?: string) {
+    if (category){
+      return this.productModel.find({ category });
+    }
+
+    return this.productModel.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
+  async findOne(id: string) {
+    const product = await this.productModel.findOne({ id });
+
+    if (!product) {
+      throw new NotFoundException('Product not found');
+    }
+
+    return product;
   }
 
   async update(id: string, updateProductDto: UpdateProductDto) {
