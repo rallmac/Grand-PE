@@ -35,6 +35,8 @@ export default function CreateProductForm() {
 
   const [error, setError] = useState('');
 
+  const [preview, setPreview] = useState(null);
+
   const [formData, setFormData] = useState({
     id: '',
 
@@ -76,10 +78,14 @@ export default function CreateProductForm() {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
 
+    if (!file) return;
+
     setFormData((prev) => ({
       ...prev,
       image: file,
     }));
+
+    setPreview(URL.createObjectURL(file));
   };
 
   const handleSubmit = async (e) => {
@@ -130,26 +136,34 @@ export default function CreateProductForm() {
           );
         }
         
-      const payload = {
-        id: crypto.randomUUID(),
-        name: formData.name,
-        description: formData.description,
-        category:
-          formData.category === 'other'
-            ? customCategory.trim()
-            : formData.category,
-        image: formData.image,
-        price: Number(formData.price),
-        quantityAvailable: Number(
-          formData.quantityAvailable || 0
-        ),
-        quantityOrdered: 0,
-        isOutOfStock:
-          Number(formData.quantityAvailable || 0) <= 0,
-        createdAt: new Date().toISOString(),
-      };
+      const payload = new FormData();
 
-      const res = await axios.post(
+      payload.append("id", crypto.randomUUID());
+      payload.append("name", formData.name);
+      payload.append("description", formData.description);
+      payload.append(
+        "category",
+        formData.category === "other"
+          ? customCategory.trim()
+          : formData.category
+      );
+      payload.append("image", formData.image);
+      payload.append("price", Number(formData.price));
+      payload.append(
+        "quantityAvailable",
+        Number(formData.quantityAvailable || 0)
+      );
+      payload.append("quantityOrdered", 0);
+      payload.append(
+        "isOutOfStock",
+        Number(formData.quantityAvailable || 0) <= 0
+      );
+      payload.append(
+        "createdAt",
+        new Date().toISOString()
+      );
+
+      await axios.post(
         `${process.env.REACT_APP_API_URL}/admin/create-product`,
         payload,
         {
@@ -158,8 +172,6 @@ export default function CreateProductForm() {
           },
         }
       );
-
-      console.log(res.data);
 
       setSuccess(
         'Product created successfully'
@@ -482,8 +494,6 @@ export default function CreateProductForm() {
                         type="file"
                         name="image"
                         accept="image/*"
-                        value={formData.image} // I think I should remove this
-                        onChange={handleChange} // and this too
                         onChange={handleImageChange}
                         className="
                           mt-2 w-full rounded-2xl
@@ -511,10 +521,16 @@ export default function CreateProductForm() {
                 "
               >
                 <div className="flex items-center gap-2 mb-6">
-                  <DollarSign
+                  {/*<DollarSign
                     size={18}
                     className="text-[#4f8bb8]"
-                  />
+                  />*/}
+
+                  <div className="flex items-center gap-2 mb-6">
+                    <span className="text-[#4f8bb8] text-lg font-semibold">
+                      ₦
+                    </span>
+                  </div>
 
                   <h2 className="font-semibold text-lg text-white">
                     Pricing & Inventory
@@ -575,6 +591,7 @@ export default function CreateProductForm() {
 
             {/* RIGHT */}
             <div className="space-y-6">
+              
               {/* IMAGE PREVIEW */}
               <div
                 className="
@@ -594,9 +611,9 @@ export default function CreateProductForm() {
                 </div>
 
                 <div className="border border-white/10 rounded-3xl overflow-hidden bg-white/5">
-                  {formData.image ? (
+                  {preview ? (
                     <img
-                      src={formData.image}
+                      src={preview}
                       alt="preview"
                       className="w-full h-72 object-cover"
                     />
