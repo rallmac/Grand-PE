@@ -5,16 +5,15 @@ import { ShoppingCart, Search, Menu, User, X, MapPin, ChevronLeft, ChevronRight,
 import { Link } from 'react-router-dom';
 
 const categoryLinks = [
-  { label: 'Promotions', href: '/' },
-  { label: 'Refrigerator', href: '/categories?type=refrigerator' },
-  { label: 'Freezer', href: '/categories?type=freezer' },
-  { label: 'Washing Machines', href: '/categories?type=washing-machines' },
-  { label: 'TVs', href: '/categories?type=tvs' },
-  { label: 'Audio', href: '/categories?type=audio' },
-  { label: 'ACs', href: '/categories?type=acs' },
-  { label: 'Cookers/Microwave', href: '/categories?type=cookers-microwave' },
-  { label: 'Small Appliances/Fans', href: '/categories?type=small-appliances-fans' },
   { label: 'Power Solutions', href: '/categories?type=power-solutions' },
+  { label: 'Installation', href: '/categories?type=refrigerator' },
+  { label: 'Clean Energy', href: '/categories?type=freezer' },
+  { label: 'Constant Power', href: '/categories?type=washing-machines' },
+  { label: 'Power Storage', href: '/categories?type=tvs' },
+  { label: 'Sustainable', href: '/categories?type=audio' },
+  { label: 'Renewable', href: '/categories?type=acs' },
+  { label: 'Accessible', href: '/categories?type=cookers-microwave' },
+  { label: 'Small Appliances', href: '/categories?type=small-appliances' },
 ]
 
 export default function Navbar() {
